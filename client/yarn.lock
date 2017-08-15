@@ -223,7 +223,7 @@ assert-plus@^0.2.0:
   version "0.2.0"
   resolved "http://registry.npm.taobao.org/assert-plus/download/assert-plus-0.2.0.tgz#d74e1b87e7affc0db8aadb7021f3fe48101ab234"
 
-assert@^1.1.1, assert@^1.3.0:
+assert@^1.1.1, assert@^1.3.0, assert@^1.4.1:
   version "1.4.1"
   resolved "http://registry.npm.taobao.org/assert/download/assert-1.4.1.tgz#99912d591836b5a6f5b345c0f07eefc08fc65d91"
   dependencies:
@@ -3099,13 +3099,13 @@ lodash.templatesettings@^3.0.0:
     lodash._reinterpolate "^3.0.0"
     lodash.escape "^3.0.0"
 
+"lodash@3.x || 4.x", lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.16.6, lodash@^4.17.1, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.6.1:
+  version "4.17.4"
+  resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
+
 lodash@^3.1.0, lodash@^3.2.0, lodash@^3.3.1, lodash@^3.5.0:
   version "3.10.1"
   resolved "http://registry.npm.taobao.org/lodash/download/lodash-3.10.1.tgz#5bf45e8e49ba4189e17d482789dfd15bd140b7b6"
-
-lodash@^4.0.0, lodash@^4.11.1, lodash@^4.14.0, lodash@^4.16.6, lodash@^4.17.1, lodash@^4.17.2, lodash@^4.17.4, lodash@^4.2.0, lodash@^4.3.0, lodash@^4.6.1:
-  version "4.17.4"
-  resolved "http://registry.npm.taobao.org/lodash/download/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
 log-symbols@^1.0.1:
   version "1.0.2"
@@ -4034,6 +4034,25 @@ reactxp-video@^0.1.6:
     react-native-video "^1.0.0"
     reactxp "0.42.0-rc.20"
 
+reactxp-virtuallistview@^0.1.3:
+  version "0.1.3"
+  resolved "http://registry.npm.taobao.org/reactxp-virtuallistview/download/reactxp-virtuallistview-0.1.3.tgz#951d26da98c62fb6dbe9d901c99a6e5cf2c6d225"
+  dependencies:
+    assert "^1.3.0"
+    lodash "^4.17.1"
+    reactxp "0.42.0-rc.10"
+
+reactxp@0.42.0-rc.10:
+  version "0.42.0-rc.10"
+  resolved "http://registry.npm.taobao.org/reactxp/download/reactxp-0.42.0-rc.10.tgz#e88a93ca19c7a1023cce3aab5c57ee504e19c08b"
+  dependencies:
+    assert "^1.3.0"
+    ifvisible.js "^1.0.6"
+    lodash "^4.17.1"
+    prop-types "^15.5.9"
+    rebound "^0.0.13"
+    synctasks "^0.2.9"
+
 reactxp@0.42.0-rc.20:
   version "0.42.0-rc.20"
   resolved "http://registry.npm.taobao.org/reactxp/download/reactxp-0.42.0-rc.20.tgz#037b1a2f39981286d546c5b358c01343c3bdab9d"
@@ -4266,6 +4285,13 @@ restore-cursor@^1.0.1:
     exit-hook "^1.0.0"
     onetime "^1.0.0"
 
+resub@^0.0.16:
+  version "0.0.16"
+  resolved "http://registry.npm.taobao.org/resub/download/resub-0.0.16.tgz#cab1dd73de29d179cf7d32dc8532538a458f6497"
+  dependencies:
+    assert "^1.4.1"
+    lodash "3.x || 4.x"
+
 right-align@^0.1.1:
   version "0.1.3"
   resolved "http://registry.npm.taobao.org/right-align/download/right-align-0.1.3.tgz#61339b722fe6a3515689210d24e14c96148613ef"
@@ -4446,6 +4472,14 @@ simple-plist@0.1.4:
     bplist-creator "0.0.4"
     bplist-parser "0.0.6"
     plist "1.2.0"
+
+simplerestclients@^0.0.13:
+  version "0.0.13"
+  resolved "http://registry.npm.taobao.org/simplerestclients/download/simplerestclients-0.0.13.tgz#9268d56997d133af764b3f46c30989183216bb4f"
+  dependencies:
+    assert "^1.4.1"
+    lodash "3.x || 4.x"
+    synctasks "^0.2.10"
 
 sinon@^1.9.1:
   version "1.17.7"
@@ -4702,7 +4736,11 @@ supports-color@^4.0.0:
   dependencies:
     has-flag "^2.0.0"
 
-synctasks@^0.2.9:
+synctasks@0.2.17:
+  version "0.2.17"
+  resolved "http://registry.npm.taobao.org/synctasks/download/synctasks-0.2.17.tgz#38852f008878de2e941b6e458ddf552245268da1"
+
+synctasks@^0.2.10, synctasks@^0.2.9:
   version "0.2.19"
   resolved "http://registry.npm.taobao.org/synctasks/download/synctasks-0.2.19.tgz#4ea3f35f384069d4bede167df302edbec066d3c8"
 

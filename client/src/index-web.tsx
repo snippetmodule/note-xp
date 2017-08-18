@@ -1,18 +1,16 @@
 import RX = require('reactxp');
 
-import { CordovaNativeSqliteProvider } from 'nosqlprovider/dist/CordovaNativeSqliteProvider';
+import { IndexedDbProvider } from 'nosqlprovider/dist/IndexedDbProvider';
 import { InMemoryProvider } from 'nosqlprovider/dist/InMemoryProvider';
+import { WebSqlProvider } from 'nosqlprovider/dist/WebSqlProvider';
 
 import { DbUtils } from './common/utils/DbUtils';
 import App = require('./App');
 
-const rnSqliteProvider = require('react-native-sqlite-storage');
-
-RX.App.initialize(true, true);
 RX.App.initialize(true, true);
 DbUtils.init([
-    // Specify the DB providers that are valid on the RN platforms.
-    new CordovaNativeSqliteProvider(rnSqliteProvider),
+    new IndexedDbProvider(),
+    new WebSqlProvider(),
     new InMemoryProvider()
 ]).then(() => {
     // to do Other Init
@@ -20,3 +18,4 @@ DbUtils.init([
 }).then(() => {
     RX.UserInterface.setMainView(<App />);
 });
+

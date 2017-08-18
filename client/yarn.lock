@@ -18,6 +18,12 @@
   version "0.5.1"
   resolved "http://registry.npm.taobao.org/@types/source-map/download/@types/source-map-0.5.1.tgz#7e74db5d06ab373a712356eebfaea2fad0ea2367"
 
+"@types/sqlite3@^2.2.32":
+  version "2.2.33"
+  resolved "http://registry.npm.taobao.org/@types/sqlite3/download/@types/sqlite3-2.2.33.tgz#8e7a9d60746670a422df62f78dc721a93676d9c9"
+  dependencies:
+    "@types/node" "*"
+
 "@types/tapable@*":
   version "0.2.3"
   resolved "http://registry.npm.taobao.org/@types/tapable/download/@types/tapable-0.2.3.tgz#0888b0f20cc7e58e1c22a1888b4e963eefaa810a"
@@ -3479,6 +3485,15 @@ normalize-path@^2.0.0, normalize-path@^2.0.1:
   dependencies:
     remove-trailing-separator "^1.0.1"
 
+nosqlprovider@0.5.15:
+  version "0.5.15"
+  resolved "http://registry.npm.taobao.org/nosqlprovider/download/nosqlprovider-0.5.15.tgz#fd0f487b0d3f1aa1abe7446b31d852830d2c9d94"
+  dependencies:
+    "@types/lodash" "^4.14.62"
+    "@types/sqlite3" "^2.2.32"
+    lodash "^4.0.0"
+    synctasks "^0.2.12"
+
 npmlog@^2.0.4:
   version "2.0.4"
   resolved "http://registry.npm.taobao.org/npmlog/download/npmlog-2.0.4.tgz#98b52530f2514ca90d09ec5b22c8846722375692"
@@ -3870,6 +3885,12 @@ react-dom@^15.4.1:
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
     prop-types "^15.5.10"
+
+react-native-sqlite-storage@^3.3.1:
+  version "3.3.3"
+  resolved "http://registry.npm.taobao.org/react-native-sqlite-storage/download/react-native-sqlite-storage-3.3.3.tgz#670d5160806898d81ff8ce836666dca4c1fdac0e"
+  dependencies:
+    xcode "0.8.9"
 
 react-native-svg@4.5.0:
   version "4.5.0"
@@ -4744,6 +4765,10 @@ synctasks@^0.2.10, synctasks@^0.2.9:
   version "0.2.19"
   resolved "http://registry.npm.taobao.org/synctasks/download/synctasks-0.2.19.tgz#4ea3f35f384069d4bede167df302edbec066d3c8"
 
+synctasks@^0.2.12:
+  version "0.2.21"
+  resolved "http://registry.npm.taobao.org/synctasks/download/synctasks-0.2.21.tgz#3b2eeba10ae3278cbf521329a57e02f21c1e7037"
+
 tapable@^0.2.7, tapable@~0.2.5:
   version "0.2.8"
   resolved "http://registry.npm.taobao.org/tapable/download/tapable-0.2.8.tgz#99372a5c999bf2df160afc0d74bed4f47948cd22"
@@ -5307,7 +5332,7 @@ ws@^1.1.0:
     options ">=0.0.5"
     ultron "1.0.x"
 
-xcode@^0.8.9:
+xcode@0.8.9, xcode@^0.8.9:
   version "0.8.9"
   resolved "http://registry.npm.taobao.org/xcode/download/xcode-0.8.9.tgz#ec6765f70e9dccccc9f6e9a5b9b4e7e814b4cf35"
   dependencies:

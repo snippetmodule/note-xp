@@ -4,7 +4,7 @@ import { IndexedDbProvider } from 'nosqlprovider/dist/IndexedDbProvider';
 import { InMemoryProvider } from 'nosqlprovider/dist/InMemoryProvider';
 import { WebSqlProvider } from 'nosqlprovider/dist/WebSqlProvider';
 
-import { DbUtils } from './common/utils/DbUtils';
+import DbUtils = require('./framework/db/DbUtils');
 import App = require('./App');
 
 RX.App.initialize(true, true);

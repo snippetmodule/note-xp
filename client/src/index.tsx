@@ -3,7 +3,7 @@ import RX = require('reactxp');
 import { CordovaNativeSqliteProvider } from 'nosqlprovider/dist/CordovaNativeSqliteProvider';
 import { InMemoryProvider } from 'nosqlprovider/dist/InMemoryProvider';
 
-import { DbUtils } from './common/utils/DbUtils';
+import DbUtils = require('./framework/db/DbUtils');
 import App = require('./App');
 
 const rnSqliteProvider = require('react-native-sqlite-storage');

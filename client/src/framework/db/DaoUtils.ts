@@ -74,3 +74,9 @@ export class NoteItemDao extends BaseDao<DbModels.NoteItem>{
         super(DbConfig.Stores.noteItems);
     }
 }
+
+export class UrlCacheDao extends BaseDao<DbModels.UrlCache>{
+    public constructor() {
+        super(DbConfig.Stores.urlCache);
+    }
+}

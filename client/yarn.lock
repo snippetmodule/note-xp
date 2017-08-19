@@ -4916,6 +4916,10 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "http://registry.npm.taobao.org/trim-right/download/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
+ts-md5@^1.2.2:
+  version "1.2.2"
+  resolved "http://registry.npm.taobao.org/ts-md5/download/ts-md5-1.2.2.tgz#d176bcb9daca485a0fd29e6092bd4f6d658cf727"
+
 ts-node@^3.2.1:
   version "3.3.0"
   resolved "http://registry.npm.taobao.org/ts-node/download/ts-node-3.3.0.tgz#c13c6a3024e30be1180dd53038fc209289d4bf69"

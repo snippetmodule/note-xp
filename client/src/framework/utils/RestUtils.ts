@@ -1,58 +1,35 @@
-import { GenericRestClient } from 'simplerestclients';
+import { GenericRestClient ,HttpAction,ApiCallOptions,WebResponse} from 'simplerestclients';
 import SyncTasks = require('synctasks');
 
-
-interface GiphyImageDescriptor {
-    url: string;
-    width: string;
-    height: string;
-}
-
-interface GiphySearchResponse {
-    data: {
-        images: {
-            fixed_height: GiphyImageDescriptor;
-            fixed_height_still: GiphyImageDescriptor;
-            fixed_height_downsampled: GiphyImageDescriptor;
-            fixed_width: GiphyImageDescriptor;
-            fixed_width_still: GiphyImageDescriptor;
-            original: GiphyImageDescriptor;
-        }
-    }[]
-}
-
-export interface GiphySearchResult {
-    smallUrl: string;
-    originalUrl: string;
-}
+import BaseJson from '../models/BaseJson'
+import Log = require('./Log');
 
 const _giphyApiUrl = 'https://api.giphy.com/v1/gifs/search';
 
-export class GiphyClient extends GenericRestClient {
-    searchImages(queryTerm: string, limitCount: number = 25, offset: number = 0, rating: string = 'g'): 
-            SyncTasks.Promise<GiphySearchResult[]> {
-
-        const url: string =
-            '?api_key=dc6zaTOxFJmzC' +
-            '&q=' + encodeURIComponent(queryTerm) +
-            '&limit=' + limitCount.toString() +
-            '&offset=' + offset.toString() +
-            '&rating=' + rating;
-        return this._performApiCall<GiphySearchResponse>(url, 'GET', undefined, undefined).then(response => {
-            if (!response.body || !response.body.data) {
-                return [];
-            }
-
-            return response.body.data.map(image => {
-                return {
-                    smallUrl: image.images.fixed_height.url,
-                    originalUrl: image.images.original.url
-                };
-            });
-        });
+class RestClient extends GenericRestClient{
+    public _performApiCall<T>(apiPath: string, action: HttpAction, objToPost: any, givenOptions: ApiCallOptions):SyncTasks.Promise<WebResponse<T>>{
+       return super._performApiCall(apiPath,action,adjToPost,givenOptions);
     }
 }
+function request<T>(url: string, method: HttpAction, body = {},option={}): SyncTasks.Promise<BaseJson<T>> {
+    const client= new RestClient(_giphyApiUrl);
+    Log.d('RestUtils', `request url:{$url} \n \t\t method:{$method} body:{$body}`);
+    return client._performApiCall(url, method, body, option)
+        .then(response => {
+            Log.d('RestUtils', `response url:{$url} \n \t\t method:{$response}`);
+            if(response.statusCode===200){
+                return response.body.data;
+            }else{
+                return SyncTasks.reject(`{$response.url} \n {$response.statusCode} {$reponse.statusText}`);
+            }
+        });
+}
 
-export default new GiphyClient(_giphyApiUrl);
+export const get=(url:string,option?:ApiCallOptions)=>request(url,'GET',{},option);
+export const post=(url:string,body?:any,option?:ApiCallOptions)=>request(url,'POST',body,option);
+export const del=(url:string,body?:any,option?:ApiCallOptions)=>request(url,'DELETE',body,option);
+export const put=(url:string,body?:any,option?:ApiCallOptions)=>request(url,'PUT',body,option);
+export const patch=(url:string,body?:any,option?:ApiCallOptions)=>request(url,'PATCH',body,option);
+
 
 

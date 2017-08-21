@@ -15,7 +15,8 @@
     "noImplicitReturns": true,
     "outDir": "./dist/",
     "types": [
-      "node"
+      "node",
+      "react"
     ]
   },
   "include": [

@@ -8,11 +8,15 @@
     "rn-watch": "tsc --watch",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
-    "ios": "node node_modules/react-native/local-cli/cli.js run-ios"
+    "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
+    "search": "npms search",
+		"tsearch": "typings search",
+		"logcat": "adb logcat *:S ReactNative:V ReactNativeJS:V"
   },
   "devDependencies": {
     "@types/node": "^7.0.12",
     "@types/webpack": "^2.2.14",
+    "@types/react": "^15.4.1",
     "awesome-typescript-loader": "3.1.2",
     "source-map-loader": "^0.1.6",
     "ts-node": "^3.2.1",

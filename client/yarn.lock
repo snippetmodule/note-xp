@@ -14,6 +14,10 @@
   version "7.0.39"
   resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-7.0.39.tgz#8aced4196387038113f6f9aa4014ab4c51edab3c"
 
+"@types/react@^15.4.1":
+  version "15.6.1"
+  resolved "http://registry.npm.taobao.org/@types/react/download/@types/react-15.6.1.tgz#497f7228762da4432e335957cb34fe9b40f150ae"
+
 "@types/source-map@*":
   version "0.5.1"
   resolved "http://registry.npm.taobao.org/@types/source-map/download/@types/source-map-0.5.1.tgz#7e74db5d06ab373a712356eebfaea2fad0ea2367"

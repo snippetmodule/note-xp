@@ -8,7 +8,7 @@ class UserManager extends StoreBase {
 
     init() {
         return UrlCacheUtils.get('file://userloginInfo', Number.MAX_VALUE)
-            .then((cache => this.mUser.json(cache.response)));
+            .then((cache => cache && this.mUser.json(cache.response)));
     }
     save(response: string) {
         return UrlCacheUtils.save('file://userloginInfo', response)
@@ -24,7 +24,7 @@ class UserManager extends StoreBase {
     }
 
     @autoSubscribe
-    get user(): User {
+    getUser(): User {
         return this.mUser;
     }
 }

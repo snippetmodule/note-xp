@@ -6,7 +6,7 @@ import DBConfig = require('./DbConfig');
 let _db: NoSqlProvider.DbProvider;
 
 export function init(providersToTry: NoSqlProvider.DbProvider[]): SyncTasks.Promise<void> {
-    return this._openListOfProviders(providersToTry, DBConfig._databaseName, DBConfig._dbSchema)
+    return _openListOfProviders(providersToTry, DBConfig._databaseName, DBConfig._dbSchema)
         .then((prov: NoSqlProvider.DbProvider) => {
             this._db = prov;
         });

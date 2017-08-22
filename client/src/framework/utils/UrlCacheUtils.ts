@@ -16,7 +16,10 @@ export function save(url: string, response: string, method = 'GET', body = ''): 
 }
 export function get(url: string, expiredTime = 0, method = 'GET', body = ''): SyncTasks.Promise<DBModels.UrlCache> {
     let md5 = MD5Utils.hash(`{$url}_{$method}_{$body}`);
-    return mUrlCacheDao.get({ id: md5 }).then((cache) => {
+    return mUrlCacheDao.get(md5).then((cache) => {
+        if(!cache){
+            return null;
+        }
         if (expiredTime <= 0) {
             return cache;
         } else if (expiredTime >= 0 && new Date().getTime() - cache.createTime < expiredTime) {
@@ -29,5 +32,5 @@ export function get(url: string, expiredTime = 0, method = 'GET', body = ''): Sy
 }
 export function del(url: string, method = 'GET', body = ''): SyncTasks.Promise<void> {
     let md5 = MD5Utils.hash(`{$url}_{$method}_{$body}`);
-    return mUrlCacheDao.remove({ id: md5 });
+    return mUrlCacheDao.remove(md5);
 }

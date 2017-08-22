@@ -9,7 +9,7 @@ export default class SplashComponent extends RX.Component<{}, null> {
     render() {
         return (
             <TitleComponent ref='titleLayout' isShowTitle={false}>
-                <RX.Image source='../../images/login/logo'>
+                <RX.Image source='asserts/login/logo.png'>
                 </RX.Image>
             </TitleComponent>
         );

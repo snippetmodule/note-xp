@@ -11,11 +11,11 @@ interface State {
 
 class MainScene extends ComponentBase<any, State> {
 
-    // protected _buildState(props: {}, initialBuild: boolean): State {
-    //     return {
-    //         isLogined: UserManager.user.isLogined,
-    //     };
-    // }
+    protected _buildState(props: {}, initialBuild: boolean): State {
+        return {
+            isLogined: UserManager.getUser().isLogined,
+        };
+    }
     render(){
         if (this.state.isLogined) {
             return (

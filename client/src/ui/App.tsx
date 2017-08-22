@@ -20,7 +20,7 @@ const styles = {
     })
 };
 
-class App extends RX.Component<{}, null> {
+export class App extends RX.Component<{}, null> {
     private _navigator: RX.Navigator;
 
     componentDidMount() {
@@ -56,4 +56,3 @@ class App extends RX.Component<{}, null> {
     }
 }
 
-export = App;

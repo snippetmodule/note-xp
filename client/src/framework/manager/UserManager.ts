@@ -6,18 +6,21 @@ import UrlCacheUtils = require('../utils/UrlCacheUtils');
 class UserManager extends StoreBase {
     private mUser: User = new User();
 
-    async init() {
-        let cache = await UrlCacheUtils.get('file://userloginInfo', Number.MAX_VALUE);
-        this.mUser.json(cache.response);
+    init() {
+        return UrlCacheUtils.get('file://userloginInfo', Number.MAX_VALUE)
+            .then((cache => this.mUser.json(cache.response)));
     }
-    async save(response: string) {
-        await UrlCacheUtils.save('file://userloginInfo', response);
-        this.mUser.json(response);
+    save(response: string) {
+        return UrlCacheUtils.save('file://userloginInfo', response)
+            .then(() => this.mUser.json(response))
+
     }
 
-    async loginOut() {
-        await UrlCacheUtils.del('file://userloginInfo');
-        this.mUser = new User();
+    loginOut() {
+        return UrlCacheUtils.del('file://userloginInfo')
+            .then(() => {
+                this.mUser = new User();
+            });
     }
 
     @autoSubscribe

@@ -1,6 +1,6 @@
-import {autoSubscribe, AutoSubscribeStore, StoreBase} from 'resub';
+import { autoSubscribe, AutoSubscribeStore, StoreBase } from 'resub';
 import BaseJson from '../models/BaseJson'
-import {HttpParams} from "../utils/RestUtils";
+import { HttpParams } from "../utils/RestUtils";
 import SyncTasks = require('synctasks');
 import RestUtils = require('../utils/RestUtils');
 
@@ -12,7 +12,7 @@ export type HttpResponse<T> = {
 
 @AutoSubscribeStore
 export class HttpStore<T> extends StoreBase {
-    private response: HttpResponse<T> = {state: 'idle'};
+    private response: HttpResponse<T> = { state: 'idle' };
 
     @autoSubscribe
     getHttpResonse() {
@@ -28,10 +28,10 @@ export class HttpStore<T> extends StoreBase {
                 this.response.result = result as BaseJson<T>;
                 this.trigger();
             }).catch(err => {
-            this.response.state = 'fail';
-            this.response.result = err;
-            this.trigger();
-        });
+                this.response.state = 'fail';
+                this.response.result = err;
+                this.trigger();
+            });
 
     }
 

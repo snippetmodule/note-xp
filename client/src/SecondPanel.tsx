@@ -5,8 +5,8 @@
 import RX = require('reactxp');
 import { default as RXVideo } from 'reactxp-video';
 
-import ProgressIndicator from './ProgressIndicator';
-import ToggleSwitch from './ToggleSwitch';
+import ProgressIndicator from './framework/component/widget/ProgressIndicator';
+import ToggleSwitch from './framework/component/widget/ToggleSwitch';
 
 interface SecondPanelProps {
     onNavigateBack: () => void;

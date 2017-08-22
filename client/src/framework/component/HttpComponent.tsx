@@ -22,7 +22,7 @@ interface MainPanelProps<T> {
     onIdle?:()=>JSX.Element;
 }
 
-export class HttpComponent<T> extends ComponentBase<HttpProps<T>,HttpResponse<T>> {
+export default class HttpComponent<T> extends ComponentBase<HttpProps<T>,HttpResponse<T>> {
     protected _buildState(props: HttpProps<T>, initialBuild: boolean): HttpResponse<T> {
         let mHttpStore: HttpStore<T> = this.props.httpStore;
         if (!mHttpStore) {

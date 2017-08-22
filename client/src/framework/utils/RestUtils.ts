@@ -1,6 +1,7 @@
 import { GenericRestClient ,HttpAction,ApiCallOptions,WebResponse} from 'simplerestclients';
 import SyncTasks = require('synctasks');
 
+import UrlCacheUtils =require('./UrlCacheUtils');
 import BaseJson from '../models/BaseJson'
 import Log = require('./Log');
 

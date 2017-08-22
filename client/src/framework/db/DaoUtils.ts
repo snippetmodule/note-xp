@@ -2,7 +2,7 @@ import NoSqlProvider = require('nosqlprovider');
 import SyncTasks = require('synctasks');
 
 import DbModels = require('./DbModels');
-import { DbUtils } from './DbUtils';
+import DbUtils = require('./DbUtils');
 import DbConfig = require('./DbConfig');
 
 export class BaseDao<T extends DbModels.BaseDBModel>{

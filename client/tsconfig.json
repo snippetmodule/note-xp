@@ -1,7 +1,4 @@
 {
-  "exclude": [
-    "node_modules"
-  ],
   "compilerOptions": {
     "declaration": false,
     "noResolve": false,
@@ -15,11 +12,13 @@
     "noImplicitReturns": true,
     "outDir": "./dist/",
     "types": [
-      "node",
-      "react"
+      "node"
     ]
   },
   "include": [
     "./src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }

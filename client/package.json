@@ -16,11 +16,10 @@
   "devDependencies": {
     "@types/node": "^7.0.12",
     "@types/webpack": "^2.2.14",
-    "@types/react": "^15.4.1",
     "awesome-typescript-loader": "3.1.2",
     "source-map-loader": "^0.1.6",
     "ts-node": "^3.2.1",
-    "typescript": "2.4.1",
+    "typescript": "2.4.2",
     "webpack": "2.2.1"
   },
   "dependencies": {
@@ -28,15 +27,21 @@
     "react": "^15.4.1",
     "react-dom": "^15.4.1",
     "react-native": "^0.42.0",
-    "react-native-sqlite-storage": "^3.3.1",
     "react-native-windows": "^0.33.0",
-    "reactxp": "0.42.0-rc.20",
+    "react-native-sqlite-storage": "^3.3.1",
+    "reactxp": "0.42.0-rc.25",
     "reactxp-imagesvg": "^0.2.4",
     "reactxp-video": "^0.1.6",
     "reactxp-virtuallistview": "^0.1.3",
+    "assert": "^1.3.0",
+    "ifvisible.js": "^1.0.6",
+    "lodash": "^4.17.1",
+    "prop-types": "^15.5.9",
+    "rebound": "^0.0.13",
+    "subscribableevent": "^1.0.0",
+    "synctasks": "^0.2.9",
     "resub": "^0.0.16",
     "simplerestclients": "^0.0.13",
-    "synctasks": "0.2.17",
     "ts-md5": "^1.2.2"
   }
 }

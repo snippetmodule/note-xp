@@ -48,7 +48,7 @@ export class TitleComponent extends RX.Component<Prop, State>{
         return this.refs['dividerLine'];
     }
     render() {
-        let backImg = require('../../asserts/common/back.png');
+        let backImg = '../../asserts/common/back.png';
         let titleBtn = this.props.titleImg
             ? (
                 <RX.Button onPress={this._onPressTitleBtn}>

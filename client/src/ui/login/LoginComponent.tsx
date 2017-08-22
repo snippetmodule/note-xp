@@ -49,13 +49,13 @@ export default class LonginComponent extends RX.Component<{}, void>{
                     <RX.Text style={styles.topLoginTxt}>
                         Login
                     </RX.Text>
-                    <RX.Image style={styles.logo} source={require('../../../asserts/login/login.png')}>
+                    <RX.Image style={styles.logo} source='../../../asserts/login/login.png'>
                     </RX.Image>
                     <RX.Text style={styles.loginSolution}>
                         Login Solution
                     </RX.Text>
                     <RX.Button style={styles.wechatBtn} onPress={this._onPressWeChat}>
-                        <RX.Image style={styles.wechatImg} source={require('../../../asserts/login/wechat.png')} />
+                        <RX.Image style={styles.wechatImg} source='../../../asserts/login/wechat.png' />
                     </RX.Button>
                     <RX.Button style={styles.loginBtn}>
                         <RX.Text style={styles.loginTxt}>

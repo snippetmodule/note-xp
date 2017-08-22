@@ -5,10 +5,11 @@ import { TitleComponent } from '../../framework/component/TitleComponent';
 export default class SplashComponent extends RX.Component<{}, null> {
     private _progressTimerToken: number;
     // private _curTime = new Date().getTime();
+
     render() {
         return (
             <TitleComponent ref='titleLayout' isShowTitle={false}>
-                <RX.Image source={require('../../images/login/logo')}>
+                <RX.Image source='../../images/login/logo'>
                 </RX.Image>
             </TitleComponent>
         );

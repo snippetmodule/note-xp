@@ -1,18 +1,7 @@
-/*
-* This file demonstrates a basic ReactXP app.
-*/
-
 import RX = require('reactxp');
 
-// import MainPanel = require('../MainPanel');
-import SecondPanel = require('../SecondPanel');
-
 import MainScene = require('./main/MainScene');
-
-enum NavigationRouteId {
-    Main,
-    SecondPanel
-}
+import NavUtils = require('../framework/utils/NavUtils');
 
 const styles = {
     navCardStyle: RX.Styles.createViewStyle({
@@ -21,38 +10,24 @@ const styles = {
 };
 
 export class App extends RX.Component<{}, null> {
-    private _navigator: RX.Navigator;
-
     componentDidMount() {
-        this._navigator.immediatelyResetRouteStack([{
-            routeId: NavigationRouteId.Main,
-            sceneConfigType: RX.Types.NavigatorSceneConfigType.Fade
-        }]);
+        NavUtils.registerMain({
+            component: MainScene
+        });
     }
 
     render() {
         return (
             <RX.Navigator
                 ref={this._onNavigatorRef}
-                renderScene={this._renderScene}
+                renderScene={NavUtils.renderScene}
                 cardStyle={styles.navCardStyle}
             />
         );
     }
 
     private _onNavigatorRef = (navigator: RX.Navigator) => {
-        this._navigator = navigator;
-    }
-
-    private _renderScene = (navigatorRoute: RX.Types.NavigatorRoute) => {
-        switch (navigatorRoute.routeId) {
-            case NavigationRouteId.Main:
-                return <MainScene />
-            case NavigationRouteId.SecondPanel:
-                return <SecondPanel onNavigateBack={null} />
-            default:
-                return <MainScene />
-        }
+        NavUtils._navigator = navigator;
     }
 }
 

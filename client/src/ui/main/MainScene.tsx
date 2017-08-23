@@ -9,7 +9,7 @@ interface State {
     isLogined: boolean;
 }
 
-class MainScene extends ComponentBase<any, State> {
+export = class MainScene extends ComponentBase<any, State> {
 
     protected _buildState(props: {}, initialBuild: boolean): State {
         return {
@@ -27,4 +27,4 @@ class MainScene extends ComponentBase<any, State> {
         );
     }
 }
-export = MainScene;
+

@@ -29,7 +29,7 @@ const styles = {
         color: '#BBBBBB',
     }),
     codeTxt: RX.Styles.createTextStyle({
-        padding:17,
+        padding: 17,
         fontSize: 16,
         color: '#BBBBBB',
     }),
@@ -43,7 +43,7 @@ const styles = {
         color: '#999999',
     }),
 };
-export default class RegisterComponent extends RX.Component<{}, null>{
+export = class RegisterScene extends RX.Component<{}, null>{
     render() {
         return (
             <TitleComponent title='手机登录'>
@@ -74,18 +74,18 @@ export default class RegisterComponent extends RX.Component<{}, null>{
                         </RX.Text>
                     </RX.Button>
                 </RX.View>
-                <RX.Button style={styles.registerLaout} onPress= {this._onRegiser}>
-                        <RX.Text style={styles.registerTxt}>
-                            Continue
+                <RX.Button style={styles.registerLaout} onPress={this._onRegiser}>
+                    <RX.Text style={styles.registerTxt}>
+                        Continue
                         </RX.Text>
-                    </RX.Button>
+                </RX.Button>
             </TitleComponent>
         );
     }
-    private _onGetCode(){
+    private _onGetCode() {
 
     }
-    private _onRegiser(){
+    private _onRegiser() {
 
     }
 }

@@ -1,5 +1,7 @@
 import RX = require('reactxp');
 
+import RegisterScene = require('./RegisterScene');
+import NavUtils = require('../../framework/utils/NavUtils');
 const styles = {
     scroll: RX.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
@@ -40,7 +42,8 @@ const styles = {
         fontSize: 15,
     }),
 }
-export default class LonginComponent extends RX.Component<{}, void>{
+
+export default class LonginComponent extends RX.Component<{}, null>{
 
     render() {
         return (
@@ -57,7 +60,7 @@ export default class LonginComponent extends RX.Component<{}, void>{
                     <RX.Button style={styles.wechatBtn} onPress={this._onPressWeChat}>
                         <RX.Image style={styles.wechatImg} source='asserts/login/wechat.png' />
                     </RX.Button>
-                    <RX.Button style={styles.loginBtn}>
+                    <RX.Button style={styles.loginBtn} onPress={this._onPressRegitser}>
                         <RX.Text style={styles.loginTxt}>
                             LoginWithPhone
                         </RX.Text>
@@ -68,5 +71,8 @@ export default class LonginComponent extends RX.Component<{}, void>{
     }
     private _onPressWeChat = () => {
         // this.props.onShowTodoPanel();
+    }
+    private _onPressRegitser() {
+        NavUtils.go({ component:RegisterScene})
     }
 } 

@@ -1,7 +1,10 @@
 import * as webpack from 'webpack';
 
 const config: webpack.Configuration = {
-    entry: "./src/index-web.tsx",
+    entry: [
+        'webpack-hot-middleware/client?reload=true',
+        './src/index-web.tsx'
+    ],
     output: {
         filename: "bundle.js",
         path: __dirname + "/dist"

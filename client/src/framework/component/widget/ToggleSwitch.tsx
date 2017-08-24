@@ -8,7 +8,7 @@
 
 import RX = require('reactxp');
 
-export interface ToggleSwitchProps extends RX.CommonProps {
+interface ToggleSwitchProps extends RX.CommonProps {
     value?: boolean;
     onChange?: (newValue: boolean) => void;
 }
@@ -47,7 +47,7 @@ const _styles = {
     })
 };
 
-class ToggleSwitch extends RX.Component<ToggleSwitchProps, null> {
+export = class ToggleSwitch extends RX.Component<ToggleSwitchProps, null> {
     private _knobLeftAnimationValue: RX.Animated.Value;
     private _knobLeftAnimationStyle: RX.Types.AnimatedViewStyleRuleSet;
 
@@ -118,5 +118,3 @@ class ToggleSwitch extends RX.Component<ToggleSwitchProps, null> {
         }
     }
 }
-
-export default ToggleSwitch;

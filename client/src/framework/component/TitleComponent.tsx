@@ -2,6 +2,9 @@
 import RX = require('reactxp');
 import React = require('react');
 
+import NavUtils = require('../utils/NavUtils');
+import * as Widget from './widget';
+
 const styles = {
     scroll: RX.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
@@ -9,30 +12,38 @@ const styles = {
     }),
     container: RX.Styles.createViewStyle({
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'stretch'
     }),
     titleContainer: RX.Styles.createViewStyle({
         alignSelf: 'stretch',
         flexDirection: 'row',
+        alignItems: 'center',
         height: 56,
         backgroundColor: '#fff'
     }),
     backBtn: RX.Styles.createButtonStyle({
         width: 56,
+        alignItems: 'center',
+        justifyContent: 'center',
     }),
-    backImg: RX.Styles.createImageStyle({
-        alignSelf:'stretch',
-        paddingLeft: 17,
-        paddingRight: 17
-    }),
+
     titleBtn: RX.Styles.createButtonStyle({
-        alignSelf: 'center',
         flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+    }),
+    titleTex: RX.Styles.createTextStyle({
+        fontSize: 17,
+        color: '#333333'
+    }),
+    titleImg: RX.Styles.createImageStyle({
+
     }),
     rightBtn: RX.Styles.createButtonStyle({
         width: 56
     }),
     dividerLine: RX.Styles.createViewStyle({
+        alignSelf: 'stretch',
         height: 0.5,
         backgroundColor: '#d0d0d0'
     }),
@@ -46,48 +57,52 @@ export interface Prop extends RX.CommonStyledProps<RX.Types.ViewStyle> {
     right?: string,
     rightImg?: string,
     rightStyle?: any,
-    onBack?: () => any,
-    onTitle?: () => any,
-    onRight?: () => any,
+    onBack?: () => void,
+    onTitle?: () => void,
+    onRight?: () => void,
 }
 interface State {
-    children: React.ReactNode | React.ReactNode[];
+    children?: React.ReactNode | React.ReactNode[];
+    dividerLine?: boolean,
+    right?: boolean,
 }
 export class TitleComponent extends RX.Component<Prop, State>{
+    public static defaultProps: Prop = {
+        isShowTitle: true,
+        backImg: 'asserts/common/back.png',
+        onBack: () => NavUtils.goBack(),
+        onTitle: () => { },
+        onRight: () => { },
+    };
     constructor(prop: Prop, state: State) {
         super(prop, state);
-        this.state = { children: this.props.children }
-        this._onPressTitleBtn = this._onPressTitleBtn.bind(this);
-        this._onPressBackBtn = this._onPressBackBtn.bind(this);
-        this._onPressRightBtn = this._onPressRightBtn.bind(this);
+        this.state = { children: this.props.children, dividerLine: true, right: false };
+        this.setState = this.setState.bind(this);
     }
-    get titleLayout(): React.Component<any, any> {
-        return this.refs['titleLayout'];
-    }
-    get dividerLine(): React.Component<any, any> {
-        return this.refs['dividerLine'];
+    setState(newState: State) {
+        newState = { ...this.state, ...newState };
+        super.setState(newState);
     }
     render() {
-        let backImg = 'asserts/common/back.png';
         let titleBtn = this.props.titleImg
             ? (
-                <RX.Button onPress={this._onPressTitleBtn} style={styles.titleBtn}>
+                <RX.Button onPress={this.props.onTitle} style={[styles.titleBtn, this.state.right ? {} : { marginRight: 56 }]}>
                     <RX.Image source={this.props.titleImg} >
                     </RX.Image>
-                    <RX.Text >
+                    <RX.Text style={styles.titleTex}>
                         {this.props.title}
                     </RX.Text>
                 </RX.Button>
             ) : (
-                <RX.Button onPress={this._onPressTitleBtn}>
-                    <RX.Text >
+                <RX.Button onPress={this.props.onTitle} style={[styles.titleBtn, this.state.right ? {} : { marginRight: 56 }]}>
+                    <RX.Text style={styles.titleTex}>
                         {this.props.title}
                     </RX.Text>
                 </RX.Button>
             );
-        let rightBtn = this.props.titleImg
+        let rightBtn = this.props.right
             ? (
-                <RX.Button onPress={this._onPressRightBtn}>
+                <RX.Button onPress={this.props.onRight}>
                     <RX.Image source={this.props.rightImg}>
                     </RX.Image>
                     <RX.Text >
@@ -96,7 +111,7 @@ export class TitleComponent extends RX.Component<Prop, State>{
                 </RX.Button>
             ) : (
                 this.props.right
-                    ? (<RX.Button onPress={this._onPressRightBtn}>
+                    ? (<RX.Button onPress={this.props.onRight}>
                         <RX.Text >
                             {this.props.right}
                         </RX.Text>
@@ -107,31 +122,21 @@ export class TitleComponent extends RX.Component<Prop, State>{
             <RX.ScrollView style={styles.scroll}>
                 <RX.View style={styles.container}>
                     <RX.View style={styles.titleContainer} ref='titleLayout'>
-                        <RX.Button onPress={this._onPressBackBtn} style={styles.backBtn}>
-                            <RX.Image source={this.props.backImg || backImg} style={styles.backImg}
-                                resizeMode='cover'>
-                            </RX.Image>
+                        <RX.Button onPress={this.props.onBack} style={styles.backBtn}>
+                            <Widget.FitImage source={this.props.backImg} resizeMode='auto' />
                         </RX.Button>
                         {titleBtn}
-                        {rightBtn}
-                        <RX.View style={styles.dividerLine} ref='dividerLine' />
+                        {
+                            this.state.right ? rightBtn : null
+                        }
+                        {
+                            this.state.dividerLine ? <RX.View style={styles.dividerLine} ref='dividerLine' /> : null
+                        }
+
                     </RX.View>
                     {this.state.children}
                 </RX.View>
             </RX.ScrollView>
         );
-    }
-    private _onPressBackBtn() {
-        if (this.props.onBack) {
-            this.props.onBack();
-        } else {
-            // navigator back here
-        }
-    }
-    private _onPressTitleBtn() {
-        this.props.onTitle && this.props.onTitle();
-    }
-    private _onPressRightBtn() {
-        this.props.onRight && this.props.onRight();
     }
 }

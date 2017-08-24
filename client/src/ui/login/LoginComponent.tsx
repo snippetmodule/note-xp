@@ -32,10 +32,13 @@ const styles = {
         padding: 10,
     }),
     loginBtn: RX.Styles.createButtonStyle({
+        width:327,
+        height:47,
         marginTop: 43,
         borderRadius: 4,
         backgroundColor: '#5E62FF',
-        opacity: 0.9
+        opacity: 0.9,
+        alignItems:'center'
     }),
     loginTxt: RX.Styles.createTextStyle({
         color: '#fff',

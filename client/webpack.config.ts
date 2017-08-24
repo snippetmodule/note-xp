@@ -1,13 +1,16 @@
 import * as webpack from 'webpack';
 
+let HtmlWebpackPlugin = require('html-webpack-plugin');
+
 const config: webpack.Configuration = {
     entry: [
-        'webpack-hot-middleware/client?reload=true',
+        'webpack-dev-server/client?http://localhost:8080',
+        'webpack/hot/only-dev-server',
         './src/index-web.tsx'
     ],
     output: {
         filename: "bundle.js",
-        path: __dirname + "/dist"
+        path: __dirname + "/dist/build/",
     },
 
     // Enable sourcemaps for debugging webpack's output.
@@ -31,6 +34,27 @@ const config: webpack.Configuration = {
             }
         ]
     },
+    plugins:[
+        new HtmlWebpackPlugin({                        //根据模板插入css/js等生成最终HTML
+            // favicon: './src/favicon.ico', //favicon路径
+            filename: '../index.html',    //生成的html存放路径，相对于 path
+            template: 'index.html',    //html模板路径
+            inject: true,    //允许插件修改哪些内容，包括head与body             hash:true,    //为静态资源生成hash值
+            minify: {    //压缩HTML文件
+              removeComments: true,    //移除HTML中的注释
+              collapseWhitespace: false    //删除空白符与换行符
+            }
+          }),
+          new webpack.DefinePlugin({
+            'process.env': {
+              browser: JSON.stringify(true),
+              development:JSON.stringify(true),
+              version:JSON.stringify('0.1'),
+            }
+          }),
+          new webpack.HotModuleReplacementPlugin(),
+          new webpack.NoEmitOnErrorsPlugin()
+    ]
 };
 
 export default config;

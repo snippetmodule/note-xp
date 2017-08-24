@@ -10,7 +10,7 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
-    "outDir": "./dist/",
+    "outDir": "./dist/build/",
     "types": [
       "node"
     ]

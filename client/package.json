@@ -5,11 +5,14 @@
   "main": "index.js",
   "scripts": {
     "web-watch": "webpack --progress --colors --watch",
-    "web-start": "node_modules/.bin/webpack-dev-server --devtool eval-source-map --progress --colors --hot --inline --content-base ./dist --open",
+    "preweb-start": "yarn run web-kill && mkdir dist && cp -r ./asserts/ ./dist/asserts/ && yarn run web-watch && echo 'preweb-start end' &",
+    "web-start": "./node_modules/.bin/webpack-dev-server --devtool eval-source-map --host localhost --port 8080 --progress --colors --hot --inline --content-base ./dist --open",
+    "web-kill": "rm -rf dist && kill -s 9 `lsof -i:8080 | sed '1d' | awk '{print $2}'` | echo 'kill result:'",
     "rn-watch": "tsc --watch",
     "start": "node node_modules/react-native/local-cli/cli.js start",
     "android": "node node_modules/react-native/local-cli/cli.js run-android",
     "ios": "node node_modules/react-native/local-cli/cli.js run-ios",
+    "clear":"rm -rf node_modules && rm yarn.lock && rm -rf dist",
     "search": "npms search",
     "tsearch": "typings search",
     "logcat": "adb logcat *:S ReactNative:V ReactNativeJS:V"
@@ -17,15 +20,15 @@
   "devDependencies": {
     "@types/node": "^7.0.12",
     "@types/webpack": "^2.2.14",
-    "awesome-typescript-loader": "3.1.2",
-    "file-loader": "^0.11.2",
-    "image-webpack-loader": "^3.3.1",
-    "source-map-loader": "^0.1.6",
     "ts-node": "^3.2.1",
     "typescript": "2.4.2",
     "webpack": "2.2.1",
-    "webpack-dev-server": "^2.7.1",
-    "webpack-hot-middleware": "^2.18.2"
+    "awesome-typescript-loader": "3.1.2",
+    "file-loader": "^0.11.2",
+    "html-webpack-plugin": "^2.30.1",
+    "image-webpack-loader": "^3.3.1",
+    "source-map-loader": "^0.1.6",
+    "webpack-dev-server": "^2.7.1"
   },
   "dependencies": {
     "assert": "^1.3.0",
@@ -36,7 +39,6 @@
     "react-dom": "^15.4.1",
     "react-native": "^0.42.0",
     "react-native-sqlite-storage": "^3.3.1",
-    "react-native-windows": "^0.33.0",
     "reactxp": "0.42.0-rc.25",
     "reactxp-imagesvg": "^0.2.4",
     "reactxp-video": "^0.1.6",

@@ -41,9 +41,13 @@ export class User {
     }
 }
 interface UserInfo {
-    name: string;
-    sex: number;
-    icon: string;
+    id:string,
+    userNo:string,
+    nickName: string;
+    hasCerted:boolean;
+    description:string;
+    token:string;
+    life:number;
 }
 
 export let Instance =  new UserManager();

@@ -3,7 +3,7 @@ import * as DbConfig from './DbConfig';
 import * as DbModels from './DbModels';
 import * as DbUtils from './DbUtils';
 
-export = {
+export {
     DaoUtils,
     DbConfig,
     DbModels,

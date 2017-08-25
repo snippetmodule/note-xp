@@ -1,11 +1,11 @@
 import component = require('./component');
-import utils = require('./utils');
+import * as utils from './utils';
 import db = require('./db');
 import models = require('./models');
-import manager = require('./manager');
+import * as manager from './manager';
 import { ComponentBase } from 'resub';
 
-export = {
+export {
     component,
     utils,
     db,

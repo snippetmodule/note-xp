@@ -1,13 +1,15 @@
 import rx = require('reactxp');
 
 import fm = require('../../framework');
+import * as utils from '../utils';
+import * as models from '../modles';
 
 const styles = {
     phoneInput: rx.Styles.createTextInputStyle({
         marginTop: 46,
         marginLeft: 20,
         marginRight: 20,
-        height:48,
+        height: 48,
         backgroundColor: 'transparent',
         fontSize: 16,
         color: '#BBBBBB',
@@ -19,7 +21,7 @@ const styles = {
         marginRight: 17,
     }),
     codeLayout: rx.Styles.createViewStyle({
-        height:48,
+        height: 48,
         marginLeft: 20,
         marginRight: 17,
         flexDirection: 'row'
@@ -29,13 +31,13 @@ const styles = {
         fontSize: 16,
         flex: 1,
         color: '#BBBBBB',
-        marginRight:6
+        marginRight: 6
     }),
     codeBtn: rx.Styles.createButtonStyle({
-        marginTop:6,
-        marginBottom:6,
-        paddingLeft:17,
-        paddingRight:17,
+        marginTop: 6,
+        marginBottom: 6,
+        paddingLeft: 17,
+        paddingRight: 17,
         flexDirection: 'row',
         borderWidth: 2,
         borderRadius: 6,
@@ -48,35 +50,49 @@ const styles = {
     registerLaout: rx.Styles.createViewStyle({
         height: 47,
         width: 327,
-        backgroundColor:'#5E62FF',
-        borderRadius:4,
-        marginTop:27,
-        alignSelf:'center'
+        backgroundColor: '#5E62FF',
+        borderRadius: 4,
+        marginTop: 27,
+        alignSelf: 'center'
     }),
     registerTxt: rx.Styles.createTextStyle({
         fontSize: 14,
         color: '#999999',
-        alignSelf:'center'
+        alignSelf: 'center'
     }),
 };
 interface State {
     isLogined: boolean;
+    phoneNumber: string;
+    checkCode: string;
+    checkCodeResult: fm.component.HttpStore.HttpResponse<models.Json.CheckCode[]>;
+    registerResult: fm.component.HttpStore.HttpResponse<models.Json.RegisterInfo[]>;
 }
 
 export = class RegisterScene extends fm.ComponentBase<{}, State>{
-    constructor(props?: {}){
+    private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCode[]> = new fm.component.HttpStore.HttpStore();
+    private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfo[]> = new fm.component.HttpStore.HttpStore();
+
+    constructor(props?: {}) {
         super(props);
     }
-    
+
     protected _buildState(props: {}, initialBuild: boolean): State {
         return {
+            ...this.state,
             isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
+            checkCodeResult: this.mGetCodeStore.getHttpResonse(),
+            registerResult: this.mLoginStore.getHttpResonse(),
         };
     }
     render() {
-        if(this.state.isLogined){
+        if (this.state.isLogined) {
             fm.utils.NavUtils.goToMain();
             return null;
+        }
+        if(this.state.registerResult.state ==='sucess'){
+            let message = this.state.registerResult.result.message;
+            fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
         }
         return (
             <fm.component.TitleComponent title='手机登录'>
@@ -87,7 +103,10 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
                     maxLength={11}
                     returnKeyType="next"
                     keyboardType='numeric'
-                    style={styles.phoneInput}>
+                    style={styles.phoneInput}
+                    value={this.state.phoneNumber}
+                    onChangeText={this._onNumberChange}
+                >
                 </rx.TextInput>
                 <rx.View style={styles.dividerLine} />
                 <rx.View style={styles.codeLayout}>
@@ -98,8 +117,10 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
                         maxLength={11}
                         returnKeyType="next"
                         keyboardType='numeric'
-                        secureTextEntry={true}
-                        style={styles.codeInput}>
+                        style={styles.codeInput}
+                        value={this.state.checkCode}
+                        onChangeText={this._onCheckCodeChange}
+                    >
                     </rx.TextInput>
                     <rx.Button onPress={this._onGetCode} style={styles.codeBtn}>
                         <rx.Text style={styles.codeTxt}>
@@ -108,7 +129,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
                     </rx.Button>
                 </rx.View>
                 <rx.View style={[styles.dividerLine]} />
-                <rx.Button style={styles.registerLaout} onPress={this._onRegiser}>
+                <rx.Button style={styles.registerLaout} onPress={this._onRegiser} ref='register'>
                     <rx.Text style={styles.registerTxt}>
                         Continue
                         </rx.Text>
@@ -116,10 +137,42 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
             </fm.component.TitleComponent>
         );
     }
-    private _onGetCode() {
-
+    private _onNumberChange = (v: string) => {
+        this.setState({ ...this.state, phoneNumber: v });
     }
-    private _onRegiser() {
+    private _onCheckCodeChange = (v: string) => {
+        this.setState({ ...this.state, checkCode: v });
+    }
+    private _onGetCode = () => {
+        let number = this.state.phoneNumber;
+        if (/[1][34578]\d{9}/.test(number)) {
+            this.mGetCodeStore.exeHttp({
+                url: utils.UrlConst.RegisterUrl,
+                method: 'POST',
+                body: {
+                    phoneNumber: this.state.phoneNumber
+                }
+            });
+            return;
+        }
+        fm.utils.PopupUtils.Toast.show({ getAnchor: () => this.refs['register'], content: 'phone_register_number_err' });
+    }
+    private _onRegiser = () => {
+        if (!this.state.checkCode) {
+            fm.utils.PopupUtils.Toast.show({ getAnchor: () => this.refs['register'], content: 'phone_register_check_code_empty' });
+            return;
+        }
+        let messages = this.state.checkCodeResult.result.message as  [models.Json.CheckCode];
+        let verifyingId = messages[0].verifyingId;
+        let task = fm.utils.RestUtils.request<models.Json.RegisterInfo[]>({
+            url: utils.UrlConst.RegisterUrl + '/' + verifyingId,
+            method: 'PUT',
+            body: {
+                phoneNumber: this.state.phoneNumber,
+                validateCode: this.state.checkCode
+            }
 
+        });
+        this.mLoginStore.exeAsync(task);
     }
 }

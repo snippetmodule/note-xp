@@ -1,8 +1,8 @@
 import widget = require('./widget');
-import HttpStore = require('./HttpStore');
+import * as HttpStore from  './HttpStore';
 import TitleComponent = require('./TitleComponent')
 
-export = {
+export {
     widget,
     HttpStore,
     TitleComponent,

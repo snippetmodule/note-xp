@@ -1,17 +1,17 @@
-import RX = require('reactxp');
+import rx = require('reactxp');
 
-import { TitleComponent } from '../../framework/component/TitleComponent';
+import fm = require('../../framework');
 
-export default class SplashComponent extends RX.Component<{}, null> {
+export default class SplashComponent extends rx.Component<{}, null> {
     private _progressTimerToken: number;
     // private _curTime = new Date().getTime();
 
     render() {
         return (
-            <TitleComponent ref='titleLayout' isShowTitle={false}>
-                <RX.Image source='asserts/login/logo.png'>
-                </RX.Image>
-            </TitleComponent>
+            <fm.component.TitleComponent ref='titleLayout' isShowTitle={false}>
+                <rx.Image source='asserts/login/logo.png'>
+                </rx.Image>
+            </fm.component.TitleComponent>
         );
     }
     componentDidMount() {

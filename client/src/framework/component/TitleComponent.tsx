@@ -1,55 +1,53 @@
-
-import RX = require('reactxp');
+import rx = require('reactxp');
 import React = require('react');
 
 import NavUtils = require('../utils/NavUtils');
 import * as Widget from './widget';
 
 const styles = {
-    scroll: RX.Styles.createScrollViewStyle({
+    scroll: rx.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
         backgroundColor: '#f5f5f5'
     }),
-    container: RX.Styles.createViewStyle({
+    container: rx.Styles.createViewStyle({
         justifyContent: 'center',
         alignItems: 'stretch'
     }),
-    titleContainer: RX.Styles.createViewStyle({
+    titleContainer: rx.Styles.createViewStyle({
         alignSelf: 'stretch',
         flexDirection: 'row',
         alignItems: 'center',
         height: 56,
         backgroundColor: '#fff'
     }),
-    backBtn: RX.Styles.createButtonStyle({
+    backBtn: rx.Styles.createButtonStyle({
         width: 56,
         alignItems: 'center',
         justifyContent: 'center',
     }),
-
-    titleBtn: RX.Styles.createButtonStyle({
+    titleBtn: rx.Styles.createButtonStyle({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
     }),
-    titleTex: RX.Styles.createTextStyle({
+    titleTex: rx.Styles.createTextStyle({
         fontSize: 17,
         color: '#333333'
     }),
-    titleImg: RX.Styles.createImageStyle({
+    titleImg: rx.Styles.createImageStyle({
 
     }),
-    rightBtn: RX.Styles.createButtonStyle({
+    rightBtn: rx.Styles.createButtonStyle({
         width: 56
     }),
-    dividerLine: RX.Styles.createViewStyle({
+    dividerLine: rx.Styles.createViewStyle({
         alignSelf: 'stretch',
         height: 0.5,
         backgroundColor: '#d0d0d0'
     }),
 }
 
-export interface Prop extends RX.CommonStyledProps<RX.Types.ViewStyle> {
+interface Prop extends rx.CommonStyledProps<rx.Types.ViewStyle> {
     isShowTitle?: boolean,
     backImg?: string,
     title?: string,
@@ -66,7 +64,7 @@ interface State {
     dividerLine?: boolean,
     right?: boolean,
 }
-export class TitleComponent extends RX.Component<Prop, State>{
+class TitleComponent extends rx.Component<Prop, State>{
     public static defaultProps: Prop = {
         isShowTitle: true,
         backImg: 'asserts/common/back.png',
@@ -86,57 +84,58 @@ export class TitleComponent extends RX.Component<Prop, State>{
     render() {
         let titleBtn = this.props.titleImg
             ? (
-                <RX.Button onPress={this.props.onTitle} style={[styles.titleBtn, this.state.right ? {} : { marginRight: 56 }]}>
-                    <RX.Image source={this.props.titleImg} >
-                    </RX.Image>
-                    <RX.Text style={styles.titleTex}>
+                <rx.Button onPress={this.props.onTitle} style={[styles.titleBtn, this.state.right ? {} : { marginRight: 56 }]}>
+                    <rx.Image source={this.props.titleImg} >
+                    </rx.Image>
+                    <rx.Text style={styles.titleTex}>
                         {this.props.title}
-                    </RX.Text>
-                </RX.Button>
+                    </rx.Text>
+                </rx.Button>
             ) : (
-                <RX.Button onPress={this.props.onTitle} style={[styles.titleBtn, this.state.right ? {} : { marginRight: 56 }]}>
-                    <RX.Text style={styles.titleTex}>
+                <rx.Button onPress={this.props.onTitle} style={[styles.titleBtn, this.state.right ? {} : { marginRight: 56 }]}>
+                    <rx.Text style={styles.titleTex}>
                         {this.props.title}
-                    </RX.Text>
-                </RX.Button>
+                    </rx.Text>
+                </rx.Button>
             );
         let rightBtn = this.props.right
             ? (
-                <RX.Button onPress={this.props.onRight}>
-                    <RX.Image source={this.props.rightImg}>
-                    </RX.Image>
-                    <RX.Text >
+                <rx.Button onPress={this.props.onRight}>
+                    <rx.Image source={this.props.rightImg}>
+                    </rx.Image>
+                    <rx.Text >
                         {this.props.right}
-                    </RX.Text>
-                </RX.Button>
+                    </rx.Text>
+                </rx.Button>
             ) : (
                 this.props.right
-                    ? (<RX.Button onPress={this.props.onRight}>
-                        <RX.Text >
+                    ? (<rx.Button onPress={this.props.onRight}>
+                        <rx.Text >
                             {this.props.right}
-                        </RX.Text>
-                    </RX.Button>)
+                        </rx.Text>
+                    </rx.Button>)
                     : null
             );
         return (
-            <RX.ScrollView style={styles.scroll}>
-                <RX.View style={styles.container}>
-                    <RX.View style={styles.titleContainer} ref='titleLayout'>
-                        <RX.Button onPress={this.props.onBack} style={styles.backBtn}>
+            <rx.ScrollView style={styles.scroll}>
+                <rx.View style={styles.container}>
+                    <rx.View style={styles.titleContainer} ref='titleLayout'>
+                        <rx.Button onPress={this.props.onBack} style={styles.backBtn}>
                             <Widget.FitImage source={this.props.backImg} resizeMode='auto' />
-                        </RX.Button>
+                        </rx.Button>
                         {titleBtn}
                         {
                             this.state.right ? rightBtn : null
                         }
                         {
-                            this.state.dividerLine ? <RX.View style={styles.dividerLine} ref='dividerLine' /> : null
+                            this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null
                         }
 
-                    </RX.View>
+                    </rx.View>
                     {this.state.children}
-                </RX.View>
-            </RX.ScrollView>
+                </rx.View>
+            </rx.ScrollView>
         );
     }
 }
+export = TitleComponent;

@@ -1,5 +1,5 @@
 import React = require('react');
-import RX = require('reactxp');
+import rx = require('reactxp');
 
 interface IFitImageState {
     width: number;
@@ -7,7 +7,7 @@ interface IFitImageState {
     isLoading: boolean;
 }
 
-export = class FitImage extends RX.Component<RX.Types.ImageProps, IFitImageState> {
+export = class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> {
     static defaultState: IFitImageState = {
         width: 0,
         height: 0,
@@ -17,7 +17,7 @@ export = class FitImage extends RX.Component<RX.Types.ImageProps, IFitImageState
     private isFirstLoad: boolean;
     private mounted: boolean;
 
-    constructor(props: RX.Types.ImageProps) {
+    constructor(props: rx.Types.ImageProps) {
         super(props);
 
         this.isFirstLoad = true;
@@ -37,7 +37,7 @@ export = class FitImage extends RX.Component<RX.Types.ImageProps, IFitImageState
         let ImageComponent = Image;
 
         return (
-            <RX.Image
+            <rx.Image
                 {...this.props}
                 onLoad={this._onLoad.bind(this)}
                 source={this.props.source}
@@ -47,7 +47,7 @@ export = class FitImage extends RX.Component<RX.Types.ImageProps, IFitImageState
                 ]}
             >
                 {children}
-            </RX.Image>
+            </rx.Image>
         );
     }
     private getSize() {
@@ -58,7 +58,7 @@ export = class FitImage extends RX.Component<RX.Types.ImageProps, IFitImageState
             return {width:this.state.width,height:this.state.height}
         }
     }
-    private _onLoad(size: RX.Types.Dimensions) {
+    private _onLoad(size: rx.Types.Dimensions) {
         if (!this.mounted) {
             return;
         }

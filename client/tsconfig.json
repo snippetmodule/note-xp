@@ -3,7 +3,7 @@
     "declaration": false,
     "noResolve": false,
     "jsx": "react",
-    "reactNamespace": "RX",
+    "reactNamespace": "rx",
     "module": "commonjs",
     "target": "es5",
     "experimentalDecorators": true,

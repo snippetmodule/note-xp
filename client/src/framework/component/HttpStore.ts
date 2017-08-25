@@ -47,6 +47,5 @@ export class HttpStore<T> extends StoreBase {
             this.response.result = err;
             this.trigger();
         });
-        ;
     }
 }

@@ -1,19 +1,19 @@
-import RX = require('reactxp');
-import { ComponentBase } from 'resub';
+import rx = require('reactxp');
 
 import LoginComponent from '../login/LoginComponent';
 import SplashComponent from './SplashComponent';
-import { default as UserManager } from '../../framework/manager/UserManager';
+
+import fm = require('../../framework');
 
 interface State {
     isLogined: boolean;
 }
 
-export = class MainScene extends ComponentBase<any, State> {
+export = class MainScene extends fm.ComponentBase<any, State> {
 
     protected _buildState(props: {}, initialBuild: boolean): State {
         return {
-            isLogined: UserManager.getUser().isLogined,
+            isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
         };
     }
     render(){

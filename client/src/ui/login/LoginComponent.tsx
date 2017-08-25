@@ -1,37 +1,38 @@
-import RX = require('reactxp');
+import rx = require('reactxp');
 
 import RegisterScene = require('./RegisterScene');
-import NavUtils = require('../../framework/utils/NavUtils');
+import fm = require('../../framework');
+
 const styles = {
-    scroll: RX.Styles.createScrollViewStyle({
+    scroll: rx.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
         backgroundColor: '#fff'
     }),
-    container: RX.Styles.createViewStyle({
+    container: rx.Styles.createViewStyle({
         padding: 16,
         justifyContent: 'center',
         alignItems: 'center'
     }),
-    topLoginTxt: RX.Styles.createTextStyle({
+    topLoginTxt: rx.Styles.createTextStyle({
         fontSize: 17,
         height: 56,
         color: '#333333',
     }),
-    logo: RX.Styles.createImageStyle({
+    logo: rx.Styles.createImageStyle({
         marginTop: 118
     }),
-    loginSolution: RX.Styles.createTextStyle({
+    loginSolution: rx.Styles.createTextStyle({
         fontSize: 14,
         color: '#999999',
         marginTop: 142
     }),
-    wechatBtn: RX.Styles.createButtonStyle({
+    wechatBtn: rx.Styles.createButtonStyle({
         marginTop: 38
     }),
-    wechatImg: RX.Styles.createButtonStyle({
+    wechatImg: rx.Styles.createButtonStyle({
         padding: 10,
     }),
-    loginBtn: RX.Styles.createButtonStyle({
+    loginBtn: rx.Styles.createButtonStyle({
         width:327,
         height:47,
         marginTop: 43,
@@ -40,42 +41,41 @@ const styles = {
         opacity: 0.9,
         alignItems:'center'
     }),
-    loginTxt: RX.Styles.createTextStyle({
+    loginTxt: rx.Styles.createTextStyle({
         color: '#fff',
         fontSize: 15,
     }),
 }
 
-export default class LonginComponent extends RX.Component<{}, null>{
-
+export default class LonginComponent extends rx.Component<{}, null>{
     render() {
         return (
-            <RX.ScrollView style={styles.scroll}>
-                <RX.View style={styles.container}>
-                    <RX.Text style={styles.topLoginTxt}>
+            <rx.ScrollView style={styles.scroll}>
+                <rx.View style={styles.container}>
+                    <rx.Text style={styles.topLoginTxt}>
                         Login
-                    </RX.Text>
-                    <RX.Image style={styles.logo} source='asserts/login/logo.png'>
-                    </RX.Image>
-                    <RX.Text style={styles.loginSolution}>
+                    </rx.Text>
+                    <rx.Image style={styles.logo} source='asserts/login/logo.png'>
+                    </rx.Image>
+                    <rx.Text style={styles.loginSolution}>
                         Login Solution
-                    </RX.Text>
-                    <RX.Button style={styles.wechatBtn} onPress={this._onPressWeChat}>
-                        <RX.Image style={styles.wechatImg} source='asserts/login/wechat.png' />
-                    </RX.Button>
-                    <RX.Button style={styles.loginBtn} onPress={this._onPressRegitser}>
-                        <RX.Text style={styles.loginTxt}>
+                    </rx.Text>
+                    <rx.Button style={styles.wechatBtn} onPress={this._onPressWeChat}>
+                        <rx.Image style={styles.wechatImg} source='asserts/login/wechat.png' />
+                    </rx.Button>
+                    <rx.Button style={styles.loginBtn} onPress={this._onPressRegitser}>
+                        <rx.Text style={styles.loginTxt}>
                             LoginWithPhone
-                        </RX.Text>
-                    </RX.Button>
-                </RX.View>
-            </RX.ScrollView >
+                        </rx.Text>
+                    </rx.Button>
+                </rx.View>
+            </rx.ScrollView >
         );
     }
     private _onPressWeChat = () => {
         // this.props.onShowTodoPanel();
     }
     private _onPressRegitser() {
-        NavUtils.go({ component:RegisterScene})
+        fm.utils.NavUtils.go({ component:RegisterScene})
     }
 } 

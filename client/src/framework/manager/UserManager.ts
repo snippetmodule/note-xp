@@ -46,4 +46,4 @@ interface UserInfo {
     icon: string;
 }
 
-export default new UserManager();
+export let Instance =  new UserManager();

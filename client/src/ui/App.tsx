@@ -1,33 +1,33 @@
-import RX = require('reactxp');
+import rx = require('reactxp');
 
 import MainScene = require('./main/MainScene');
-import NavUtils = require('../framework/utils/NavUtils');
+import fm = require('../framework');
 
 const styles = {
-    navCardStyle: RX.Styles.createViewStyle({
+    navCardStyle:rx.Styles.createViewStyle({
         backgroundColor: '#f5fcff'
     })
 };
 
-export class App extends RX.Component<{}, null> {
+export class App extends rx.Component<{}, null> {
     componentDidMount() {
-        NavUtils.registerMain({
+        fm.utils.NavUtils.registerMain({
             component: MainScene
         });
     }
 
     render() {
         return (
-            <RX.Navigator
+            <rx.Navigator
                 ref={this._onNavigatorRef}
-                renderScene={NavUtils.renderScene}
+                renderScene={fm.utils.NavUtils.renderScene}
                 cardStyle={styles.navCardStyle}
             />
         );
     }
 
-    private _onNavigatorRef = (navigator: RX.Navigator) => {
-        NavUtils._navigator = navigator;
+    private _onNavigatorRef = (navigator: rx.Navigator) => {
+        fm.utils.NavUtils._navigator = navigator;
     }
 }
 

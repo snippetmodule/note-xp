@@ -1,14 +1,14 @@
 import React = require('react');
 
-import RX = require('reactxp');
+import rx = require('reactxp');
 import { ComponentBase } from 'resub';
-import { HttpResponse } from "./HttpStore";
+
 import { HttpParams } from "../utils/RestUtils";
 import BaseJson from '../models/BaseJson';
-import { HttpStore } from "./HttpStore";
+import { HttpStore ,HttpResponse} from "./HttpStore";
 
 
-interface HttpProps<T> extends RX.CommonStyledProps<RX.Types.ViewStyle>{
+interface HttpProps<T> extends rx.CommonStyledProps<rx.Types.ViewStyle>{
     httpParams?: HttpParams;
     httpStore?: HttpStore<any>; // 可能其它组件发起http ,此组件来监听结果
     onIdle?: () => JSX.Element;
@@ -22,7 +22,7 @@ interface MainPanelProps<T> {
     onIdle?:()=>JSX.Element;
 }
 
-export default class HttpComponent<T> extends ComponentBase<HttpProps<T>,HttpResponse<T>> {
+class HttpComponent<T> extends ComponentBase<HttpProps<T>,HttpResponse<T>> {
     protected _buildState(props: HttpProps<T>, initialBuild: boolean): HttpResponse<T> {
         let mHttpStore: HttpStore<T> = this.props.httpStore;
         if (!mHttpStore) {
@@ -48,3 +48,4 @@ export default class HttpComponent<T> extends ComponentBase<HttpProps<T>,HttpRes
 
     }
 }
+export = HttpComponent;

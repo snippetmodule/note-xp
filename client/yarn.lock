@@ -10,6 +10,10 @@
   version "8.0.24"
   resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-8.0.24.tgz#06c580084d9add1fb40c1510ef0b448961246fb1"
 
+"@types/node@^6.0.65":
+  version "6.0.88"
+  resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-6.0.88.tgz#f618f11a944f6a18d92b5c472028728a3e3d4b66"
+
 "@types/node@^7.0.12":
   version "7.0.42"
   resolved "http://registry.npm.taobao.org/@types/node/download/@types/node-7.0.42.tgz#051ff1cdbd1e1b7523ba425bc388147483344dbf"
@@ -2341,7 +2345,7 @@ fbjs-scripts@^0.7.0:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.5, fbjs@^0.8.9:
+fbjs@^0.8.5, fbjs@^0.8.9, fbjs@~0.8.9:
   version "0.8.14"
   resolved "http://registry.npm.taobao.org/fbjs/download/fbjs-0.8.14.tgz#d1dbe2be254c35a91e09f31f9cd50a40b2a0ed1c"
   dependencies:
@@ -4693,6 +4697,16 @@ react-dom@^15.4.1:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
+react-native-deprecated-custom-components@^0.1.1:
+  version "0.1.1"
+  resolved "http://registry.npm.taobao.org/react-native-deprecated-custom-components/download/react-native-deprecated-custom-components-0.1.1.tgz#bb911f01bf2f47f0a91764757bf918f3216e94e9"
+  dependencies:
+    fbjs "~0.8.9"
+    immutable "~3.7.6"
+    prop-types "^15.5.10"
+    react-timer-mixin "^0.13.2"
+    rebound "^0.0.13"
+
 react-native-sqlite-storage@^3.3.1:
   version "3.3.3"
   resolved "http://registry.npm.taobao.org/react-native-sqlite-storage/download/react-native-sqlite-storage-3.3.3.tgz#670d5160806898d81ff8ce836666dca4c1fdac0e"
@@ -4833,6 +4847,10 @@ react@^15.4.1:
     object-assign "^4.1.0"
     prop-types "^15.5.10"
 
+reactxp-experimental-navigation@^1.0.7:
+  version "1.0.7"
+  resolved "http://registry.npm.taobao.org/reactxp-experimental-navigation/download/reactxp-experimental-navigation-1.0.7.tgz#47b9833515bb013a30bd98175df898d55647fe74"
+
 reactxp-imagesvg@^0.2.4:
   version "0.2.4"
   resolved "http://registry.npm.taobao.org/reactxp-imagesvg/download/reactxp-imagesvg-0.2.4.tgz#dbce7abf7520d46782bc40c3358d193cc09bd585"
@@ -4840,6 +4858,18 @@ reactxp-imagesvg@^0.2.4:
     assert "^1.3.0"
     react-native-svg "4.5.0"
     reactxp "0.42.0-rc.20"
+
+reactxp-navigation@^1.0.6:
+  version "1.0.6"
+  resolved "http://registry.npm.taobao.org/reactxp-navigation/download/reactxp-navigation-1.0.6.tgz#a37ca1c035216e347f13bf3cd10028a926743b96"
+  dependencies:
+    "@types/lodash" "^4.14.62"
+    "@types/node" "^6.0.65"
+    assert "^1.3.0"
+    lodash "^4.17.1"
+    react-native-deprecated-custom-components "^0.1.1"
+    reactxp-experimental-navigation "^1.0.7"
+    rebound "^0.0.13"
 
 reactxp-video@^0.1.6:
   version "0.1.6"

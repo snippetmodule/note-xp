@@ -87,10 +87,11 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
             registerResult: this.mLoginStore.getHttpResonse(),
             checkCodeTime: 0,
         };
-        if (newState.registerResult.state === 'sucess') {
+        if (newState.registerResult.state === 'sucess' && newState.registerResult.result.code === 200) {
             window.setTimeout(() => {
                 let message = this.state.registerResult.result.message;
                 fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
+                this._stopInterval();
                 fm.utils.NavUtils.goToMain();
             });
         }
@@ -155,7 +156,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
                     </rx.TextInput>
                     <rx.Button onPress={this._onGetCode} style={[styles.codeBtn]}>
                         <rx.Text style={styles.codeTxt}>
-                            {codeTex}
+                            {codeTex +''}
                         </rx.Text>
                     </rx.Button>
                 </rx.View>
@@ -194,6 +195,9 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
     private _onRegiser = () => {
         if (!this.state.checkCode) {
             fm.utils.PopupUtils.Toast.show({ getAnchor: () => this.refs['register'], content: 'phone_register_check_code_empty' });
+            return;
+        }
+        if(!this.state.checkCodeResult.result){
             return;
         }
         let messages = this.state.checkCodeResult.result.message as [models.Json.CheckCode];

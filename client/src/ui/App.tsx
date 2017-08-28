@@ -1,7 +1,9 @@
 import rx = require('reactxp');
+import Navigator, { Types } from 'reactxp-navigation';
 
 import MainScene = require('./main/MainScene');
 import fm = require('../framework');
+
 
 const styles = {
     navCardStyle:rx.Styles.createViewStyle({
@@ -26,7 +28,7 @@ export class App extends rx.Component<{}, null> {
         );
     }
 
-    private _onNavigatorRef = (navigator: rx.Navigator) => {
+    private _onNavigatorRef = (navigator: Navigator) => {
         fm.utils.NavUtils._navigator = navigator;
     }
 }

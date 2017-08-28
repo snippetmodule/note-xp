@@ -7,7 +7,7 @@ interface IFitImageState {
     isLoading: boolean;
 }
 
-export = class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> {
+export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> {
     static defaultState: IFitImageState = {
         width: 0,
         height: 0,

@@ -10,8 +10,13 @@ const styles = {
         backgroundColor: '#f5f5f5'
     }),
     container: rx.Styles.createViewStyle({
-        justifyContent: 'center',
-        alignItems: 'stretch'
+        flexDirection:'column',
+        flex:1,
+        alignSelf: 'stretch',
+        alignContent:'stretch',
+        position:'relative',
+        // justifyContent: 'center',
+        // alignItems: 'stretch'
     }),
     titleContainer: rx.Styles.createViewStyle({
         alignSelf: 'stretch',
@@ -129,7 +134,7 @@ class TitleComponent extends rx.Component<Prop, State>{
             </rx.View>
         ) : null;
         return (
-            <rx.ScrollView style={styles.scroll}>
+            <rx.ScrollView style={styles.scroll} >
                 <rx.View style={styles.container} >
                     {titleLayout}
                     {this.state.children}

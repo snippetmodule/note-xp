@@ -12,7 +12,10 @@ class UserManager extends StoreBase {
     }
     save(response: string) {
         return UrlCacheUtils.save('file://userloginInfo', response)
-            .then(() => this.mUser.json(response))
+            .then(() => {
+                this.mUser.json(response);
+                this.trigger();
+            })
 
     }
 
@@ -41,13 +44,13 @@ export class User {
     }
 }
 interface UserInfo {
-    id:string,
-    userNo:string,
+    id: string,
+    userNo: string,
     nickName: string;
-    hasCerted:boolean;
-    description:string;
-    token:string;
-    life:number;
+    hasCerted: boolean;
+    description: string;
+    token: string;
+    life: number;
 }
 
-export let Instance =  new UserManager();
+export let Instance = new UserManager();

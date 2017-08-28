@@ -1,5 +1,6 @@
 import RX = require('reactxp');
 import React = require('react');
+import Navigator, { Types } from 'reactxp-navigation';
 
 import Md5 = require('./Md5Utils');
 import StringUtils = require('./StringUtils');
@@ -17,7 +18,7 @@ type NavigatorScene = {
 
 let _navigatorScene: NavigatorScene = {};
 
-export let _navigator: RX.Navigator;
+export let _navigator: Navigator;
 
 export function registerMain<P>(params: GoParams<P>) {
     params = {
@@ -62,7 +63,7 @@ export function replace<P>(params: GoParams<P>) {
         customSceneConfig: params.customSceneConfig
     });
 }
-export function renderScene(navigatorRoute: RX.Types.NavigatorRoute): JSX.Element {
+export function renderScene(navigatorRoute: Types.NavigatorRoute): JSX.Element {
     let params = _navigatorScene[navigatorRoute.routeId];
 
     if (!params) {

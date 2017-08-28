@@ -60,9 +60,10 @@ interface Prop extends rx.CommonStyledProps<rx.Types.ViewStyle> {
     onRight?: () => void,
 }
 interface State {
-    children?: React.ReactNode | React.ReactNode[];
-    dividerLine?: boolean,
-    right?: boolean,
+    isShowTitle: boolean,
+    children: React.ReactNode | React.ReactNode[];
+    dividerLine: boolean,
+    right: boolean,
 }
 class TitleComponent extends rx.Component<Prop, State>{
     public static defaultProps: Prop = {
@@ -74,12 +75,8 @@ class TitleComponent extends rx.Component<Prop, State>{
     };
     constructor(prop: Prop, state: State) {
         super(prop, state);
-        this.state = { children: this.props.children, dividerLine: true, right: false };
+        this.state = { isShowTitle: this.props.isShowTitle, children: this.props.children, dividerLine: true, right: false };
         this.setState = this.setState.bind(this);
-    }
-    setState(newState: State) {
-        newState = { ...this.state, ...newState };
-        super.setState(newState);
     }
     render() {
         let titleBtn = this.props.titleImg
@@ -116,22 +113,25 @@ class TitleComponent extends rx.Component<Prop, State>{
                     </rx.Button>)
                     : null
             );
+        let titleLayout = this.state.isShowTitle ? (
+            <rx.View style={styles.titleContainer} ref='titleLayout'>
+                <rx.Button onPress={this.props.onBack} style={styles.backBtn}>
+                    <Widget.FitImage source={this.props.backImg} resizeMode='auto' />
+                </rx.Button>
+                {titleBtn}
+                {
+                    this.state.right ? rightBtn : null
+                }
+                {
+                    this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null
+                }
+
+            </rx.View>
+        ) : null;
         return (
             <rx.ScrollView style={styles.scroll}>
-                <rx.View style={styles.container}>
-                    <rx.View style={styles.titleContainer} ref='titleLayout'>
-                        <rx.Button onPress={this.props.onBack} style={styles.backBtn}>
-                            <Widget.FitImage source={this.props.backImg} resizeMode='auto' />
-                        </rx.Button>
-                        {titleBtn}
-                        {
-                            this.state.right ? rightBtn : null
-                        }
-                        {
-                            this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null
-                        }
-
-                    </rx.View>
+                <rx.View style={styles.container} >
+                    {titleLayout}
                     {this.state.children}
                 </rx.View>
             </rx.ScrollView>

@@ -9,8 +9,8 @@ export default class SplashComponent extends rx.Component<{}, null> {
     render() {
         return (
             <fm.component.TitleComponent ref='titleLayout' isShowTitle={false}>
-                <rx.Image source='asserts/login/logo.png'>
-                </rx.Image>
+                <fm.component.widget.FitImage source='asserts/login/logo.png'>
+                </fm.component.widget.FitImage>
             </fm.component.TitleComponent>
         );
     }

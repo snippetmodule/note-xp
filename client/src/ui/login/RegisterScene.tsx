@@ -67,33 +67,64 @@ interface State {
     checkCode: string;
     checkCodeResult: fm.component.HttpStore.HttpResponse<models.Json.CheckCode[]>;
     registerResult: fm.component.HttpStore.HttpResponse<models.Json.RegisterInfo[]>;
+    checkCodeTime: number;
 }
 
 export = class RegisterScene extends fm.ComponentBase<{}, State>{
     private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCode[]> = new fm.component.HttpStore.HttpStore();
     private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfo[]> = new fm.component.HttpStore.HttpStore();
 
+    private _intervalToken: number;
     constructor(props?: {}) {
         super(props);
     }
 
     protected _buildState(props: {}, initialBuild: boolean): State {
-        return {
+        const newState = {
             ...this.state,
             isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
             checkCodeResult: this.mGetCodeStore.getHttpResonse(),
             registerResult: this.mLoginStore.getHttpResonse(),
+            checkCodeTime: 0,
         };
+        if (newState.registerResult.state === 'sucess') {
+            window.setTimeout(() => {
+                let message = this.state.registerResult.result.message;
+                fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
+                fm.utils.NavUtils.goToMain();
+            });
+        }
+        if (newState.checkCodeResult.state === 'sucess') {
+            window.setTimeout(() => {
+                this._startInterval();
+            });
+        }
+        return newState;
+    }
+
+    componentWillUnmount() {
+        this._stopInterval();
+    }
+    private _startInterval = () => {
+        this.setState({ ...this.state, checkCodeTime: 60 });
+        this._intervalToken = window.setInterval(() => {
+            if (this.state.checkCodeTime <= 0) {
+                window.clearInterval(this._intervalToken);
+                return;
+            }
+            this.setState({ ...this.state, checkCodeTime: this.state.checkCodeTime - 1 });
+        }, 1000);
+    }
+
+    private _stopInterval = () => {
+        if (this._intervalToken) {
+            window.clearInterval(this._intervalToken);
+            this._intervalToken = undefined;
+        }
     }
     render() {
-        if (this.state.isLogined) {
-            fm.utils.NavUtils.goToMain();
-            return null;
-        }
-        if(this.state.registerResult.state ==='sucess'){
-            let message = this.state.registerResult.result.message;
-            fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
-        }
+        let codeTex = this.state.checkCodeTime || 'Code';
+        fm.utils.Log.i('@@@@@@@@@@@',codeTex +'');
         return (
             <fm.component.TitleComponent title='手机登录'>
                 <rx.TextInput placeholder='Phone'
@@ -122,14 +153,14 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
                         onChangeText={this._onCheckCodeChange}
                     >
                     </rx.TextInput>
-                    <rx.Button onPress={this._onGetCode} style={styles.codeBtn}>
+                    <rx.Button onPress={this._onGetCode} style={[styles.codeBtn]}>
                         <rx.Text style={styles.codeTxt}>
-                            Code
+                            {codeTex}
                         </rx.Text>
                     </rx.Button>
                 </rx.View>
                 <rx.View style={[styles.dividerLine]} />
-                <rx.Button style={styles.registerLaout} onPress={this._onRegiser} ref='register'>
+                <rx.Button style={[styles.registerLaout]} onPress={this._onRegiser} ref='register'>
                     <rx.Text style={styles.registerTxt}>
                         Continue
                         </rx.Text>
@@ -144,6 +175,9 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
         this.setState({ ...this.state, checkCode: v });
     }
     private _onGetCode = () => {
+        if(this.state.checkCodeTime){
+            return;
+        }
         let number = this.state.phoneNumber;
         if (/[1][34578]\d{9}/.test(number)) {
             this.mGetCodeStore.exeHttp({
@@ -162,7 +196,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
             fm.utils.PopupUtils.Toast.show({ getAnchor: () => this.refs['register'], content: 'phone_register_check_code_empty' });
             return;
         }
-        let messages = this.state.checkCodeResult.result.message as  [models.Json.CheckCode];
+        let messages = this.state.checkCodeResult.result.message as [models.Json.CheckCode];
         let verifyingId = messages[0].verifyingId;
         let task = fm.utils.RestUtils.request<models.Json.RegisterInfo[]>({
             url: utils.UrlConst.RegisterUrl + '/' + verifyingId,

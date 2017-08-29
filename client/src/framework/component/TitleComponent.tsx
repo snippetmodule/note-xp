@@ -11,10 +11,11 @@ const styles = {
     }),
     container: rx.Styles.createViewStyle({
         flexDirection:'column',
-        flex:1,
-        alignSelf: 'stretch',
-        alignContent:'stretch',
-        position:'relative',
+        left:0,
+        top:0,
+        bottom:0,
+        right:0,
+        position:'absolute',
         // justifyContent: 'center',
         // alignItems: 'stretch'
     }),

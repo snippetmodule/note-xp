@@ -38,7 +38,9 @@ export class User {
     get isLogined(): boolean {
         return this.mInfo && true;
     }
-
+    get token(): string {
+        return this.mInfo ? this.mInfo.token : '';
+    }
     json(response: string) {
         this.mInfo = JSON.parse(response);
     }

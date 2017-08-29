@@ -10,13 +10,13 @@ const styles = {
         backgroundColor: '#f5f5f5'
     }),
     container: rx.Styles.createViewStyle({
-        flexDirection:'column',
-        left:0,
-        top:0,
-        bottom:0,
-        right:0,
-        position:'absolute',
-        // justifyContent: 'center',
+        flexDirection: 'column',
+        left: 0,
+        top: 0,
+        bottom: 0,
+        right: 0,
+        position: 'absolute',
+        alignItems: 'stretch',
         // alignItems: 'stretch'
     }),
     titleContainer: rx.Styles.createViewStyle({
@@ -47,7 +47,6 @@ const styles = {
         width: 56
     }),
     dividerLine: rx.Styles.createViewStyle({
-        alignSelf: 'stretch',
         height: 0.5,
         backgroundColor: '#d0d0d0'
     }),
@@ -67,7 +66,6 @@ interface Prop extends rx.CommonStyledProps<rx.Types.ViewStyle> {
 }
 interface State {
     isShowTitle: boolean,
-    children: React.ReactNode | React.ReactNode[];
     dividerLine: boolean,
     right: boolean,
 }
@@ -81,66 +79,44 @@ class TitleComponent extends rx.Component<Prop, State>{
     };
     constructor(prop: Prop, state: State) {
         super(prop, state);
-        this.state = { isShowTitle: this.props.isShowTitle, children: this.props.children, dividerLine: true, right: false };
+        this.state = { isShowTitle: this.props.isShowTitle, dividerLine: true, right: false };
         this.setState = this.setState.bind(this);
     }
     render() {
-        let titleBtn = this.props.titleImg
-            ? (
-                <rx.Button onPress={this.props.onTitle} style={[styles.titleBtn, this.state.right ? {} : { marginRight: 56 }]}>
-                    <rx.Image source={this.props.titleImg} >
-                    </rx.Image>
-                    <rx.Text style={styles.titleTex}>
-                        {this.props.title}
-                    </rx.Text>
-                </rx.Button>
-            ) : (
-                <rx.Button onPress={this.props.onTitle} style={[styles.titleBtn, this.state.right ? {} : { marginRight: 56 }]}>
-                    <rx.Text style={styles.titleTex}>
-                        {this.props.title}
-                    </rx.Text>
-                </rx.Button>
-            );
-        let rightBtn = this.props.right
-            ? (
-                <rx.Button onPress={this.props.onRight}>
-                    <rx.Image source={this.props.rightImg}>
-                    </rx.Image>
-                    <rx.Text >
-                        {this.props.right}
-                    </rx.Text>
-                </rx.Button>
-            ) : (
-                this.props.right
-                    ? (<rx.Button onPress={this.props.onRight}>
-                        <rx.Text >
-                            {this.props.right}
-                        </rx.Text>
-                    </rx.Button>)
-                    : null
-            );
+        let titleBtn = this.renderBtn(this.props.title, this.props.titleImg, [styles.titleBtn, this.state.right ? {} : { marginRight: 56 }], styles.titleTex, this.props.onTitle);
+        let rightBtn = this.renderBtn(this.props.right, this.props.rightImg, null, null, this.props.onRight);
         let titleLayout = this.state.isShowTitle ? (
             <rx.View style={styles.titleContainer} ref='titleLayout'>
                 <rx.Button onPress={this.props.onBack} style={styles.backBtn}>
                     <Widget.FitImage source={this.props.backImg} resizeMode='auto' />
                 </rx.Button>
                 {titleBtn}
-                {
-                    this.state.right ? rightBtn : null
-                }
-                {
-                    this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null
-                }
-
+                {rightBtn}
             </rx.View>
         ) : null;
         return (
             <rx.ScrollView style={styles.scroll} >
                 <rx.View style={styles.container} >
                     {titleLayout}
-                    {this.state.children}
+                    {
+                        this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null
+                    }
+                    {this.props.children}
                 </rx.View>
             </rx.ScrollView>
+        );
+    }
+    private renderBtn = (title: string, img: string, btnstyle: rx.Types.StyleRuleSetRecursive<rx.Types.ButtonStyle>,
+        titleStyle: rx.Types.StyleRuleSetRecursive<rx.Types.TextStyle>, onPress: () => any) => {
+        return (
+            <rx.Button onPress={onPress} style={btnstyle}>
+                {img === null ? null : (<Widget.FitImage source={img} />)}
+                {title === null ? null : (
+                    <rx.Text style={titleStyle}>
+                        {title}
+                    </rx.Text>
+                )}
+            </rx.Button>
         );
     }
 }

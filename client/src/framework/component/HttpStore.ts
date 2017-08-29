@@ -7,8 +7,8 @@ import RestUtils = require('../utils/RestUtils');
 export type State = 'idle' | 'loading' | 'sucess' | 'fail';
 export type HttpResponse<T> = {
     state: State,
-    startTime?:number,
-    endTime?:number,
+    startTime?: number,
+    endTime?: number,
     result?: BaseJson<T>
 };
 
@@ -18,7 +18,7 @@ export class HttpStore<T> extends StoreBase {
 
     @autoSubscribe
     getHttpResonse() {
-        return {...this.response};
+        return { ...this.response };
     }
 
     exeHttp(params: HttpParams) {

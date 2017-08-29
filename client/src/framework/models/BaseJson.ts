@@ -2,7 +2,7 @@
 
 export default interface BaseJons<T>{
     code:number;
-    message:T|T[];
+    message:T;
     serverTime:string;
     des:string;
 }

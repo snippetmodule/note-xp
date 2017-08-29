@@ -1,51 +1,72 @@
 import React = require('react');
 
 import rx = require('reactxp');
+import SyncTasks = require('synctasks');
+
 import { ComponentBase } from 'resub';
 
+import { EmptyView } from './widget/EmptyView';
 import { HttpParams } from "../utils/RestUtils";
 import BaseJson from '../models/BaseJson';
-import { HttpStore ,HttpResponse} from "./HttpStore";
+import { HttpStore, HttpResponse } from "./HttpStore";
 
-
-interface HttpProps<T> extends rx.CommonStyledProps<rx.Types.ViewStyle>{
+interface HttpProps<T> extends rx.CommonStyledProps<rx.Types.ViewStyle> {
     httpParams?: HttpParams;
-    httpStore?: HttpStore<any>; // 可能其它组件发起http ,此组件来监听结果
-    onIdle?: () => JSX.Element;
+    task?: SyncTasks.Promise<BaseJson<T>>;
     onLoading?: () => JSX.Element;
-    onSucess: (result: BaseJson<any>) => JSX.Element;
+    onSucess: (result: BaseJson<T>) => JSX.Element;
     onFail?: (err: any) => JSX.Element;
 }
-interface MainPanelProps<T> {
-    httpParams?:HttpParams;
-    httpStore?:HttpStore<T>;
-    onIdle?:()=>JSX.Element;
-}
 
-class HttpComponent<T> extends ComponentBase<HttpProps<T>,HttpResponse<T>> {
+export class HttpComponent<T> extends ComponentBase<HttpProps<T>, HttpResponse<T>> {
+
+    private _httpStore: HttpStore<T>;
+
     protected _buildState(props: HttpProps<T>, initialBuild: boolean): HttpResponse<T> {
-        let mHttpStore: HttpStore<T> = this.props.httpStore;
-        if (!mHttpStore) {
-            mHttpStore = new HttpStore();
-            mHttpStore.exeHttp(this.props.httpParams);
+        if (!this._httpStore) {
+            this._httpStore = new HttpStore();
+            window.setTimeout(this.freshData);
         }
-        return mHttpStore.getHttpResonse()
+        return this._httpStore.getHttpResonse()
     }
 
     render() {
+        let contentView: JSX.Element;
         switch (this.state.state) {
-            case 'idle':
-                return this.props.onIdle() || this.props.onLoading();
             case 'loading':
-                return this.props.onLoading() || this.props.onIdle();
+                contentView = this.renderLoading();
+                break;
             case 'sucess':
-                return this.props.onSucess(this.state.result);
+                contentView = this.props.onSucess(this.state.result);
+                break;
             case 'fail':
-                return this.props.onFail(this.state.result);
+                contentView = this.renderFail();
+                break;
             default:
-                return this.props.onIdle() || this.props.onLoading();
+                contentView = null;
+                break;
         }
+        return contentView;
+    }
+    private renderLoading = () => {
+        if (this.props.onLoading) {
+            return this.props.onLoading();
+        }
+        return (<EmptyView state='loading' btnPress={this.freshData} />);
+    }
+    private renderFail = () => {
+        if (this.props.onFail) {
+            return this.props.onFail(this.state.result);
+        }
+        return (<EmptyView state='fail' btnPress={this.freshData} />);
+    }
 
+    freshData = () => {
+        if (this.props.httpParams) {
+            this._httpStore.exeHttp(this.props.httpParams);
+        }
+        if (this.props.task) {
+            this._httpStore.exeAsync(this.props.task);
+        }
     }
 }
-export = HttpComponent;

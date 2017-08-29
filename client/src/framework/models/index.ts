@@ -1,2 +1,7 @@
-export * from './BaseJson';
-export * from './User';
+import BaseJson from './BaseJson';
+import User from './User';
+
+export　{
+    BaseJson,
+    User,
+}

@@ -3,6 +3,7 @@ import SyncTasks = require('synctasks');
 
 import UrlCacheUtils = require('./UrlCacheUtils');
 import BaseJson from '../models/BaseJson'
+import UserManager = require('../manager/UserManager');
 import Log = require('./Log');
 
 export type HttpParams = {
@@ -17,6 +18,13 @@ export type HttpParams = {
 // const _giphyApiUrl = 'https://api.giphy.com/v1/gifs/search';
 
 class RestClient extends GenericRestClient {
+    // Override _getHeaders to append a custom header with the app ID.
+    protected _getHeaders(options: ApiCallOptions): { [key: string]: string } {
+        let headers = super._getHeaders(options);
+        headers['Client-Device-Id'] = '1213113131313';
+        headers['Authorization'] = `Bearer ${UserManager.Instance.getUser().token}`
+        return headers;
+    }
     public _performApiCall<T>(apiPath: string, action: HttpAction, objToPost: any, givenOptions: ApiCallOptions): SyncTasks.Promise<WebResponse<T>> {
         return super._performApiCall(apiPath, action, objToPost, givenOptions);
     }
@@ -24,10 +32,10 @@ class RestClient extends GenericRestClient {
 
 function requestImpl<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
     const client = new RestClient('');
-    Log.i('RestUtils', `request url:${params.url} \n \t\t method:${params.method} body:${params.body}`);
+    // Log.i('RestUtils', `request url:${params.url} \n \t\t method:${params.method} body:${params.body}`);
     return client._performApiCall<BaseJson<T>>(params.url, params.method || 'GET', params.body || '', null)
         .then((response => {
-            Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
+            // Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if (response.statusCode === 200) {
                 if (!response.body.message && params.emptyUseCache) {
                     return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)

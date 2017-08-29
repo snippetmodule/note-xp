@@ -1,16 +1,16 @@
 function log(tag: string, message: string, method = 'i') {
     switch (method) {
         case 'i':
-            console.info(tag + message);
+            console.info(`${tag}\t: ${message}`);
             break;
         case 'w':
-            console.warn(tag + message);
+            console.warn(`${tag}\t: ${message}`);
             break;
         case 'e':
-            console.error(tag + message);
+            console.error(`${tag}\t: ${message}`);
             break;
         default:
-            console.log(tag + message);
+            console.log(`${tag}\t: ${message}`);
             break;
     }
 

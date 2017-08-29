@@ -1,18 +1,21 @@
 import rx = require('reactxp');
 
 import fm = require('../../framework');
+import { Home } from './home/Home';
+
 const styles = {
     img: rx.Styles.createImageStyle({
-        position:'absolute',
-        bottom:90,
+        position: 'absolute',
+        bottom: 90,
         alignSelf: 'center',
-        alignContent:'flex-end',
-        alignItems:'center',
+        alignContent: 'flex-end',
+        alignItems: 'center',
     }),
 };
+
 export default class SplashComponent extends rx.Component<{}, null> {
+
     private _progressTimerToken: number;
-    // private _curTime = new Date().getTime();
 
     render() {
         return (
@@ -22,6 +25,7 @@ export default class SplashComponent extends rx.Component<{}, null> {
             </fm.component.TitleComponent>
         );
     }
+
     componentDidMount() {
         this._startTimerr();
     }
@@ -29,13 +33,14 @@ export default class SplashComponent extends rx.Component<{}, null> {
     componentWillUnmount() {
         this._stopTimer();
     }
-    private _startTimerr() {
+
+    private _startTimerr = () => {
         this._progressTimerToken = window.setTimeout(() => {
-            //
-        }, 1000);
+            fm.utils.NavUtils.replace({ component: Home });
+        }, 500);
     }
 
-    private _stopTimer() {
+    private _stopTimer = () => {
         if (this._progressTimerToken) {
             window.clearTimeout(this._progressTimerToken);
             this._progressTimerToken = undefined;

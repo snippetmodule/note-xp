@@ -8,3 +8,4 @@ function getUrl(endfix:string){
     return BASE_URL + endfix;
 }
 export const RegisterUrl = getUrl('/verification/phone');
+export const HomeArticleUrl = getUrl('/recommend/article/latest');

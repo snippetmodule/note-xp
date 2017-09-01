@@ -1,3 +1,3 @@
 'use strict';
 
-require('./dist/index');
+require('./dist/build/index');

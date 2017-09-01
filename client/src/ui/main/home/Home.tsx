@@ -18,7 +18,7 @@ const styles = {
         paddingRight: 5
     }),
 };
-let data: fm.models.BaseJson<models.Json.Article[]> = require('./data.json');
+let data: fm.models.BaseJson<models.Json.Article[]> = require('./data');
 
 export class Home extends rx.Component<{}, any>{
     private _list: ArticleItem[];

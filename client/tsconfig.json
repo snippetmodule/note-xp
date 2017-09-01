@@ -10,9 +10,12 @@
     "sourceMap": true,
     "noImplicitAny": true,
     "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "noUnusedLocals": false,
+    "forceConsistentCasingInFileNames": true,
     "outDir": "./dist/build/",
-    "types": [
-      "node"
+    "typeRoots": [
+        "node_modules/@types"
     ]
   },
   "include": [

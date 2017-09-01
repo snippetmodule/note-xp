@@ -27,7 +27,7 @@ export function registerMain<P>(params: GoParams<P>) {
     };
     const md5 = 0; // 默认route id 为0
     _navigatorScene[md5] = params;
-    this._navigator.immediatelyResetRouteStack([{
+    _navigator.immediatelyResetRouteStack([{
         routeId: md5,
         sceneConfigType: params.sceneConfigType
     }]);

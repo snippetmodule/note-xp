@@ -8,7 +8,7 @@ let _db: NoSqlProvider.DbProvider;
 export function init(providersToTry: NoSqlProvider.DbProvider[]): SyncTasks.Promise<void> {
     return _openListOfProviders(providersToTry, DBConfig._databaseName, DBConfig._dbSchema)
         .then((prov: NoSqlProvider.DbProvider) => {
-            this._db = prov;
+            _db = prov;
         });
 }
 
@@ -44,7 +44,7 @@ function _openListOfProviders(providersToTry: NoSqlProvider.DbProvider[], dbName
     return task.promise();
 }
 export function getStore(storeName: string, writeNeeded = false): SyncTasks.Promise<NoSqlProvider.DbStore> {
-    return this._db.openTransaction([storeName], writeNeeded).then((tx:NoSqlProvider.DbTransaction) => {
+    return _db.openTransaction([storeName], writeNeeded).then((tx:NoSqlProvider.DbTransaction) => {
         return tx.getStore(storeName);
     });
 }

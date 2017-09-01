@@ -7,9 +7,6 @@ const styles = {
     img: rx.Styles.createImageStyle({
         position: 'absolute',
         bottom: 90,
-        alignSelf: 'center',
-        alignContent: 'flex-end',
-        alignItems: 'center',
     }),
 };
 

@@ -7,6 +7,7 @@ import StringUtils = require('./StringUtils');
 import DimenUtils = require('./DimenUtils');
 import * as PopupUtils from './PopupUtils';
 
+window.log = Log;
 export {
     Log,
     Md5Utils,

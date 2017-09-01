@@ -34,8 +34,6 @@ export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> 
 
     public render() {
         let children = this.props.children;
-        let ImageComponent = Image;
-
         return (
             <rx.Image
                 {...this.props}

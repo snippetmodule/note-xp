@@ -1,5 +1,4 @@
 import rx = require('reactxp');
-
 import { CordovaNativeSqliteProvider } from 'nosqlprovider/dist/CordovaNativeSqliteProvider';
 import { InMemoryProvider } from 'nosqlprovider/dist/InMemoryProvider';
 

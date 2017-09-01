@@ -126,6 +126,7 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-sqlite-storage')
     compile project(':react-native-video')
     compile project(':react-native-svg')
     compile fileTree(dir: "libs", include: ["*.jar"])

@@ -2,6 +2,15 @@
     "version": "0.1.0",
     "configurations": [
         {
+            "name": "Debug Android",
+            "program": "${workspaceRoot}/.vscode/launchReactNative.js",
+            "type": "reactnative",
+            "request": "launch",
+            "platform": "android",
+            "sourceMaps": true,
+            "outDir": "${workspaceRoot}/.vscode/.react"
+        },
+        {
             "name": "Launch localhost",
             "type": "chrome",
             "request": "launch",

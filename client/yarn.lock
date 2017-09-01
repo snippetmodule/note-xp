@@ -1869,7 +1869,7 @@ fbjs-scripts@^0.7.0:
     semver "^5.1.0"
     through2 "^2.0.0"
 
-fbjs@^0.8.5, fbjs@^0.8.9, fbjs@~0.8.9:
+fbjs@^0.8.1, fbjs@^0.8.4, fbjs@^0.8.5, fbjs@^0.8.9, fbjs@~0.8.9:
   version "0.8.14"
   resolved "http://registry.npm.taobao.org/fbjs/download/fbjs-0.8.14.tgz#d1dbe2be254c35a91e09f31f9cd50a40b2a0ed1c"
   dependencies:
@@ -3498,7 +3498,7 @@ promise@^7.1.1:
   dependencies:
     asap "~2.0.3"
 
-prop-types@^15.5.10, prop-types@^15.5.2, prop-types@^15.5.9, prop-types@~15.5.0:
+prop-types@^15.5.10, prop-types@^15.5.9:
   version "15.5.10"
   resolved "http://registry.npm.taobao.org/prop-types/download/prop-types-15.5.10.tgz#2797dfc3126182e3a95e3dfbb2e893ddd7456154"
   dependencies:
@@ -3616,14 +3616,13 @@ react-deep-force-update@^1.0.0:
   version "1.1.1"
   resolved "http://registry.npm.taobao.org/react-deep-force-update/download/react-deep-force-update-1.1.1.tgz#bcd31478027b64b3339f108921ab520b4313dc2c"
 
-react-dom@15.5.3:
-  version "15.5.3"
-  resolved "http://registry.npm.taobao.org/react-dom/download/react-dom-15.5.3.tgz#2ee127ce942df55da53111ae303316e68072b5c5"
+react-dom@15.4.1:
+  version "15.4.1"
+  resolved "http://registry.npm.taobao.org/react-dom/download/react-dom-15.4.1.tgz#d54c913261aaedb17adc20410d029dcc18a1344a"
   dependencies:
-    fbjs "^0.8.9"
+    fbjs "^0.8.1"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "~15.5.0"
 
 react-native-deprecated-custom-components@^0.1.1:
   version "0.1.1"
@@ -3655,9 +3654,9 @@ react-native-video@^2.0.0:
     keymirror "0.1.1"
     prop-types "^15.5.10"
 
-react-native@0.42.3:
-  version "0.42.3"
-  resolved "http://registry.npm.taobao.org/react-native/download/react-native-0.42.3.tgz#450c8a03a5e3e991a08a426f22776dd8feb80b26"
+react-native@0.42.0:
+  version "0.42.0"
+  resolved "http://registry.npm.taobao.org/react-native/download/react-native-0.42.0.tgz#59b501603a63232598fff653a36307a26010402e"
   dependencies:
     absolute-path "^0.0.0"
     art "^0.10.0"
@@ -3753,14 +3752,13 @@ react-transform-hmr@^1.0.4:
     global "^4.3.0"
     react-proxy "^1.1.7"
 
-react@15.5.3:
-  version "15.5.3"
-  resolved "http://registry.npm.taobao.org/react/download/react-15.5.3.tgz#84055382c025dec4e3b902bb61a8697cc79c1258"
+react@15.4.1:
+  version "15.4.1"
+  resolved "http://registry.npm.taobao.org/react/download/react-15.4.1.tgz#498e918602677a3983cd0fd206dfe700389a0dd6"
   dependencies:
-    fbjs "^0.8.9"
+    fbjs "^0.8.4"
     loose-envify "^1.1.0"
     object-assign "^4.1.0"
-    prop-types "^15.5.2"
 
 reactxp-experimental-navigation@^1.0.7:
   version "1.0.7"
@@ -4494,7 +4492,7 @@ supports-color@^4.0.0:
   dependencies:
     has-flag "^2.0.0"
 
-synctasks@^0.2.10, synctasks@^0.2.12, synctasks@^0.2.9:
+synctasks@^0.2.10, synctasks@^0.2.12, synctasks@^0.2.17, synctasks@^0.2.9:
   version "0.2.21"
   resolved "http://registry.npm.taobao.org/synctasks/download/synctasks-0.2.21.tgz#3b2eeba10ae3278cbf521329a57e02f21c1e7037"
 

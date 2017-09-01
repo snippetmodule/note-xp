@@ -72,14 +72,14 @@ export class EmptyView extends rx.Component<Prop, any>{
         return (
             <rx.View style={styles.continer}>
                 <rx.Animated.Image
-                    source='asserts/common/loading.png' style={[styles.loadingStatic, styles.loadingAnim]} />
+                    source={require('../../../../asserts/common/loading.png')} style={[styles.loadingStatic, styles.loadingAnim]} />
             </rx.View>
         );
     }
     private renderLoadFail = () => {
         return (
             <rx.View style={styles.continer}>
-                <FitImage source={this.props.pic || 'asserts/common/empty_img.png'} />
+                <FitImage source={this.props.pic || require('../../../../asserts/common/empty_img.png')} />
                 <rx.Text style={styles.failHint}>
                     {this.props.hint || '喝杯咖啡休息一会吧'}
                 </rx.Text>

@@ -7,14 +7,13 @@ import * as Widget from './widget';
 const styles = {
     scroll: rx.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
-        backgroundColor: '#0f5',
+        backgroundColor: '#f5fcff',
         flexDirection:'column'
     }),
     container: rx.Styles.createViewStyle({
         flexDirection: 'column',
         alignSelf: 'stretch',
         alignItems: 'stretch',
-        backgroundColor:'#f00',
         flexGrow:1,
         flexShrink:1
         // alignItems: 'stretch'
@@ -24,12 +23,11 @@ const styles = {
         flexDirection: 'row',
         alignItems: 'center',
         height: 56,
-        backgroundColor: '#00ff'
+        backgroundColor: '#fff'
     }),
     backBtn: rx.Styles.createButtonStyle({
         width: 56,
         height:56,
-        backgroundColor:'#ff0000',
         alignItems: 'center',
         justifyContent: 'center',
     }),
@@ -74,7 +72,7 @@ interface State {
 class TitleComponent extends rx.Component<Prop, State>{
     public static defaultProps: Prop = {
         isShowTitle: true,
-        backImg: 'asserts/common/back.png',
+        backImg: require('../../../asserts/common/back.png'),
         onBack: () => NavUtils.goBack(),
         onTitle: () => { },
         onRight: () => { },
@@ -90,19 +88,17 @@ class TitleComponent extends rx.Component<Prop, State>{
         let titleLayout = this.state.isShowTitle ? (
             <rx.View style={styles.titleContainer} ref='titleLayout'>
                 <rx.Button onPress={this.props.onBack} style={styles.backBtn}>
-                    <Widget.FitImage source={this.props.backImg} resizeMode='auto' />
+                    <Widget.FitImage source={this.props.backImg}/>
                 </rx.Button>
                 {titleBtn}
                 {rightBtn}
             </rx.View>
         ) : null;
         return (
-            <rx.ScrollView style={styles.scroll} >
+            <rx.ScrollView style={styles.scroll}  justifyEnd = {true}>
                 <rx.View style={styles.container} >
                     {titleLayout}
-                    {
-                        this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null
-                    }
+                    {this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null}
                     {this.props.children}
                 </rx.View>
             </rx.ScrollView>

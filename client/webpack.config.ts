@@ -25,34 +25,29 @@ const config: webpack.Configuration = {
         loaders: [
             // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
             { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
-            {
-                test: /\.(gif|png|jpe?g|svg)$/i,
-                loaders: [
-                    'file-loader?hash=sha512&digest=hex&name=[hash].[ext]'
-                ]
-            }
+            { test: /\.(gif|png|jpeg|svg)$/i, loaders: ['file-loader?hash=sha512&digest=hex&name=[path][hash].[ext]'] }
         ]
     },
-    plugins:[
+    plugins: [
         new HtmlWebpackPlugin({                        //根据模板插入css/js等生成最终HTML
             // favicon: './src/favicon.ico', //favicon路径
             filename: '../index.html',    //生成的html存放路径，相对于 path
             template: 'index.html',    //html模板路径
             inject: true,    //允许插件修改哪些内容，包括head与body             hash:true,    //为静态资源生成hash值
             minify: {    //压缩HTML文件
-              removeComments: true,    //移除HTML中的注释
-              collapseWhitespace: false    //删除空白符与换行符
+                removeComments: true,    //移除HTML中的注释
+                collapseWhitespace: false    //删除空白符与换行符
             }
-          }),
-          new webpack.DefinePlugin({
+        }),
+        new webpack.DefinePlugin({
             'process.env': {
-              browser: JSON.stringify(true),
-              development:JSON.stringify(true),
-              version:JSON.stringify('0.1'),
+                browser: JSON.stringify(true),
+                development: JSON.stringify(true),
+                version: JSON.stringify('0.1'),
             }
-          }),
-          new webpack.HotModuleReplacementPlugin(),
-          new webpack.NoEmitOnErrorsPlugin()
+        }),
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin()
     ]
 };
 

@@ -38,9 +38,9 @@ export class Home extends rx.Component<{}, any>{
                 onBack={this.onSearch}
                 onTitle={this.onTitle}
                 onRight={this.onMenu}
-                backImg='asserts/home/home_search.png'
-                titleImg='asserts/home/logo.png'
-                rightImg='asserts/home/home_menu.png'
+                backImg={require('../../../../asserts/home/home_search.png')}
+                titleImg={require('../../../../asserts/home/logo.png')}
+                rightImg={require('../../../../asserts/home/home_menu.png')}
             >
                 <fm.component.HttpComponent ref='httpComp'
                     onSucess={this._renderSucess}

@@ -8,7 +8,7 @@
     "buildErr": "ed -s ./node_modules/@types/react-native/index.d.ts <<< $',s/declare global/declare namespace FuckGlobals/g\nw'",
     "errWhenStart": "yarn run buildErr && yarn run watchmanErr",
     "web-watch": "webpack --progress --colors --watch",
-    "preweb-start": "yarn run web-kill && mkdir dist && cp -r ./asserts/ ./dist/asserts/ && yarn run web-watch && echo 'preweb-start end--------' &",
+    "preweb-start": "yarn run web-kill && yarn run web-watch && echo 'preweb-start end--------' &",
     "web-start": "./node_modules/.bin/webpack-dev-server --devtool eval-source-map --host localhost --port 8080 --progress --colors --hot --inline --content-base ./dist --open",
     "web-kill": "rm -rf dist && kill -s 9 `lsof -i:8080 | sed '1d' | awk '{print $2}'` | echo 'kill result:'",
     "rn-watch": "tsc --watch &",

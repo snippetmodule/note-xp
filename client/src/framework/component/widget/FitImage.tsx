@@ -1,6 +1,9 @@
 import React = require('react');
 import rx = require('reactxp');
 
+import DeviceUtils = require('../../utils/DeviceUtils');
+import DimenUtils = require('../../utils/DimenUtils');
+
 interface IFitImageState {
     width: number;
     height: number;
@@ -49,16 +52,19 @@ export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> 
         );
     }
     private getSize() {
-        let { width, height } = this.props.style? this.props.style:{} as any;
-        if(width && height){
-            return { width, height  }
-        }else{
-            return {width:this.state.width,height:this.state.height}
+        let { width, height } = this.props.style ? this.props.style : {} as any;
+        if (width && height) {
+            return { width, height }
+        } else {
+            return { width: this.state.width, height: this.state.height }
         }
     }
     private _onLoad(size: rx.Types.Dimensions) {
         if (!this.mounted) {
             return;
+        }
+        if (DeviceUtils.isNative) {
+            size = { height: size.height / DimenUtils.get(), width: size.width / DimenUtils.get() };
         }
         this.setState({
             ...this.state,

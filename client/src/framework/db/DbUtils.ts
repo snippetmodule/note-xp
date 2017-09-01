@@ -19,7 +19,7 @@ function _openListOfProviders(providersToTry: NoSqlProvider.DbProvider[], dbName
     let providerIndex = 0;
     let errorList: any[] = [];
 
-    console.log('Opening Database: Providers: ' + providersToTry.length);
+    console.log('DbUtils Providers: ' + providersToTry.length);
 
     const tryNext = () => {
         if (providerIndex >= providersToTry.length) {
@@ -29,10 +29,10 @@ function _openListOfProviders(providersToTry: NoSqlProvider.DbProvider[], dbName
 
         let provider = providersToTry[providerIndex];
         provider.open(dbName, schema, false, false).then(() => {
-            console.log('Provider ' + providerIndex + ': Open Success!');
+            console.log('DbUtils Provider ' + providerIndex + ': Open Success!');
             task.resolve(provider);
         }, err => {
-            console.error('Provider ' + providerIndex + ': Open Failure: ' + JSON.stringify(err));
+            console.error('DbUtils Provider ' + providerIndex + ': Open Failure: ' + JSON.stringify(err));
             errorList.push(err);
             providerIndex++;
             tryNext();

@@ -19,7 +19,7 @@ const styles = {
         color: '#333333',
     }),
     logo: rx.Styles.createImageStyle({
-        marginTop: 118
+        marginTop: 118,
     }),
     loginSolution: rx.Styles.createTextStyle({
         fontSize: 14,
@@ -33,13 +33,13 @@ const styles = {
         padding: 10,
     }),
     loginBtn: rx.Styles.createButtonStyle({
-        width:327,
-        height:47,
+        width: 327,
+        height: 47,
         marginTop: 43,
         borderRadius: 4,
         backgroundColor: '#5E62FF',
         opacity: 0.9,
-        alignItems:'center'
+        alignItems: 'center'
     }),
     loginTxt: rx.Styles.createTextStyle({
         color: '#fff',
@@ -55,13 +55,12 @@ export default class LonginComponent extends rx.Component<{}, null>{
                     <rx.Text style={styles.topLoginTxt}>
                         Login
                     </rx.Text>
-                    <rx.Image style={styles.logo} source='asserts/login/logo.png'>
-                    </rx.Image>
+                    <fm.component.widget.FitImage style={styles.logo} source={require('../../../asserts/login/logo.png')} />
                     <rx.Text style={styles.loginSolution}>
                         Login Solution
                     </rx.Text>
                     <rx.Button style={styles.wechatBtn} onPress={this._onPressWeChat}>
-                        <rx.Image style={styles.wechatImg} source='asserts/login/wechat.png' />
+                        <fm.component.widget.FitImage style={styles.wechatImg} source={require('../../../asserts/login/wechat.png')} />
                     </rx.Button>
                     <rx.Button style={styles.loginBtn} onPress={this._onPressRegitser}>
                         <rx.Text style={styles.loginTxt}>
@@ -76,6 +75,6 @@ export default class LonginComponent extends rx.Component<{}, null>{
         // this.props.onShowTodoPanel();
     }
     private _onPressRegitser() {
-        fm.utils.NavUtils.go({ component:RegisterScene})
+        fm.utils.NavUtils.go({ component: RegisterScene })
     }
 } 

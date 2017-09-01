@@ -13,7 +13,7 @@
     "noImplicitThis": true,
     "noUnusedLocals": false,
     "forceConsistentCasingInFileNames": true,
-    "outDir": "./dist/build/",
+    "outDir": "./dist/",
     "typeRoots": [
         "node_modules/@types"
     ]

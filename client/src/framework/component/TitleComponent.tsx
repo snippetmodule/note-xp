@@ -7,16 +7,16 @@ import * as Widget from './widget';
 const styles = {
     scroll: rx.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
-        backgroundColor: '#f5f5f5'
+        backgroundColor: '#0f5',
+        flexDirection:'column'
     }),
     container: rx.Styles.createViewStyle({
         flexDirection: 'column',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        right: 0,
-        position: 'absolute',
+        alignSelf: 'stretch',
         alignItems: 'stretch',
+        backgroundColor:'#f00',
+        flexGrow:1,
+        flexShrink:1
         // alignItems: 'stretch'
     }),
     titleContainer: rx.Styles.createViewStyle({
@@ -24,10 +24,12 @@ const styles = {
         flexDirection: 'row',
         alignItems: 'center',
         height: 56,
-        backgroundColor: '#fff'
+        backgroundColor: '#00ff'
     }),
     backBtn: rx.Styles.createButtonStyle({
         width: 56,
+        height:56,
+        backgroundColor:'#ff0000',
         alignItems: 'center',
         justifyContent: 'center',
     }),

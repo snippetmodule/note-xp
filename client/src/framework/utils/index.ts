@@ -5,6 +5,7 @@ import NavUtils = require('./NavUtils');
 import UrlCacheUtils = require('./UrlCacheUtils');
 import StringUtils = require('./StringUtils');
 import DimenUtils = require('./DimenUtils');
+import DeviceUtils = require('./DeviceUtils');
 import * as PopupUtils from './PopupUtils';
 
 window.log = Log;
@@ -16,5 +17,6 @@ export {
     UrlCacheUtils,
     StringUtils,
     DimenUtils,
+    DeviceUtils,
     PopupUtils,
 }

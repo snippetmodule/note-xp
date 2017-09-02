@@ -25,7 +25,7 @@ const styles = {
             {
                 rotate: loadingValue.interpolate({
                     inputRange: [0, 1],
-                    outputRange: [0, 360]
+                    outputRange: ['0deg', '360deg']
                 }),
             }
         ]
@@ -57,6 +57,11 @@ export class EmptyView extends rx.Component<Prop, any>{
         easing: rx.Animated.Easing.Linear(),
         loop: { restartFrom: 0 }
     });
+    componentDidUpdate(prevProps: Prop, prevState: any, prevContext: any): void{
+        if(this.props.state === 'loading'){
+            this._loadingAnim.start();
+        }
+    }
     render() {
         switch (this.props.state) {
             case 'loading':
@@ -68,7 +73,6 @@ export class EmptyView extends rx.Component<Prop, any>{
         }
     }
     private renderLoading = () => {
-        this._loadingAnim.start();
         return (
             <rx.View style={styles.continer}>
                 <rx.Animated.Image

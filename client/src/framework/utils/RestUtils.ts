@@ -32,10 +32,10 @@ class RestClient extends GenericRestClient {
 
 function requestImpl<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
     const client = new RestClient('');
-    // Log.i('RestUtils', `request url:${params.url} \n \t\t method:${params.method} body:${params.body}`);
+    Log.i('RestUtils', `request url:${params.url} \n \t\t method:${params.method} body:${params.body}`);
     return client._performApiCall<BaseJson<T>>(params.url, params.method || 'GET', params.body || '', null)
         .then((response => {
-            // Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
+            Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if (response.statusCode === 200) {
                 if (!response.body.message && params.emptyUseCache) {
                     return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)

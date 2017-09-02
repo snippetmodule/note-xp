@@ -5,7 +5,6 @@ import { Home } from './home/Home';
 
 const styles = {
     img: rx.Styles.createImageStyle({
-        position: 'absolute',
         bottom: 90,
     }),
 };

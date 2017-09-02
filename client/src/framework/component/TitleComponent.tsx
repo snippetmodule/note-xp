@@ -8,14 +8,15 @@ const styles = {
     scroll: rx.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
         backgroundColor: '#f5fcff',
-        flexDirection:'column'
+        flexDirection: 'column'
     }),
     container: rx.Styles.createViewStyle({
         flexDirection: 'column',
         alignSelf: 'stretch',
         alignItems: 'stretch',
-        flexGrow:1,
-        flexShrink:1
+        flexGrow: 1,
+        flexShrink: 1,
+
         // alignItems: 'stretch'
     }),
     titleContainer: rx.Styles.createViewStyle({
@@ -27,7 +28,7 @@ const styles = {
     }),
     backBtn: rx.Styles.createButtonStyle({
         width: 56,
-        height:56,
+        height: 56,
         alignItems: 'center',
         justifyContent: 'center',
     }),
@@ -88,14 +89,14 @@ class TitleComponent extends rx.Component<Prop, State>{
         let titleLayout = this.state.isShowTitle ? (
             <rx.View style={styles.titleContainer} ref='titleLayout'>
                 <rx.Button onPress={this.props.onBack} style={styles.backBtn}>
-                    <Widget.FitImage source={this.props.backImg}/>
+                    <Widget.FitImage source={this.props.backImg} />
                 </rx.Button>
                 {titleBtn}
                 {rightBtn}
             </rx.View>
         ) : null;
         return (
-            <rx.ScrollView style={styles.scroll}  justifyEnd = {true}>
+            <rx.ScrollView style={styles.scroll} justifyEnd={true}>
                 <rx.View style={styles.container} >
                     {titleLayout}
                     {this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null}

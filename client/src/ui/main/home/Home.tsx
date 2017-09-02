@@ -60,9 +60,7 @@ export class Home extends rx.Component<{}, any>{
 
     private _renderSucess = (result: fm.models.BaseJson<models.Json.Article[]>) => {
         return (
-            <rx.Text>
-                sucess
-            </rx.Text>
+            <ArticleListComp data={result.message} />
         );
     }
 }

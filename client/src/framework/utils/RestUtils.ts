@@ -5,6 +5,7 @@ import UrlCacheUtils = require('./UrlCacheUtils');
 import BaseJson from '../models/BaseJson'
 import UserManager = require('../manager/UserManager');
 import Log = require('./Log');
+import _ = require('lodash');
 
 export type HttpParams = {
     url: string;
@@ -29,33 +30,36 @@ class RestClient extends GenericRestClient {
         return super._performApiCall(apiPath, action, objToPost, givenOptions);
     }
 }
-
+function findInCache<T>(params: HttpParams, response: WebResponse<BaseJson<T>>): SyncTasks.Promise<BaseJson<T>> {
+    return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
+        .then(cache => {
+            if (cache) {
+                return JSON.parse(cache.response) as BaseJson<T>;
+            } else {
+                return SyncTasks.Rejected(`{$response.url} \n {$response.statusCode} {$reponse.statusText}`);
+            }
+        });
+}
 function requestImpl<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
     const client = new RestClient('');
     Log.i('RestUtils', `request url:${params.url} \n \t\t method:${params.method} body:${params.body}`);
     return client._performApiCall<BaseJson<T>>(params.url, params.method || 'GET', params.body || '', null)
-        .then((response => {
+        .then((response: WebResponse<BaseJson<T>>) => {
             Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if (response.statusCode === 200) {
-                if (!response.body.message && params.emptyUseCache) {
-                    return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
-                        .then(cache => {
-                            if (cache) {
-                                return JSON.parse(cache.response) as BaseJson<T>;
-                            } else {
-                                return SyncTasks.Rejected(`{$response.url} \n return 200,but no message,Cache also return empty`);
-                            }
-                        });
-
+                let messages = response.body.message;
+                if (params.emptyUseCache && (!messages || (_.isArray(messages) && (messages as any).length === 0))) {
+                    return findInCache(params, response);
                 }
-                if (!response.body.message && (params.expiredTime > 0 || params.emptyUseCache)) {
+                if ((params.expiredTime > 0 || params.emptyUseCache) &&
+                    ((_.isArray(messages) && (messages as any).length === 0) || (_.isObject(messages)))) {
                     UrlCacheUtils.save(params.url, JSON.stringify(response.body), params.method, params.body);
                 }
                 return response.body;
             } else {
-                return SyncTasks.Rejected(`{$response.url} \n {$response.statusCode} {$reponse.statusText}`);
+                return findInCache(params, response);
             }
-        }));
+        });
 }
 export function request<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
     if (params.expiredTime && params.expiredTime > 0) {

@@ -14,6 +14,10 @@ interface State {
     isLoaded: boolean;
 }
 export class App extends rx.Component<{}, State> {
+    constructor(props: {}, context: any) {
+        super(props, context);
+        this.state = { isLoaded: false };
+    }
     render() {
         return (
             <rx.Navigator
@@ -25,10 +29,12 @@ export class App extends rx.Component<{}, State> {
     }
 
     private _onNavigatorRef = (navigator: Navigator) => {
-        fm.utils.NavUtils.registerMain(navigator, {
-            component: MainScene
-        });
-        this.setState({ isLoaded: true });
+        if (this.state.isLoaded === false) {
+            fm.utils.NavUtils.registerMain(navigator, {
+                component: MainScene
+            });
+            this.setState({ isLoaded: true });
+        }
     }
     private _renderScene = (navigatorRoute: Types.NavigatorRoute) => {
         if (this.state && this.state.isLoaded) {

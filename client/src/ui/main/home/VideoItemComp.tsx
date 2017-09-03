@@ -47,7 +47,6 @@ export class VideoItemComp extends rx.Component<ArticleItem, null>{
                     <Video ref='video'
                         style={styles.content}
                         source={this.props.data.videoUrl}
-                        showControls={true}
                         resizeMode='contain' />
                 </rx.View>
             </SimpleItemComp>

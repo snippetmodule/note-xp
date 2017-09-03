@@ -5,19 +5,18 @@ import NavUtils = require('../utils/NavUtils');
 import * as Widget from './widget';
 
 const styles = {
-    scroll: rx.Styles.createScrollViewStyle({
-        alignSelf: 'stretch',
-        backgroundColor: '#f5fcff',
-        flexDirection: 'column'
+    root: rx.Styles.createViewStyle({
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        flex: 1,
+        alignSelf: 'stretch'
     }),
     container: rx.Styles.createViewStyle({
         flexDirection: 'column',
-        alignSelf: 'stretch',
         alignItems: 'stretch',
-        flexGrow: 1,
-        flexShrink: 1,
-
-        // alignItems: 'stretch'
+        backgroundColor: '#f5fcff',
+        alignSelf: 'stretch',
+        flex: 1,
     }),
     titleContainer: rx.Styles.createViewStyle({
         alignSelf: 'stretch',
@@ -96,13 +95,13 @@ class TitleComponent extends rx.Component<Prop, State>{
             </rx.View>
         ) : null;
         return (
-            <rx.ScrollView style={styles.scroll} justifyEnd={true}>
-                <rx.View style={styles.container} >
-                    {titleLayout}
-                    {this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null}
+            <rx.View style={styles.root}>
+                {titleLayout}
+                {this.state.dividerLine ? <rx.View style={styles.dividerLine} ref='dividerLine' /> : null}
+                <rx.View style={[styles.container]} >
                     {this.props.children}
                 </rx.View>
-            </rx.ScrollView>
+            </rx.View>
         );
     }
     private renderBtn = (title: string, img: string, btnstyle: rx.Types.StyleRuleSetRecursive<rx.Types.ButtonStyle>,

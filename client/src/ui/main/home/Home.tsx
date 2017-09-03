@@ -43,8 +43,9 @@ export class Home extends rx.Component<{}, any>{
                 rightImg={require('../../../../asserts/home/home_menu.png')}
             >
                 <fm.component.HttpComponent ref='httpComp'
-                    onSucess={this._renderSucess}
                     onFail={this._renderFail}
+                    onSucess={this._renderSucess}
+                    onSucessFilter={this._onSucessFilter}
                     httpParams={{
                         url: utils.UrlConst.HomeArticleUrl,
                         emptyUseCache: true
@@ -62,5 +63,8 @@ export class Home extends rx.Component<{}, any>{
         return (
             <ArticleListComp data={result.message} />
         );
+    }
+    private _onSucessFilter = (result: fm.models.BaseJson<models.Json.Article[]>) => {
+        return result.message.length === 0;
     }
 }

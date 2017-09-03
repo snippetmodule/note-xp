@@ -15,6 +15,7 @@ interface HttpProps<T> extends rx.CommonStyledProps<rx.Types.ViewStyle> {
     task?: SyncTasks.Promise<BaseJson<T>>;
     onLoading?: () => JSX.Element;
     onSucess: (result: BaseJson<T>) => JSX.Element;
+    onSucessFilter?: (result: BaseJson<T>) => boolean; // 根据http 结果判断结果是否有效,有校会调用:onSucess
     onFail?: (err: any) => JSX.Element;
 }
 
@@ -37,7 +38,7 @@ export class HttpComponent<T> extends ComponentBase<HttpProps<T>, HttpResponse<T
                 contentView = this.renderLoading();
                 break;
             case 'sucess':
-                contentView = this.props.onSucess(this.state.result);
+                contentView = this.renderSucess();
                 break;
             case 'fail':
                 contentView = this.renderFail();
@@ -60,7 +61,15 @@ export class HttpComponent<T> extends ComponentBase<HttpProps<T>, HttpResponse<T
         }
         return (<EmptyView state='fail' btnPress={this.freshData} />);
     }
-
+    private renderSucess = () => {
+        if (!this.props.onSucessFilter) {
+            return this.props.onSucess(this.state.result);
+        }
+        if (!this.props.onSucessFilter(this.state.result)) {
+            return this.props.onSucess(this.state.result);
+        }
+        return (<EmptyView state='fail' btnPress={this.freshData} />);
+    }
     freshData = () => {
         if (this.props.httpParams) {
             this._httpStore.exeHttp(this.props.httpParams);

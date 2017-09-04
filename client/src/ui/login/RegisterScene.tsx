@@ -12,7 +12,7 @@ const styles = {
         height: 48,
         backgroundColor: 'transparent',
         fontSize: 16,
-        color: '#BBBBBB',
+        color: '#333333',
     }),
     dividerLine: rx.Styles.createViewStyle({
         height: 1,
@@ -30,7 +30,7 @@ const styles = {
         backgroundColor: 'transparent',
         fontSize: 16,
         flex: 1,
-        color: '#BBBBBB',
+        color: '#333333',
         marginRight: 6
     }),
     codeBtn: rx.Styles.createButtonStyle({
@@ -41,7 +41,7 @@ const styles = {
         flexDirection: 'row',
         borderWidth: 2,
         borderRadius: 6,
-        borderColor: '#5e63ff'
+        borderColor: '#DFDFDF'
     }),
     codeTxt: rx.Styles.createTextStyle({
         fontSize: 16,
@@ -87,7 +87,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
             registerResult: this.mLoginStore.getHttpResonse(),
             checkCodeBtn: 0,
         };
-        if (newState.registerResult.state === 'sucess' 
+        if (newState.registerResult.state === 'sucess'
             && newState.registerResult.result.code === 200
             && !newState.isLogined) {
             window.setTimeout(() => {

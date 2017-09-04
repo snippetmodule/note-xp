@@ -17,4 +17,6 @@ fm.db.DbUtils.init([
     return fm.manager.UserManager.Instance.init();
 }).then(() => {
     rx.UserInterface.setMainView(<App />);
+}).catch((err) => {
+    fm.utils.Log.i('Index', err);
 });

@@ -6,6 +6,8 @@ import UrlCacheUtils = require('./UrlCacheUtils');
 import StringUtils = require('./StringUtils');
 import DimenUtils = require('./DimenUtils');
 import DeviceUtils = require('./DeviceUtils');
+import ToastUtils = require('./ToastUtils');
+
 import * as PopupUtils from './PopupUtils';
 
 window.log = Log;
@@ -19,4 +21,5 @@ export {
     DimenUtils,
     DeviceUtils,
     PopupUtils,
+    ToastUtils,
 }

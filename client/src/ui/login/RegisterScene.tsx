@@ -39,9 +39,6 @@ const styles = {
         paddingLeft: 17,
         paddingRight: 17,
         flexDirection: 'row',
-        borderWidth: 2,
-        borderRadius: 6,
-        borderColor: '#DFDFDF'
     }),
     codeTxt: rx.Styles.createTextStyle({
         fontSize: 16,
@@ -191,11 +188,11 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
             });
             return;
         }
-        fm.utils.PopupUtils.Toast.show({ getAnchor: () => this.refs['register'], content: 'phone_register_number_err' });
+        fm.utils.ToastUtils.show({ getAnchor: () => this.refs['register'], content: 'phone_register_number_err' });
     }
     private _onRegiser = () => {
         if (!this.state.checkCode) {
-            fm.utils.PopupUtils.Toast.show({ getAnchor: () => this.refs['register'], content: 'phone_register_check_code_empty' });
+            fm.utils.ToastUtils.show({ getAnchor: () => this.refs['register'], content: 'phone_register_check_code_empty' });
             return;
         }
         if (!this.state.checkCodeResult.result) {

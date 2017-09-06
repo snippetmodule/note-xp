@@ -188,11 +188,11 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
             });
             return;
         }
-        fm.utils.ToastUtils.show({ getAnchor: () => this.refs['register'], content: 'phone_register_number_err' });
+        fm.utils.ToastUtils.showToast('phone_register_number_err');
     }
     private _onRegiser = () => {
         if (!this.state.checkCode) {
-            fm.utils.ToastUtils.show({ getAnchor: () => this.refs['register'], content: 'phone_register_check_code_empty' });
+            fm.utils.ToastUtils.showToast('phone_register_check_code_empty');
             return;
         }
         if (!this.state.checkCodeResult.result) {

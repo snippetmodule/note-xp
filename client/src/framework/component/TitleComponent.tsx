@@ -101,6 +101,7 @@ class TitleComponent extends rx.Component<Prop, State>{
                 <rx.View style={[styles.container]} >
                     {this.props.children}
                 </rx.View>
+                <Widget.ToastView />
             </rx.View>
         );
     }

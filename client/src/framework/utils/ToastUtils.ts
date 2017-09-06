@@ -2,41 +2,20 @@
 import rx = require('reactxp');
 import React = require('react');
 
-const ID = 'toast';
+import { ToastMessage } from '../component/widget/ToastView';
 
-export type ToastOption = {
-    getAnchor: () => React.Component<any, any>;
-    content?: string;
-    render?: (anchorPosition: rx.Types.PopupPosition, anchorOffset: number,
-        popupWidth: number, popupHeight: number) => JSX.Element;
-}
-let autoDismissTimeout: number = 0;
-export let show = (option: ToastOption) => {
-    if (!option.content && !option.render) {
-        return;
+let _keyCount = 0;
+
+export let _showToastEvent = new rx.Types.SubscribableEvent<(message: ToastMessage) => void>();
+
+export function showToastMessage(message: ToastMessage): void {
+    const isForeground = rx.App.getActivationState() === rx.Types.AppActivationState.Active;
+    if (message && isForeground) {
+        _showToastEvent.fire(message);
     }
-    if (autoDismissTimeout > 0) {
-        window.clearTimeout(autoDismissTimeout);
-        autoDismissTimeout = 0;
-    }
-    if (option.content) {
-        option.render = (anchorPosition: rx.Types.PopupPosition, anchorOffset: number,
-            popupWidth: number, popupHeight: number): JSX.Element => {
-            return rx.createElement(rx.Text, null, option.content);
-        }
-    }
-    let popupOptions: rx.Types.PopupOptions = {
-        getAnchor: option.getAnchor,
-        renderPopup: option.render,
-        positionPriorities: ['bottom'],
-    };
-    rx.Popup.dismiss(ID);
-    rx.Popup.show(popupOptions, ID, 500);
-    autoDismissTimeout = window.setTimeout(() => {
-        dismiss();
-    }, 1500)
-    // rx.Popup.autoDismiss(ID, 1500);
 }
-export let dismiss = () => {
-    rx.Popup.dismiss(ID);
+
+export function showToast(textMessage: string): void {
+    showToastMessage({ key: 'key' + _keyCount++, textMessage });
 }
+

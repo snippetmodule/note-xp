@@ -25,7 +25,7 @@
     "logcat": "adb logcat *:S ReactNative:V ReactNativeJS:V"
   },
   "devDependencies": {
-    "@types/node": "^8.0.26",
+    "@types/node": "7.0.12",
     "@types/webpack": "^3.0.10",
     "awesome-typescript-loader": "^3.2.3",
     "file-loader": "^0.11.2",

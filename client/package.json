@@ -50,6 +50,7 @@
     "reactxp-imagesvg": "^0.2.4",
     "reactxp-navigation": "^1.0.8",
     "reactxp-video": "^0.2.0",
+    "reactxp-virtuallistview": "^0.1.4",
     "rebound": "^0.0.15",
     "resub": "^0.0.20",
     "simplerestclients": "^0.0.18",

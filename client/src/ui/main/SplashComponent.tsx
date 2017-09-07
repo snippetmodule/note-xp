@@ -1,7 +1,7 @@
 import rx = require('reactxp');
 
 import fm = require('../../framework');
-import { Home } from './home/Home';
+import { DrawerComp } from './DrawerComp';
 
 const styles = {
     img: rx.Styles.createImageStyle({
@@ -31,7 +31,7 @@ export default class SplashComponent extends rx.Component<{}, null> {
 
     private _startTimerr = () => {
         this._progressTimerToken = window.setTimeout(() => {
-            fm.utils.NavUtils.replace({ component: Home });
+            fm.utils.NavUtils.replace({ component: DrawerComp });
         }, 500);
     }
 

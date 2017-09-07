@@ -116,15 +116,15 @@ declare namespace __React {
         static defaultProps: Props<any>;
 
         constructor(props?: P, context?: any);
-        setState(f: (prevState: S, props: P) => S, callback?: () => any): void;
-        setState(state: S, callback?: () => any): void;
+        setState<K extends keyof S>(f: (prevState: S, props: P) => Pick<S, K>, callback?: () => any): void;
+        setState<K extends keyof S>(state: Pick<S, K>, callback?: () => any): void;
         forceUpdate(callBack?: () => any): void;
         render(): JSX.Element;
-        props: P;
-        state: S;
+        props: Readonly<{ children?: ReactNode }> & Readonly<P>;
+        state: Readonly<S>;
         context: {};
         refs: {
-            [key: string]: Component<any, any>
+            [key: string]: Component<any,any>
         };
 
         // Needed to make TypeScript 2.4.x happy.

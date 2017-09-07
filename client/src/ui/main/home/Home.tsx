@@ -18,14 +18,18 @@ const styles = {
 };
 let data: fm.models.BaseJson<models.Json.Article[]> = require('./data');
 
-export class Home extends rx.Component<{}, any>{
+interface Props {
+    isDrawerOpen: () => boolean,
+    toggleDrawer: () => any
+}
+export class Home extends rx.Component<Props, any>{
     private _list: ArticleItem[];
 
     private onMenu = () => {
-        (this.refs['httpComp'] as fm.component.HttpComponent<models.Json.Article[]>).freshData();
+        this.props.toggleDrawer();
     }
     private onTitle = () => {
-
+        (this.refs['httpComp'] as fm.component.HttpComponent<models.Json.Article[]>).freshData();
     }
     private onSearch = () => {
 

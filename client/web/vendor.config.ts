@@ -1,21 +1,16 @@
 import * as webpack from 'webpack';
 
-let HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CompressionPlugin = require('compression-webpack-plugin')
 
 const config: webpack.Configuration = {
     entry: [
-        'webpack-dev-server/client?http://localhost:8080',
-        'webpack/hot/only-dev-server',
         './src/index-web.tsx'
     ],
     output: {
         filename: "bundle.js",
-        path: __dirname + "/dist/build/",
+        path: __dirname + "/dist/verdor/",
     },
-
-    // Enable sourcemaps for debugging webpack's output.
-    devtool: "source-map",
-
     resolve: {
         // Add '.ts' and '.tsx' as resolvable extensions.
         extensions: [".webpack.js", ".web.js", ".ts", ".tsx", ".js"]
@@ -23,9 +18,13 @@ const config: webpack.Configuration = {
 
     module: {
         loaders: [
+            // .ttf
+            { test: /\.ttf$/, loader: 'url-loader', include: './node_modules/react-native-vector-icons', },
             // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
             { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
-            { test: /\.(gif|png|jpeg|svg)$/i, loaders: ['file-loader?hash=sha512&digest=hex&name=[path][hash].[ext]'] }
+            { test: /\.(gif|jpe?g|png|svg)$/, loader: 'url-loader', query: { name: 'images/[name]-[hash:16].[ext]' }, },
+            { test: /\.(mp3|wav)$/, loader: 'file-loader', query: { name: 'sounds/[name]-[hash:16].[ext]' }, },
+            // { test: /\.(gif|png|jpeg|svg)$/i, loaders: ['file-loader?hash=sha512&digest=hex&name=[path][hash].[ext]'] }
         ]
     },
     plugins: [
@@ -46,8 +45,27 @@ const config: webpack.Configuration = {
                 version: JSON.stringify('0.1'),
             }
         }),
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoEmitOnErrorsPlugin()
+        new webpack.optimize.AggressiveMergingPlugin(),
+        new webpack.optimize.UglifyJsPlugin({
+            mangle: true,
+            compress: {
+                warnings: false, // Suppress uglification warnings
+                pure_getters: true,
+                unsafe: true,
+                unsafe_comps: true,
+                screw_ie8: true,
+            },
+            comments: false,
+            sourceMap: false,
+            exclude: [/\.min\.js$/gi],  // skip pre-minified libs
+        }),
+        new CompressionPlugin({
+            asset: '[path].gz[query]',
+            algorithm: 'zopfli',
+            test: /\.js$|\.css$|\.html$/,
+            threshold: 10240,
+            minRatio: 0.8,
+        }),
     ]
 };
 

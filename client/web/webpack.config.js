@@ -80,7 +80,7 @@ module.exports = {
     contentBase: outputPath,
   },
   entry: {
-    app: path.join(__dirname, '../index.web.js')
+    app: path.join(__dirname, '../src/index-web.tsx')
   },
   module: {
     loaders: [{
@@ -97,12 +97,11 @@ module.exports = {
     filename: 'javascript/[name]-[hash:16].js',
     publicPath: '/'
   },
-  devtool: "source-map",
   plugins: plugins,
   resolve: {
     alias: {
       'react-native': 'react-native-web'
     },
-    extensions: [".web.js", ".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".json"]
   }
 };

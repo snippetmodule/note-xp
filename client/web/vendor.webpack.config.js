@@ -46,10 +46,11 @@ module.exports = {
   },
 
   plugins,
+  devtool: "source-map",
   resolve: {
     alias: {
       'react-native': 'react-native-web',
     },
-    extensions: [".web.js", ".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".json"]
   },
 }

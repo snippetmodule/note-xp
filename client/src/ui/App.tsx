@@ -1,5 +1,4 @@
-import rx = require('reactxp');
-import Navigator, { Types } from 'reactxp-navigation';
+
 
 import MainScene = require('./main/MainScene');
 import fm = require('../framework');

@@ -1,6 +1,4 @@
-import {
-    AppRegistry
-} from 'react-native';
+
 import App from './app'
 
 // Sets up offline caching for all assets (disabled by default)
@@ -10,7 +8,4 @@ if (__OFFLINE__) {
     require('offline-plugin/runtime').install()
 }
 
-AppRegistry.registerComponent('ExampleApp', () => App);
-AppRegistry.runApplication('ExampleApp', {
-    rootTag: window.document.getElementById('react-root'),
-});
+require('./web/index');

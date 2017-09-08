@@ -50,7 +50,7 @@ export class ArticleListComp extends rx.Component<Prop, State>{
                 itemList={this.state ? this.state.list : []}
                 renderItem={this._renderItem}
                 animateChanges={true}
-                logInfo={log => fm.utils.Log.i('VirtualListView', log)}
+                logInfo={log => null}
                 skipRenderIfItemUnchanged={true}
             />
         );

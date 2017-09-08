@@ -1,10 +1,14 @@
 import rx = require('reactxp');
-import ReactNative = require('react-native');
 
 import fm = require('../../framework');
-
 import { Home } from './home/Home';
 import { MenuComp } from './MenuComp';
+
+// let BackAndroid: any;
+// if (fm.utils.DeviceUtils.isAndroid) {
+//     let ReactNative = require('react-native');
+//     BackAndroid = ReactNative.BackAndroid;
+// }
 
 export class DrawerComp extends rx.Component<{}, null>{
 
@@ -12,15 +16,11 @@ export class DrawerComp extends rx.Component<{}, null>{
     private _backPressedTime: number = 0;
 
     public componentDidMount() {
-        if (fm.utils.DeviceUtils.isAndroid) {
-            ReactNative.BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
-        }
+        window.addEventListener('hardwareBackPress',this.handleBackButton);
     }
 
     public componentWillUnmount() {
-        if (fm.utils.DeviceUtils.isAndroid) {
-            ReactNative.BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
-        }
+        window.removeEventListener('hardwareBackPress',this.handleBackButton);
     }
     private handleBackButton = () => {
         if (this._isDrawerOpen()) {

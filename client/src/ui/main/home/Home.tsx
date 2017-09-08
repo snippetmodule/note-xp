@@ -18,14 +18,18 @@ const styles = {
 };
 let data: fm.models.BaseJson<models.Json.Article[]> = require('./data');
 
-export class Home extends rx.Component<{}, any>{
+interface Props {
+    isDrawerOpen: () => boolean,
+    toggleDrawer: () => any
+}
+export class Home extends rx.Component<Props, any>{
     private _list: ArticleItem[];
 
     private onMenu = () => {
-        (this.refs['httpComp'] as fm.component.HttpComponent<models.Json.Article[]>).freshData();
+        this.props.toggleDrawer();
     }
     private onTitle = () => {
-
+        (this.refs['httpComp'] as fm.component.HttpComponent<models.Json.Article[]>).freshData();
     }
     private onSearch = () => {
 
@@ -41,7 +45,6 @@ export class Home extends rx.Component<{}, any>{
                 rightImg={require('../../../../asserts/home/home_menu.png')}
             >
                 <fm.component.HttpComponent ref='httpComp'
-                    onFail={this._renderFail}
                     onSucess={this._renderSucess}
                     onSucessFilter={this._onSucessFilter}
                     httpParams={{
@@ -51,11 +54,11 @@ export class Home extends rx.Component<{}, any>{
             </fm.component.TitleComponent>
         );
     }
-    private _renderFail = (v: any) => {
-        return (
-            <ArticleListComp data={data.message} />
-        );
-    }
+    // private _renderFail = (v: any) => {
+    //     return (
+    //         <ArticleListComp data={data.message} />
+    //     );
+    // }
 
     private _renderSucess = (result: fm.models.BaseJson<models.Json.Article[]>) => {
         return (

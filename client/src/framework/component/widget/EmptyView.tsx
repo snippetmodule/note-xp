@@ -1,39 +1,49 @@
-import rx = require('reactxp');
+import React = require('react');
+import ReactNative = require('react-native');
+
 import { FitImage } from './FitImage';
 
-interface Prop {
+interface IProp {
     state?: 'loading' | 'sucess' | 'fail';
-    pic?: string,
-    hint?: string,
-    btnStr?: string,
-    btnPress?: () => any
+    pic?: string;
+    hint?: string;
+    btnStr?: string;
+    btnPress?: () => any;
 };
-const loadingValue = new rx.Animated.Value(0);
-const styles = {
-    continer: rx.Styles.createViewStyle({
+const loadingValue = new ReactNative.Animated.Value(0);
+let loadingInter = loadingValue.interpolate({
+    inputRange: [0, 1],
+    outputRange: ['0deg', '360deg'],
+});
+let loadingAnim: {
+    transform:
+        [{
+            rotate: loadingValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0deg', '360deg'],
+            });
+        }]
+};
+const styles = ReactNative.StyleSheet.create({
+    continer: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: 30,
-    }),
-    loadingStatic: rx.Styles.createImageStyle({
+    },
+    loadingStatic: {
         height: 60,
         width: 60,
-    }),
-    loadingAnim: rx.Styles.createAnimatedImageStyle({
         transform: [
             {
-                rotate: loadingValue.interpolate({
-                    inputRange: [0, 1],
-                    outputRange: ['0deg', '360deg']
-                }),
-            }
-        ]
-    }),
-    failHint: rx.Styles.createTextStyle({
+                rotate: loadingValue.interpolate({}),
+            },
+        ],
+    },
+    failHint: {
         marginTop: 17,
-    }),
-    failBtn: rx.Styles.createButtonStyle({
+    },
+    failBtn: {
         marginTop: 44,
         borderColor: '#2c86ff',
         opacity: 0.8,
@@ -43,22 +53,21 @@ const styles = {
         paddingTop: 6,
         paddingLeft: 10,
         paddingRight: 10,
-    }),
-    failTxt: rx.Styles.createTextStyle({
+    },
+    failTxt: {
         fontSize: 12,
-        color: '#2c86ff'
-    }),
-};
+        color: '#2c86ff',
+    },
+});
 
-export class EmptyView extends rx.Component<Prop, any>{
-    private _loadingAnim = rx.Animated.timing(loadingValue, {
+export class EmptyView extends React.Component<IProp, any>{
+    private _loadingAnim = ReactNative.Animated.timing(loadingValue, {
         toValue: 1,
         duration: 1500,
-        easing: rx.Animated.Easing.Linear(),
-        loop: { restartFrom: 0 }
+        easing: ReactNative.Easing.linear,
     });
-    componentDidUpdate(prevProps: Prop, prevState: any, prevContext: any): void{
-        if(this.props.state === 'loading'){
+    componentDidUpdate(prevProps: IProp, prevState: any, prevContext: any): void {
+        if (this.props.state === 'loading') {
             this._loadingAnim.start();
         }
     }
@@ -74,21 +83,21 @@ export class EmptyView extends rx.Component<Prop, any>{
     }
     private renderLoading = () => {
         return (
-            <rx.View style={styles.continer}>
-                <rx.Animated.Image
+            <ReactNative.View style={styles.continer}>
+                <ReactNative.Animated.Image
                     source={require('../../../../asserts/common/loading.png')} style={[styles.loadingStatic, styles.loadingAnim]} />
-            </rx.View>
+            </ReactNative.View>
         );
     }
     private renderLoadFail = () => {
         return (
-            <rx.View style={styles.continer}>
+            <ReactNative.View style={styles.continer}>
                 <FitImage source={this.props.pic || require('../../../../asserts/common/empty_img.png')} />
-                <rx.Text style={styles.failHint}>
+                <ReactNative.Text style={styles.failHint}>
                     {this.props.hint || '喝杯咖啡休息一会吧'}
-                </rx.Text>
+                </ReactNative.Text>
                 {this.rendRefreshBtn()}
-            </rx.View>
+            </ReactNative.View>
         );
     }
     private rendRefreshBtn = () => {
@@ -96,11 +105,11 @@ export class EmptyView extends rx.Component<Prop, any>{
             return null;
         }
         return (
-            <rx.Button onPress={this.onPressBtn} style={styles.failBtn}>
-                <rx.Text style={styles.failTxt}>
+            <ReactNative.TouchableOpacity onPress={this.onPressBtn} style={styles.failBtn}>
+                <ReactNative.Text style={styles.failTxt}>
                     {this.props.btnStr || '重新加载'}
-                </rx.Text>
-            </rx.Button>
+                </ReactNative.Text>
+            </ReactNative.TouchableOpacity>
         );
     }
     private onPressBtn = () => {

@@ -1,4 +1,3 @@
-import rx = require('reactxp');
 import React = require('react');
 
 export default abstract class MountedComponent<P extends React.Props<any>, S extends Object> extends React.Component<P, S>{

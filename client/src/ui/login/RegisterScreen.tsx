@@ -1,11 +1,12 @@
-import rx = require('reactxp');
+import React = require('react');
+import ReactNative = require('react-native');
 
 import fm = require('../../framework');
 import * as utils from '../utils';
 import * as models from '../modles';
 
-const styles = {
-    phoneInput: rx.Styles.createTextInputStyle({
+const styles = ReactNative.StyleSheet.create({
+    phoneInput: {
         marginTop: 46,
         marginLeft: 20,
         marginRight: 20,
@@ -13,52 +14,52 @@ const styles = {
         backgroundColor: 'transparent',
         fontSize: 16,
         color: '#333333',
-    }),
-    dividerLine: rx.Styles.createViewStyle({
+    },
+    dividerLine: {
         height: 1,
         backgroundColor: '#DFDFDF',
         marginLeft: 17,
         marginRight: 17,
-    }),
-    codeLayout: rx.Styles.createViewStyle({
+    },
+    codeLayout: {
         height: 48,
         marginLeft: 20,
         marginRight: 17,
-        flexDirection: 'row'
-    }),
-    codeInput: rx.Styles.createTextInputStyle({
+        flexDirection: 'row',
+    },
+    codeInput: {
         backgroundColor: 'transparent',
         fontSize: 16,
         flex: 1,
         color: '#333333',
-        marginRight: 6
-    }),
-    codeBtn: rx.Styles.createButtonStyle({
+        marginRight: 6,
+    },
+    codeBtn: {
         marginTop: 6,
         marginBottom: 6,
         paddingLeft: 17,
         paddingRight: 17,
         flexDirection: 'row',
-    }),
-    codeTxt: rx.Styles.createTextStyle({
+    },
+    codeTxt: {
         fontSize: 16,
         color: '#BBBBBB',
-    }),
-    registerLaout: rx.Styles.createViewStyle({
+    },
+    registerLaout: {
         height: 47,
         width: 327,
         backgroundColor: '#5E62FF',
         borderRadius: 4,
         marginTop: 27,
-        alignSelf: 'center'
-    }),
-    registerTxt: rx.Styles.createTextStyle({
+        alignSelf: 'center',
+    },
+    registerTxt: {
         fontSize: 14,
         color: '#999999',
-        alignSelf: 'center'
-    }),
-};
-interface State {
+        alignSelf: 'center',
+    },
+});
+interface IState {
     isLogined: boolean;
     phoneNumber: string;
     checkCode: string;
@@ -67,7 +68,7 @@ interface State {
     checkCodeBtn: number;
 }
 
-export = class RegisterScene extends fm.ComponentBase<{}, State>{
+export = class RegisterScreen extends fm.ComponentBase<{}, IState>{
     private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCode[]> = new fm.component.HttpStore.HttpStore();
     private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfo[]> = new fm.component.HttpStore.HttpStore();
 
@@ -76,7 +77,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
         super(props);
     }
 
-    protected _buildState(props: {}, initialBuild: boolean): State {
+    protected _buildState(props: {}, initialBuild: boolean): IState {
         const newState = {
             ...this.state,
             isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
@@ -91,7 +92,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
                 let message = this.state.registerResult.result.message;
                 fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
                 this._stopInterval();
-                fm.utils.NavUtils.goToMain();
+                fm.utils.NavUtils.nav.navigate('index');
             });
         }
         if (newState.checkCodeResult.state === 'sucess' && !this._intervalToken) {
@@ -125,45 +126,43 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
     render() {
         let codeTex = this.state.checkCodeBtn ? this.state.checkCodeBtn + '' : 'Code';
         return (
-            <fm.component.TitleComponent title='手机登录'>
-                <rx.TextInput placeholder='Phone'
-                    placeholderTextColor='#BBBBBB'
+            <fm.component.TitleComponent title="手机登录">
+                <ReactNative.TextInput placeholder="Phone"
+                    placeholderTextColor="#BBBBBB"
                     multiline={false}
                     autoFocus={true}
                     maxLength={11}
                     returnKeyType="next"
-                    keyboardType='numeric'
+                    keyboardType="numeric"
                     style={styles.phoneInput}
                     value={this.state.phoneNumber}
                     onChangeText={this._onNumberChange}
-                >
-                </rx.TextInput>
-                <rx.View style={styles.dividerLine} />
-                <rx.View style={styles.codeLayout}>
-                    <rx.TextInput placeholder='Code'
-                        placeholderTextColor='#BBBBBB'
+                />
+                <ReactNative.View style={styles.dividerLine} />
+                <ReactNative.View style={styles.codeLayout}>
+                    <ReactNative.TextInput placeholder="Code"
+                        placeholderTextColor="#BBBBBB"
                         multiline={false}
                         autoFocus={true}
                         maxLength={11}
                         returnKeyType="next"
-                        keyboardType='numeric'
+                        keyboardType="numeric"
                         style={styles.codeInput}
                         value={this.state.checkCode}
                         onChangeText={this._onCheckCodeChange}
-                    >
-                    </rx.TextInput>
-                    <rx.Button onPress={this._onGetCode} style={[styles.codeBtn]}>
-                        <rx.Text style={styles.codeTxt}>
+                    />
+                    <ReactNative.TouchableOpacity onPress={this._onGetCode} style={[styles.codeBtn]}>
+                        <ReactNative.Text style={styles.codeTxt}>
                             {`${codeTex}`}
-                        </rx.Text>
-                    </rx.Button>
-                </rx.View>
-                <rx.View style={[styles.dividerLine]} />
-                <rx.Button style={[styles.registerLaout]} onPress={this._onRegiser} ref='register'>
-                    <rx.Text style={styles.registerTxt}>
+                        </ReactNative.Text>
+                    </ReactNative.TouchableOpacity>
+                </ReactNative.View>
+                <ReactNative.View style={[styles.dividerLine]} />
+                <ReactNative.TouchableOpacity style={[styles.registerLaout]} onPress={this._onRegiser} ref="register">
+                    <ReactNative.Text style={styles.registerTxt}>
                         Continue
-                    </rx.Text>
-                </rx.Button>
+                    </ReactNative.Text>
+                </ReactNative.TouchableOpacity>
             </fm.component.TitleComponent>
         );
     }
@@ -184,7 +183,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
                 method: 'POST',
                 body: {
                     phoneNumber: this.state.phoneNumber
-                }
+                },
             });
             return;
         }
@@ -205,10 +204,10 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
             method: 'PUT',
             body: {
                 phoneNumber: this.state.phoneNumber,
-                validateCode: this.state.checkCode
-            }
+                validateCode: this.state.checkCode,
+            },
 
         });
         this.mLoginStore.exeAsync(task);
     }
-}
+};

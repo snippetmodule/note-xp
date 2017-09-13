@@ -9,7 +9,7 @@ interface State {
     isLogined: boolean;
 }
 
-export = class MainScene extends fm.ComponentBase<any, State> {
+export = class MainScreen extends fm.ComponentBase<any, State> {
 
     protected _buildState(props: {}, initialBuild: boolean): State {
         return {

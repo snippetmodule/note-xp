@@ -1,7 +1,7 @@
-import rx = require('reactxp');
+import ReactNative = require('react-native');
 
-export const isWeb = rx.Platform.getType() === 'web';
-export const isAndroid = rx.Platform.getType() === 'android';
-export const isIos = rx.Platform.getType() === 'ios';
+export const isWeb = ReactNative.Platform.OS === 'web';
+export const isAndroid = ReactNative.Platform.OS === 'android';
+export const isIos = ReactNative.Platform.OS === 'ios';
 export const isNative = isAndroid || isIos;
-export const isWindow = rx.Platform.getType() === 'windows';
+export const isWindow = ReactNative.Platform.OS === 'windows';

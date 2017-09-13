@@ -1,10 +1,12 @@
-import rx = require('reactxp');
+import React = require('react');
+import ReactNative = require('react-native');
+
 import { ComponentBase } from 'resub';
 import ToastUtils = require('../../utils/ToastUtils');
 
 // import ToastService, { ToastMessage, ToastMessageParams } from '../service/ToastService';
 
-interface ToastViewProps extends rx.CommonProps { }
+// interface ToastViewProps extends ReactNative.CommonProps { }
 
 export interface ToastMessage {
     key: string;
@@ -25,8 +27,8 @@ const _toastHeight = 30;
 const _marginBottom = 10;
 const _containerHeight = 100 + _toastHeight;
 
-const _styles = {
-    containerRounded: rx.Styles.createViewStyle({
+const _styles = ReactNative.StyleSheet.create({
+    containerRounded: {
         position: 'absolute',
         bottom: 0,
         left: 0,
@@ -34,50 +36,50 @@ const _styles = {
         flexDirection: 'row',
         height: _containerHeight,
         justifyContent: 'center',
-        alignItems: 'flex-end'
-    }),
-    barButton: rx.Styles.createButtonStyle({
+        alignItems: 'flex-end',
+    },
+    barButton: {
         bottom: 0,
         left: 0,
         right: 0,
-        height: _toastHeight
-    }),
-    contentContainer: rx.Styles.createViewStyle({
+        height: _toastHeight,
+    },
+    contentContainer: {
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
         paddingHorizontal: 25,
         height: _toastHeight,
         backgroundColor: '#3b3b3b',
-        borderRadius: _toastHeight / 2
-    }),
-    contentText: rx.Styles.createTextStyle({
+        borderRadius: _toastHeight / 2,
+    },
+    contentText: {
         color: '#fff',
-    })
-};
+    },
+});
 
-export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
+export class ToastView extends ComponentBase<{}, ToastViewState> {
 
     private _hideToastTimerId: number;
-    private _button: rx.Button;
+    private _button: ReactNative.TouchableOpacity;
 
-    private _verticalAnimatedValue = new rx.Animated.Value(_containerHeight);
-    private _verticalAnimatedStyle = rx.Styles.createAnimatedViewStyle({
+    private _verticalAnimatedValue = new ReactNative.Animated.Value(_containerHeight);
+    private _verticalAnimatedStyle = {
         transform: [{
-            translateY: this._verticalAnimatedValue
-        }]
-    });
+            translateY: this._verticalAnimatedValue,
+        }],
+    };
 
     private _recalcDisplay(message: ToastMessage): void {
         let newState: ToastViewState = {
-            currentMessage: message
+            currentMessage: message,
         };
         this.setState(newState, () => {
             this._showToast(0);
         });
     }
 
-    protected _buildState(props: ToastViewProps, initialBuild: boolean): ToastViewState {
+    protected _buildState(props: {}, initialBuild: boolean): ToastViewState {
         let newState: ToastViewState = {};
 
         if (initialBuild) {
@@ -106,24 +108,23 @@ export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
         let bgColorStyle = this.state.currentMessage.textBgColor ? { backgroundColor: this.state.currentMessage.textBgColor } : {};
         let textColorStyle = this.state.currentMessage.textColor ? { color: this.state.currentMessage.textColor } : {};
         return (
-            <rx.View
+            <ReactNative.View
                 style={_styles.containerRounded}
-                ignorePointerEvents={true}
             >
-                <rx.Animated.View style={this._verticalAnimatedStyle}>
-                    <rx.Button
+                <ReactNative.Animated.View style={this._verticalAnimatedStyle}>
+                    <ReactNative.TouchableOpacity
                         ref={this._onButtonRef}
                         style={_styles.barButton}
                         onPress={this._onTapDismiss}
                     >
-                        <rx.View style={[_styles.contentContainer, bgColorStyle]}>
-                            <rx.Text style={[_styles.contentText, textColorStyle]}>
+                        <ReactNative.View style={[_styles.contentContainer, bgColorStyle]}>
+                            <ReactNative.Text style={[_styles.contentText, textColorStyle]}>
                                 {this.state.currentMessage.textMessage}
-                            </rx.Text>
-                        </rx.View>
-                    </rx.Button>
-                </rx.Animated.View>
-            </rx.View>
+                            </ReactNative.Text>
+                        </ReactNative.View>
+                    </ReactNative.TouchableOpacity>
+                </ReactNative.Animated.View>
+            </ReactNative.View>
         );
     }
 
@@ -131,7 +132,7 @@ export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
         if (this.isComponentMounted()) {
             this._recalcDisplay(message);
         }
-    };
+    }
 
     private _onTapDismiss = () => {
         const params: ToastMessage = this.state.currentMessage ? this.state.currentMessage : null;
@@ -140,7 +141,7 @@ export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
         }
         window.clearTimeout(this._hideToastTimerId);
         this._hideToast(0);
-    };
+    }
 
     private _showToast(delay: number) {
         const message = this.state.currentMessage;
@@ -151,11 +152,11 @@ export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
             this.state.currentMessage.bottomMargin : _marginBottom);
         setTimeout(() => {
             if (this.isComponentMounted()) {
-                rx.Animated.timing(this._verticalAnimatedValue, {
+                ReactNative.Animated.timing(this._verticalAnimatedValue, {
                     toValue: toValue,
-                    easing: rx.Animated.Easing.Out(),
+                    easing: ReactNative.Easing.out(),
                     duration: 250,
-                    isInteraction: false
+                    isInteraction: false,
                 }).start();
             }
         }, delay);
@@ -165,17 +166,17 @@ export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
     private _hideToast(delay: number) {
         this._hideToastTimerId = window.setTimeout(() => {
             if (this.isComponentMounted()) {
-                rx.Animated.timing(this._verticalAnimatedValue, {
+                ReactNative.Animated.timing(this._verticalAnimatedValue, {
                     toValue: _containerHeight,
-                    easing: rx.Animated.Easing.Out(),
+                    easing: ReactNative.Easing.out(),
                     duration: 200,
-                    isInteraction: false
+                    isInteraction: false,
                 }).start();
             }
         }, delay);
     }
 
-    private _onButtonRef = (button: rx.Button) => {
-        this._button = button;
+    private _onButtonRef = (button: any) => {
+        this._button = button as  ReactNative.TouchableOpacity;
     }
 }

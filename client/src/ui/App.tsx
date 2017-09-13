@@ -1,47 +1,37 @@
-import rx = require('reactxp');
-import Navigator, { Types } from 'reactxp-navigation';
 
-import MainScene = require('./main/MainScene');
+import React = require('react');
+import ReactNative = require('react-native');
+import { StackNavigator, NavigationScreenProp } from 'react-navigation';
+
+import MainScreen = require('./main/MainScreen');
+import RegisterScreen = require('./login/RegisterScreen');
 import fm = require('../framework');
 
 
-const styles = {
-    navCardStyle: rx.Styles.createViewStyle({
-        backgroundColor: '#f5fcff'
-    })
-};
-interface State {
-    isLoaded: boolean;
-}
-export class App extends rx.Component<{}, State> {
-    constructor(props: {}, context: any) {
-        super(props, context);
-        this.state = { isLoaded: false };
+const AppNavigator = StackNavigator(
+    {
+        RegisterScreen: {
+            name: 'register',
+            description: 'A card register',
+            screen: RegisterScreen,
+        },
+        Index: {
+            screen: MainScreen,
+        },
+    },
+    {
+        initialRouteName: 'Index',
+        headerMode: 'none',
+        mode: ReactNative.Platform.OS === 'ios' ? 'modal' : 'card',
     }
+);
+export default class App extends React.Component<any, any>{
     render() {
         return (
-            <rx.Navigator
-                ref={this._onNavigatorRef}
-                renderScene={this._renderScene}
-                cardStyle={styles.navCardStyle}
-            />
+            <AppNavigator ref={this._ref} />
         );
     }
-
-    private _onNavigatorRef = (navigator: Navigator) => {
-        if (this.state.isLoaded === false) {
-            fm.utils.NavUtils.registerMain(navigator, {
-                component: MainScene
-            });
-            this.setState({ isLoaded: true });
-        }
-    }
-    private _renderScene = (navigatorRoute: Types.NavigatorRoute) => {
-        if (this.state && this.state.isLoaded) {
-            return fm.utils.NavUtils.renderScene(navigatorRoute);
-        } else {
-            return null;
-        }
+    _ref = (nav: any) => {
+        fm.utils.NavUtils.nav = nav as NavigationScreenProp<any, any>;
     }
 }
-

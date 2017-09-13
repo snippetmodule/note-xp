@@ -1,26 +1,21 @@
 import React = require('react');
-import rx = require('reactxp');
-
-import DeviceUtils = require('../../utils/DeviceUtils');
-import DimenUtils = require('../../utils/DimenUtils');
+import ReactNative = require('react-native');
 
 interface IFitImageState {
     width: number;
     height: number;
-    isLoading: boolean;
 }
 
-export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> {
+export class FitImage extends React.Component<ReactNative.ImageProperties, IFitImageState> {
     static defaultState: IFitImageState = {
         width: 0,
         height: 0,
-        isLoading: true
     };
 
     private isFirstLoad: boolean;
     private mounted: boolean;
 
-    constructor(props: rx.Types.ImageProps) {
+    constructor(props: ReactNative.ImageProperties) {
         super(props);
 
         this.isFirstLoad = true;
@@ -38,9 +33,9 @@ export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> 
     public render() {
         let children = this.props.children;
         return (
-            <rx.Image
+            <ReactNative.Image
                 {...this.props}
-                onLoad={this._onLoad.bind(this)}
+                onLayout={this._onLayout}
                 source={this.props.source}
                 style={[
                     this.props.style,
@@ -48,31 +43,27 @@ export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> 
                 ]}
             >
                 {children}
-            </rx.Image>
+            </ReactNative.Image>
         );
     }
     private getSize() {
         let { width, height } = this.props.style ? this.props.style : {} as any;
         if (width && height) {
-            return { width, height }
+            return { width, height };
         } else {
-            return { width: this.state.width, height: this.state.height }
+            return { width: this.state.width, height: this.state.height };
         }
     }
-    private _onLoad(size: rx.Types.Dimensions) {
+    private _onLayout = (layout: ReactNative.LayoutChangeEvent) => {
         if (!this.mounted) {
             return;
         }
-        if (DeviceUtils.isNative) {
-            size = { height: size.height / DimenUtils.get(), width: size.width / DimenUtils.get() };
-        }
         this.setState({
-            ...this.state,
-            ...size,
-            isLoading: false
+            height: layout.nativeEvent.layout.height,
+            width: layout.nativeEvent.layout.width,
         });
         if (this.props.onLoad) {
-            this.props.onLoad(size);
+            this.props.onLayout(layout);
         }
     }
 }

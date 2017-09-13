@@ -1,9 +1,9 @@
-import rx = require('reactxp');
+import ReactNative = require('react-native');
 
 const densityWhenUIDesign: number = 2;
 
-let pixelRatio: number = rx.UserInterface.getPixelRatio();
-let window = rx.UserInterface.measureWindow();
+let pixelRatio: number = ReactNative.PixelRatio.get();
+let window = ReactNative.Dimensions.get('window');
 
 export function get(): number {
     //'web' | 'ios' | 'android' | 'windows';

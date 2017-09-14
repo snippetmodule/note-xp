@@ -1,30 +1,30 @@
-import rx = require('reactxp');
+import React = require('react');
+import ReactNative = require('react-native');
 
 import LoginComponent from '../login/LoginComponent';
 import SplashComponent from './SplashComponent';
 
 import fm = require('../../framework');
 
-interface State {
+interface IState {
     isLogined: boolean;
 }
 
-export = class MainScreen extends fm.ComponentBase<any, State> {
+export = class MainScreen extends fm.component.BaseNavComp<any, IState> {
 
-    protected _buildState(props: {}, initialBuild: boolean): State {
+    protected _buildState(props: {}, initialBuild: boolean): IState {
         return {
             isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
         };
     }
-    render(){
+    render() {
         if (this.state.isLogined) {
             return (
-                <SplashComponent />
+                <SplashComponent {...this.props}/>
             );
         }
         return (
-            <LoginComponent />
+            <LoginComponent {...this.props}/>
         );
     }
-}
-
+};

@@ -1,4 +1,4 @@
-import { AppRegistry } from 'react-native'
+import { AppRegistry } from 'react-native';
 import { CordovaNativeSqliteProvider } from 'nosqlprovider/dist/CordovaNativeSqliteProvider';
 import { InMemoryProvider } from 'nosqlprovider/dist/InMemoryProvider';
 
@@ -10,12 +10,12 @@ const rnSqliteProvider = require('react-native-sqlite-storage');
 fm.db.DbUtils.init([
     // Specify the DB providers that are valid on the RN platforms.
     new CordovaNativeSqliteProvider(rnSqliteProvider),
-    new InMemoryProvider()
+    new InMemoryProvider(),
 ]).then(() => {
     // to do Other Init
     return fm.manager.UserManager.Instance.init();
 }).then(() => {
-    AppRegistry.registerComponent('NoteTs', () => App)
+    AppRegistry.registerComponent('NoteTs', () => App);
 }).catch((err) => {
     fm.utils.Log.i('Index', err);
 });

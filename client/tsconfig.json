@@ -14,7 +14,8 @@
     "forceConsistentCasingInFileNames": true,
     "outDir": "./dist/",
     "typeRoots": [
-        "node_modules/@types"
+        "node_modules/@types/react",
+        "node_modules/@types/react-native"
     ]
   },
   "include": [

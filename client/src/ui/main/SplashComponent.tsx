@@ -1,21 +1,21 @@
-import rx = require('reactxp');
+import React = require('react');
+import ReactNative = require('react-native');
 
 import fm = require('../../framework');
-import { DrawerComp } from './DrawerComp';
 
-const styles = {
-    img: rx.Styles.createImageStyle({
+const styles = ReactNative.StyleSheet.create({
+    img: {
         bottom: 90,
-    }),
-};
+    },
+});
 
-export default class SplashComponent extends rx.Component<{}, null> {
+export default class SplashComponent extends fm.component.BaseNavComp<{}, null> {
 
     private _progressTimerToken: number;
 
     render() {
         return (
-            <fm.component.TitleComponent ref='titleLayout' isShowTitle={false}>
+            <fm.component.TitleComponent ref="titleLayout" isShowTitle={false}>
                 <fm.component.widget.FitImage source={require('../../../asserts/login/logo.png')} style={styles.img} />
             </fm.component.TitleComponent>
         );
@@ -31,7 +31,8 @@ export default class SplashComponent extends rx.Component<{}, null> {
 
     private _startTimerr = () => {
         this._progressTimerToken = window.setTimeout(() => {
-            fm.utils.NavUtils.replace({ component: DrawerComp });
+            const params = this.props.navigation.state.params;
+            this.replace('drawer');
         }, 500);
     }
 

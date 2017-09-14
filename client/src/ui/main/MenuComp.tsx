@@ -1,16 +1,14 @@
-import rx = require('reactxp');
+import React = require('react');
+import ReactNative = require('react-native');
 
 import fm = require('../../framework');
 
-interface Props extends rx.CommonStyledProps<rx.Types.ViewStyleRuleSet> {
-
-}
-export class MenuComp extends rx.Component<Props, null>{
+export class MenuComp extends React.Component<{}, null> {
     render() {
         return (
-            <rx.Text>
+            <ReactNative.Text>
                 ..............
-                </rx.Text>
+                </ReactNative.Text>
         );
     }
 }

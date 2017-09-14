@@ -9,20 +9,16 @@ interface IProp {
     hint?: string;
     btnStr?: string;
     btnPress?: () => any;
-};
+}
 const loadingValue = new ReactNative.Animated.Value(0);
-let loadingInter = loadingValue.interpolate({
-    inputRange: [0, 1],
-    outputRange: ['0deg', '360deg'],
-});
-let loadingAnim: {
-    transform:
-        [{
-            rotate: loadingValue.interpolate({
-                inputRange: [0, 1],
-                outputRange: ['0deg', '360deg'],
-            });
-        }]
+const loadingAnim = {
+    transform: [{
+        rotate: loadingValue.interpolate({
+            inputRange: [0, 1],
+            outputRange: ['0deg', '360deg'],
+            extrapolate: 'clamp',
+        }),
+    }],
 };
 const styles = ReactNative.StyleSheet.create({
     continer: {
@@ -34,11 +30,6 @@ const styles = ReactNative.StyleSheet.create({
     loadingStatic: {
         height: 60,
         width: 60,
-        transform: [
-            {
-                rotate: loadingValue.interpolate({}),
-            },
-        ],
     },
     failHint: {
         marginTop: 17,
@@ -60,7 +51,7 @@ const styles = ReactNative.StyleSheet.create({
     },
 });
 
-export class EmptyView extends React.Component<IProp, any>{
+export class EmptyView extends React.Component<IProp, any> {
     private _loadingAnim = ReactNative.Animated.timing(loadingValue, {
         toValue: 1,
         duration: 1500,
@@ -85,7 +76,7 @@ export class EmptyView extends React.Component<IProp, any>{
         return (
             <ReactNative.View style={styles.continer}>
                 <ReactNative.Animated.Image
-                    source={require('../../../../asserts/common/loading.png')} style={[styles.loadingStatic, styles.loadingAnim]} />
+                    source={require('../../../../asserts/common/loading.png')} style={[styles.loadingStatic, loadingAnim]} />
             </ReactNative.View>
         );
     }

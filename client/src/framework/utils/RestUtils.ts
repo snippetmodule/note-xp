@@ -1,5 +1,5 @@
 import SyncTasks = require('synctasks');
-
+import { GenericRestClient, ApiCallOptions, HttpAction, WebResponse } from 'simplerestclients';
 import UrlCacheUtils = require('./UrlCacheUtils');
 import BaseJson from '../models/BaseJson';
 import UserManager = require('../manager/UserManager');

@@ -45,9 +45,9 @@ const styles = ReactNative.StyleSheet.create({
         color: '#fff',
         fontSize: 15,
     },
-})
+});
 
-export default class LonginComponent extends React.Component<{}, null>{
+export default class LonginComponent extends React.Component<{}, null> {
     render() {
         return (
             <ReactNative.ScrollView style={styles.scroll}>
@@ -75,6 +75,6 @@ export default class LonginComponent extends React.Component<{}, null>{
         // this.props.onShowTodoPanel();
     }
     private _onPressRegitser() {
-        fm.utils.NavUtils.nav.navigate('register');
+        // fm.utils.NavUtils.nav.navigate('register');
     }
 }

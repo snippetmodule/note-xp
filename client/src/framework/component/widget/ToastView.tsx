@@ -8,7 +8,7 @@ import ToastUtils = require('../../utils/ToastUtils');
 
 // interface ToastViewProps extends ReactNative.CommonProps { }
 
-export interface ToastMessage {
+export interface IToastMessage {
     key: string;
     textMessage: string;
     bottomMargin?: number;
@@ -18,8 +18,8 @@ export interface ToastMessage {
     textColor?: string;
     onPress?: () => void;
 }
-interface ToastViewState {
-    currentMessage?: ToastMessage;
+interface IToastViewState {
+    currentMessage?: IToastMessage;
 }
 
 const _defaultToastTimeout = 2000;
@@ -58,7 +58,7 @@ const _styles = ReactNative.StyleSheet.create({
     },
 });
 
-export class ToastView extends ComponentBase<{}, ToastViewState> {
+export class ToastView extends ComponentBase<{}, IToastViewState> {
 
     private _hideToastTimerId: number;
     private _button: ReactNative.TouchableOpacity;
@@ -70,8 +70,8 @@ export class ToastView extends ComponentBase<{}, ToastViewState> {
         }],
     };
 
-    private _recalcDisplay(message: ToastMessage): void {
-        let newState: ToastViewState = {
+    private _recalcDisplay(message: IToastMessage): void {
+        let newState: IToastViewState = {
             currentMessage: message,
         };
         this.setState(newState, () => {
@@ -79,8 +79,8 @@ export class ToastView extends ComponentBase<{}, ToastViewState> {
         });
     }
 
-    protected _buildState(props: {}, initialBuild: boolean): ToastViewState {
-        let newState: ToastViewState = {};
+    protected _buildState(props: {}, initialBuild: boolean): IToastViewState {
+        let newState: IToastViewState = {};
 
         if (initialBuild) {
             newState.currentMessage = null;
@@ -128,14 +128,14 @@ export class ToastView extends ComponentBase<{}, ToastViewState> {
         );
     }
 
-    private _onShowToast = (message: ToastMessage) => {
+    private _onShowToast = (message: IToastMessage) => {
         if (this.isComponentMounted()) {
             this._recalcDisplay(message);
         }
     }
 
     private _onTapDismiss = () => {
-        const params: ToastMessage = this.state.currentMessage ? this.state.currentMessage : null;
+        const params: IToastMessage = this.state.currentMessage ? this.state.currentMessage : null;
         if (params && params.onPress) {
             params.onPress();
         }
@@ -154,7 +154,7 @@ export class ToastView extends ComponentBase<{}, ToastViewState> {
             if (this.isComponentMounted()) {
                 ReactNative.Animated.timing(this._verticalAnimatedValue, {
                     toValue: toValue,
-                    easing: ReactNative.Easing.out(),
+                    easing: ReactNative.Easing.linear,
                     duration: 250,
                     isInteraction: false,
                 }).start();
@@ -168,7 +168,7 @@ export class ToastView extends ComponentBase<{}, ToastViewState> {
             if (this.isComponentMounted()) {
                 ReactNative.Animated.timing(this._verticalAnimatedValue, {
                     toValue: _containerHeight,
-                    easing: ReactNative.Easing.out(),
+                    easing: ReactNative.Easing.linear,
                     duration: 200,
                     isInteraction: false,
                 }).start();

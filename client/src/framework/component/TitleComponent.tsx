@@ -1,7 +1,6 @@
 import React = require('react');
 import ReactNative = require('react-native');
 
-import NavUtils = require('../utils/NavUtils');
 import * as Widget from './widget';
 
 const styles = ReactNative.StyleSheet.create({
@@ -52,32 +51,32 @@ const styles = ReactNative.StyleSheet.create({
     },
 });
 
-interface Prop extends ReactNative.ViewProperties {
+interface IProp extends ReactNative.ViewProperties {
     isShowTitle?: boolean;
-    backImg?: string;
+    backImg?: ReactNative.ImageURISource;
     title?: string;
-    titleImg?: string;
+    titleImg?: ReactNative.ImageURISource;
     right?: string;
-    rightImg?: string;
+    rightImg?: ReactNative.ImageURISource;
     rightStyle?: any;
     onBack?: () => void;
     onTitle?: () => void;
     onRight?: () => void;
 }
-interface State {
+interface IState {
     isShowTitle: boolean;
     dividerLine: boolean;
     right: boolean;
 }
-class TitleComponent extends React.Component<Prop, State>{
-    public static defaultProps: Prop = {
+class TitleComponent extends React.Component<IProp, IState> {
+    public static defaultProps: IProp = {
         isShowTitle: true,
         backImg: require('../../../asserts/common/back.png'),
-        onBack: () => NavUtils.nav.goBack(),
+        onBack: () => { },
         onTitle: () => { },
         onRight: () => { },
     };
-    constructor(prop: Prop, state: State) {
+    constructor(prop: IProp, state: IState) {
         super(prop, state);
         this.state = { isShowTitle: this.props.isShowTitle, dividerLine: true, right: false };
         this.setState = this.setState.bind(this);
@@ -105,8 +104,8 @@ class TitleComponent extends React.Component<Prop, State>{
             </ReactNative.View>
         );
     }
-    private renderBtn = (title: string, img: string, btnstyle: ReactNative.StyleProp<ReactNative.ViewStyle>,
-        titleStyle: ReactNative.StyleProp<ReactNative.TextStyle>, onPress: () => any) => {
+    private renderBtn = (title: string, img: ReactNative.ImageURISource, btnstyle: ReactNative.StyleProp<ReactNative.ViewStyle>,
+                         titleStyle: ReactNative.StyleProp<ReactNative.TextStyle>, onPress: () => any) => {
         return (
             <ReactNative.TouchableOpacity onPress={onPress} style={btnstyle}>
                 {img === null ? null : (<Widget.FitImage source={img} />)}

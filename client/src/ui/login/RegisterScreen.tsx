@@ -68,14 +68,11 @@ interface IState {
     checkCodeBtn: number;
 }
 
-export = class RegisterScreen extends fm.ComponentBase<{}, IState>{
+export = class RegisterScreen extends fm.component.BaseNavComp<{}, IState>{
     private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCode[]> = new fm.component.HttpStore.HttpStore();
     private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfo[]> = new fm.component.HttpStore.HttpStore();
 
     private _intervalToken: number;
-    constructor(props?: {}) {
-        super(props);
-    }
 
     protected _buildState(props: {}, initialBuild: boolean): IState {
         const newState = {
@@ -92,7 +89,7 @@ export = class RegisterScreen extends fm.ComponentBase<{}, IState>{
                 let message = this.state.registerResult.result.message;
                 fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
                 this._stopInterval();
-                fm.utils.NavUtils.nav.navigate('index');
+                this.props.navigation.navigate('index');
             });
         }
         if (newState.checkCodeResult.state === 'sucess' && !this._intervalToken) {
@@ -182,7 +179,7 @@ export = class RegisterScreen extends fm.ComponentBase<{}, IState>{
                 url: utils.UrlConst.RegisterUrl,
                 method: 'POST',
                 body: {
-                    phoneNumber: this.state.phoneNumber
+                    phoneNumber: this.state.phoneNumber,
                 },
             });
             return;

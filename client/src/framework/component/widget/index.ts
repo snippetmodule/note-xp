@@ -6,4 +6,4 @@ export {
     FitImage,
     EmptyView,
     ToastView,
-}
+};

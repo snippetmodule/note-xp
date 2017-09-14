@@ -1,59 +1,52 @@
-import rx = require('reactxp');
+import React = require('react');
+import ReactNative = require('react-native');
+
 import fm = require('../../../framework');
 import models = require('../../modles');
 import utils = require('../../utils');
 
-import { VirtualListView, VirtualListViewItemInfo } from 'reactxp-virtuallistview';
-
-import { SimpleItemComp, ArticleItem } from './SimpleItemComp';
+import { SimpleItemComp, IArticleItem } from './SimpleItemComp';
 import { PicItemComp } from './PicItemComp';
 import { VideoItemComp } from './VideoItemComp';
 
-const styles = {
-    listView: rx.Styles.createViewStyle({
+const styles = ReactNative.StyleSheet.create({
+    listView: {
         flex: 1,
         paddingTop: 5,
         paddingLeft: 5,
-        paddingRight: 5
-    }),
-};
+        paddingRight: 5,
+    },
+});
 
-interface State {
-    list: ArticleItem[];
+interface IState {
+    list: IArticleItem[];
 }
-export interface ArticleItem extends VirtualListViewItemInfo {
-    isPlaying: boolean; // for VideoItemComp
-    onVideoBtn: () => any;
-    onPicBtn: () => any;
-    onLikeBtn: () => any;
-    onCollectionBtn: () => any;
-    onShare: () => any;
-    data: models.Json.Article;
-}
-interface Prop {
+
+interface IProp {
     data: models.Json.Article[];
 }
-export class ArticleListComp extends rx.Component<Prop, State>{
+export class ArticleListComp extends React.Component<IProp, IState> {
 
-    constructor(props: Prop, context?: any) {
+    constructor(props: IProp, context?: any) {
         super(props, context);
         this.state = {
-            list: this.generalList(this.props.data)
+            list: this.generalList(this.props.data),
         };
         // this.refreshList(this.props.data);
     }
 
     render() {
         return (
-            <VirtualListView style={styles.listView}
-                padding={5}
-                itemList={this.state ? this.state.list : []}
+            <ReactNative.FlatList
+                data={this.state.list}
+                extraData={this.state}
+                keyExtractor={this._keyExtractor}
                 renderItem={this._renderItem}
-                animateChanges={true}
-                logInfo={log => null}
-                skipRenderIfItemUnchanged={true}
             />
         );
+    }
+    _keyExtractor = (item: IArticleItem, index: number) => {
+        return item.data.id;
     }
     private generalList = (data: models.Json.Article[]) => {
         return data.map((item, index) => {
@@ -73,7 +66,7 @@ export class ArticleListComp extends rx.Component<Prop, State>{
         });
     }
     refreshList = (data: models.Json.Article[]) => {
-        let list: ArticleItem[] = this.generalList(data);
+        let list: IArticleItem[] = this.generalList(data);
         this.setState({ list });
     }
     private _getItemTemplate = (article: models.Json.Article) => {
@@ -81,29 +74,29 @@ export class ArticleListComp extends rx.Component<Prop, State>{
             case 1:
                 return 'pic';
             case 3:
-                return 'video'
+                return 'video';
             default:
                 return 'simple';
         }
     }
-    private _renderItem = (item: ArticleItem, hasFocus?: boolean) => {
-        fm.utils.Log.i('_renderItem', item.template);
-        switch (item.template) {
+    private _renderItem = (info: { item: IArticleItem, index: number }) => {
+        fm.utils.Log.i('_renderItem', info.item.data.id);
+        switch (info.item.template) {
             case 'simple':
                 return (
-                    <SimpleItemComp {...item} />
+                    <SimpleItemComp {...info.item} />
                 );
             case 'pic':
                 return (
-                    <PicItemComp {...item} />
+                    <PicItemComp {...info.item} />
                 );
             case 'video':
                 return (
-                    <VideoItemComp {...item} />
+                    <VideoItemComp {...info.item} />
                 );
             default:
                 return (
-                    <SimpleItemComp {...item} />
+                    <SimpleItemComp {...info.item} />
                 );
         }
     }
@@ -111,7 +104,7 @@ export class ArticleListComp extends rx.Component<Prop, State>{
     private _videoPlayingIndex = -1;
     private _onPlayVideo(index: number) {
         this._videoPlayingIndex = index;
-        let list: ArticleItem[] = this.state.list.map((item, index) => {
+        let list: IArticleItem[] = this.state.list.map((item, index) => {
             return {
                 ...item,
                 isPlaying: this._videoPlayingIndex === index,

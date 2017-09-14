@@ -8,14 +8,14 @@ class UserManager extends StoreBase {
 
     init() {
         return UrlCacheUtils.get('file://userloginInfo', Number.MAX_VALUE)
-            .then((cache => cache && this.mUser.json(cache.response)));
+            .then(((cache) => cache && this.mUser.json(cache.response)));
     }
     save(response: string) {
         return UrlCacheUtils.save('file://userloginInfo', response)
             .then(() => {
                 this.mUser.json(response);
                 this.trigger();
-            })
+            });
 
     }
 
@@ -33,7 +33,7 @@ class UserManager extends StoreBase {
 }
 
 export class User {
-    private mInfo: UserInfo;
+    private mInfo: IUserInfo;
 
     get isLogined(): boolean {
         return this.mInfo && true;
@@ -45,9 +45,9 @@ export class User {
         this.mInfo = JSON.parse(response);
     }
 }
-interface UserInfo {
-    id: string,
-    userNo: string,
+interface IUserInfo {
+    id: string;
+    userNo: string;
     nickName: string;
     hasCerted: boolean;
     description: string;

@@ -6,7 +6,7 @@ let pixelRatio: number = ReactNative.PixelRatio.get();
 let window = ReactNative.Dimensions.get('window');
 
 export function get(): number {
-    //'web' | 'ios' | 'android' | 'windows';
+    // 'web' | 'ios' | 'android' | 'windows';
     return pixelRatio;
 }
 

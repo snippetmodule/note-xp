@@ -1,6 +1,6 @@
 import React = require('react');
 import ReactNative = require('react-native');
-
+import { NavigationScreenProp } from 'react-navigation';
 import * as Widget from './widget';
 
 const styles = ReactNative.StyleSheet.create({
@@ -52,12 +52,16 @@ const styles = ReactNative.StyleSheet.create({
 });
 
 interface IProp extends ReactNative.ViewProperties {
+    navigation: NavigationScreenProp<any, any>;
     isShowTitle?: boolean;
     backImg?: ReactNative.ImageURISource;
+    backImageSize?: { width: number, height: number };
     title?: string;
     titleImg?: ReactNative.ImageURISource;
+    titleImgSize?: { width: number, height: number };
     right?: string;
     rightImg?: ReactNative.ImageURISource;
+    rightImgSize?: { width: number, height: number };
     rightStyle?: any;
     onBack?: () => void;
     onTitle?: () => void;
@@ -70,24 +74,25 @@ interface IState {
 }
 class TitleComponent extends React.Component<IProp, IState> {
     public static defaultProps: IProp = {
+        navigation: null,
         isShowTitle: true,
         backImg: require('../../../asserts/common/back.png'),
-        onBack: () => { },
         onTitle: () => { },
         onRight: () => { },
     };
     constructor(prop: IProp, state: IState) {
         super(prop, state);
         this.state = { isShowTitle: this.props.isShowTitle, dividerLine: true, right: false };
-        this.setState = this.setState.bind(this);
     }
     render() {
-        let titleBtn = this.renderBtn(this.props.title, this.props.titleImg, [styles.titleBtn, this.state.right ? {} : { marginRight: 56 }], styles.titleTex, this.props.onTitle);
-        let rightBtn = this.renderBtn(this.props.right, this.props.rightImg, null, null, this.props.onRight);
+        let titleBtn = this.renderBtn(this.props.title, this.props.titleImg, this.props.titleImgSize,
+            [styles.titleBtn, this.state.right ? {} : { marginRight: 56 }], styles.titleTex, this.props.onTitle);
+        let rightBtn = this.renderBtn(this.props.right, this.props.rightImg, this.props.rightImgSize,
+            null, null, this.props.onRight);
         let titleLayout = this.state.isShowTitle ? (
             <ReactNative.View style={styles.titleContainer} ref="titleLayout">
                 <ReactNative.TouchableOpacity onPress={this.props.onBack} style={styles.backBtn}>
-                    <Widget.FitImage source={this.props.backImg} />
+                    <ReactNative.Image source={this.props.backImg} style={this.props.backImageSize || { height: 17, width: 10.5 }} />
                 </ReactNative.TouchableOpacity>
                 {titleBtn}
                 {rightBtn}
@@ -104,11 +109,13 @@ class TitleComponent extends React.Component<IProp, IState> {
             </ReactNative.View>
         );
     }
-    private renderBtn = (title: string, img: ReactNative.ImageURISource, btnstyle: ReactNative.StyleProp<ReactNative.ViewStyle>,
+
+    private renderBtn = (title: string, img: ReactNative.ImageURISource, imgSizeStyle: { width: number, height: number },
+                         btnstyle: ReactNative.StyleProp<ReactNative.ViewStyle>,
                          titleStyle: ReactNative.StyleProp<ReactNative.TextStyle>, onPress: () => any) => {
         return (
             <ReactNative.TouchableOpacity onPress={onPress} style={btnstyle}>
-                {img === null ? null : (<Widget.FitImage source={img} />)}
+                {img === null ? null : (<ReactNative.Image source={img} style={imgSizeStyle} />)}
                 {title === null ? null : (
                     <ReactNative.Text style={titleStyle}>
                         {title}
@@ -116,6 +123,14 @@ class TitleComponent extends React.Component<IProp, IState> {
                 )}
             </ReactNative.TouchableOpacity>
         );
+    }
+
+    _onBack = () => {
+        if (this.props.onBack) {
+            this.props.onBack();
+            return;
+        }
+        this.props.navigation.goBack();
     }
 }
 export = TitleComponent;

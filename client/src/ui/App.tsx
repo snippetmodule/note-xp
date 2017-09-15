@@ -1,7 +1,7 @@
 
 import React = require('react');
 import ReactNative = require('react-native');
-import { NavigationContainer, StackNavigator, NavigationScreenProp } from 'react-navigation';
+import { NavigationContainer, StackNavigator, NavigationScreenProp, NavigationState, NavigationAction } from 'react-navigation';
 
 import MainScreen = require('./main/MainScreen');
 import DrawerScreen = require('./main/DrawerScreen');
@@ -10,19 +10,9 @@ import fm = require('../framework');
 
 const AppNavigator: NavigationContainer = StackNavigator(
     {
-        RegisterScreen: {
-            name: 'register',
-            description: 'A card register',
-            screen: RegisterScreen,
-        },
-        DrawerScreen: {
-            name: 'drawer',
-            description: 'drawer',
-            screen: RegisterScreen,
-        },
-        Index: {
-            screen: MainScreen,
-        },
+        register: { screen: RegisterScreen },
+        drawer: { screen: DrawerScreen },
+        Index: { screen: MainScreen },
     },
     {
         initialRouteName: 'Index',
@@ -33,7 +23,14 @@ const AppNavigator: NavigationContainer = StackNavigator(
 export default class App extends React.Component<any, any> {
     render() {
         return (
-            <AppNavigator />
+            <AppNavigator onNavigationStateChange={this.onNavigationStateChange} />
         );
+    }
+    onNavigationStateChange = (prevNavigationState: NavigationState, nextNavigationState: NavigationState, action: NavigationAction) => {
+        fm.utils.Log.i('NavigationState', 'start------------');
+        fm.utils.Log.i('NavigationState', 'prevNavigationState' + JSON.stringify(prevNavigationState));
+        fm.utils.Log.i('NavigationState', 'nextNavigationState' + JSON.stringify(nextNavigationState));
+        fm.utils.Log.i('NavigationState', 'action' + JSON.stringify(action));
+        fm.utils.Log.i('NavigationState', 'end------------');
     }
 }

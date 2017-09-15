@@ -10,6 +10,9 @@ interface IProp<Params> extends NavigationScreenProps<Params> {
     ref?: React.Ref<any>;
 }
 export class BaseNavComp<Params, S> extends ComponentBase<IProp<Params>, S> {
+    constructor(props: IProp<Params>) {
+        super(props);
+    }
     public replace(routeName: string, params = {}) {
         const navigateAction = NavigationActions.navigate({
             routeName: routeName,
@@ -22,7 +25,7 @@ export class BaseNavComp<Params, S> extends ComponentBase<IProp<Params>, S> {
     public goBack(routeName = '') {
         const backAction = NavigationActions.back({
             key: routeName,
-          });
+        });
         this.props.navigation.dispatch(backAction);
     }
 }

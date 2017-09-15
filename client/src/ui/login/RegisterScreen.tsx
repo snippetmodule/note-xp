@@ -51,6 +51,7 @@ const styles = ReactNative.StyleSheet.create({
         backgroundColor: '#5E62FF',
         borderRadius: 4,
         marginTop: 27,
+        alignContent: 'center',
         alignSelf: 'center',
     },
     registerTxt: {
@@ -123,7 +124,7 @@ export = class RegisterScreen extends fm.component.BaseNavComp<{}, IState>{
     render() {
         let codeTex = this.state.checkCodeBtn ? this.state.checkCodeBtn + '' : 'Code';
         return (
-            <fm.component.TitleComponent title="手机登录">
+            <fm.component.TitleComponent title="手机登录" {...this.props}>
                 <ReactNative.TextInput placeholder="Phone"
                     placeholderTextColor="#BBBBBB"
                     multiline={false}

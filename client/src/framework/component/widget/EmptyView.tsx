@@ -28,8 +28,8 @@ const styles = ReactNative.StyleSheet.create({
         paddingBottom: 30,
     },
     loadingStatic: {
-        height: 60,
-        width: 60,
+        height: 32.5,
+        width: 32.5,
     },
     failHint: {
         marginTop: 17,
@@ -83,7 +83,7 @@ export class EmptyView extends React.Component<IProp, any> {
     private renderLoadFail = () => {
         return (
             <ReactNative.View style={styles.continer}>
-                <FitImage source={this.props.pic || require('../../../../asserts/common/empty_img.png')} />
+                <ReactNative.Image source={this.props.pic || require('../../../../asserts/common/empty_img.png')} style={{height: 75.5, width: 67.5}}/>
                 <ReactNative.Text style={styles.failHint}>
                     {this.props.hint || '喝杯咖啡休息一会吧'}
                 </ReactNative.Text>

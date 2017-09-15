@@ -9,7 +9,7 @@ export class PicItemComp extends React.Component<IArticleItem, any> {
         return (
             <SimpleItemComp {...this.props}>
                 <ReactNative.TouchableOpacity onPress={this.props.onPicBtn}>
-                    <ReactNative.Image source={{ uri: this.props.data.simpleUrl }} />
+                    <ReactNative.Image source={{ uri: this.props.data.simpleUrl }} style={{ height: 189 }} />
                 </ReactNative.TouchableOpacity>
             </SimpleItemComp>
         );

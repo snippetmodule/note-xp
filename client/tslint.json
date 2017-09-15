@@ -28,6 +28,7 @@
     "no-empty-interface":false,
     "no-string-literal": false,
     "no-submodule-imports":false,
+    "no-console":false,
     "eofline": false,
     "no-conditional-assignment": false,
     "jsx-no-lambda": false,

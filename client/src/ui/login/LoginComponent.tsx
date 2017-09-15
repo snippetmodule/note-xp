@@ -20,6 +20,8 @@ const styles = ReactNative.StyleSheet.create({
     },
     logo: {
         marginTop: 118,
+        height: 19,
+        width: 62,
     },
     loginSolution: {
         fontSize: 14,
@@ -31,6 +33,8 @@ const styles = ReactNative.StyleSheet.create({
     },
     wechatImg: {
         padding: 10,
+        width: 49,
+        height: 42,
     },
     loginBtn: {
         width: 327,
@@ -44,10 +48,11 @@ const styles = ReactNative.StyleSheet.create({
     loginTxt: {
         color: '#fff',
         fontSize: 15,
+        flex: 1,
     },
 });
 
-export default class LonginComponent extends React.Component<{}, null> {
+export default class LonginComponent extends fm.component.BaseNavComp<{}, null> {
     render() {
         return (
             <ReactNative.ScrollView style={styles.scroll}>
@@ -55,12 +60,12 @@ export default class LonginComponent extends React.Component<{}, null> {
                     <ReactNative.Text style={styles.topLoginTxt}>
                         Login
                     </ReactNative.Text>
-                    <fm.component.widget.FitImage style={styles.logo} source={require('../../../asserts/login/logo.png')} />
+                    <ReactNative.Image resizeMode="contain" style={styles.logo} source={require('../../../asserts/login/logo.png')} />
                     <ReactNative.Text style={styles.loginSolution}>
                         Login Solution
                     </ReactNative.Text>
                     <ReactNative.TouchableOpacity style={styles.wechatBtn} onPress={this._onPressWeChat}>
-                        <fm.component.widget.FitImage style={styles.wechatImg} source={require('../../../asserts/login/wechat.png')} />
+                        <ReactNative.Image resizeMode="contain" style={styles.wechatImg} source={require('../../../asserts/login/wechat.png')} />
                     </ReactNative.TouchableOpacity>
                     <ReactNative.TouchableOpacity style={styles.loginBtn} onPress={this._onPressRegitser}>
                         <ReactNative.Text style={styles.loginTxt}>
@@ -74,7 +79,7 @@ export default class LonginComponent extends React.Component<{}, null> {
     private _onPressWeChat = () => {
         // this.props.onShowTodoPanel();
     }
-    private _onPressRegitser() {
-        // fm.utils.NavUtils.nav.navigate('register');
+    private _onPressRegitser = () => {
+        this.props.navigation.navigate('register');
     }
 }

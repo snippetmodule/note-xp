@@ -11,24 +11,32 @@ import { MenuComp } from './MenuComp';
 //     let ReactNative = require('react-native');
 //     BackAndroid = ReactNative.BackAndroid;
 // }
-const Drawer = DrawerNavigator({
-    Home: {
-        screen: Home,
+const Drawer = DrawerNavigator(
+    {
+        DrawerHome: {
+            screen: MenuComp,
+        },
     },
-    Notifications: {
-        screen: MenuComp,
-    },
-});
+    {
+        drawerWidth: 270,
+        drawerPosition: 'left',
+        contentComponent: (props: any) => <MenuComp />,
+        initialRouteName: 'DrawerHome',
+        contentOptions: {
+            activeTintColor: '#e91e63',
+        },
+    });
 
-export class DrawerScreen extends fm.component.BaseNavComp<{}, null> {
+export = Home;
+class DrawerScreen extends fm.component.BaseNavComp<{}, null> {
     private _backPressedTime: number = 0;
 
     public componentDidMount() {
-        window.addEventListener('hardwareBackPress', this.handleBackButton);
+        ReactNative.BackAndroid.addEventListener('hardwareBackPress', this.handleBackButton);
     }
 
     public componentWillUnmount() {
-        window.removeEventListener('hardwareBackPress', this.handleBackButton);
+        ReactNative.BackAndroid.removeEventListener('hardwareBackPress', this.handleBackButton);
     }
     private handleBackButton = () => {
         if (this.props.navigation.state.routeName === 'DrawerOpen') {
@@ -47,7 +55,7 @@ export class DrawerScreen extends fm.component.BaseNavComp<{}, null> {
     }
     render() {
         return (
-            <Drawer />
+            <Drawer {...this.props} />
         );
     }
 }

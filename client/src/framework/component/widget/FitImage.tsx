@@ -7,11 +7,6 @@ interface IFitImageState {
 }
 
 export class FitImage extends React.Component<ReactNative.ImageProperties, IFitImageState> {
-    static defaultState: IFitImageState = {
-        width: 0,
-        height: 0,
-    };
-
     private isFirstLoad: boolean;
     private mounted: boolean;
 
@@ -19,7 +14,7 @@ export class FitImage extends React.Component<ReactNative.ImageProperties, IFitI
         super(props);
 
         this.isFirstLoad = true;
-        this.state = FitImage.defaultState;
+        this.state = { width: 0, height: 0 };
     }
 
     public componentDidMount() {
@@ -50,6 +45,8 @@ export class FitImage extends React.Component<ReactNative.ImageProperties, IFitI
         let { width, height } = this.props.style ? this.props.style : {} as any;
         if (width && height) {
             return { width, height };
+        } else if (!this.state.width || !this.state.height) {
+            return null;
         } else {
             return { width: this.state.width, height: this.state.height };
         }
@@ -62,7 +59,7 @@ export class FitImage extends React.Component<ReactNative.ImageProperties, IFitI
             height: layout.nativeEvent.layout.height,
             width: layout.nativeEvent.layout.width,
         });
-        if (this.props.onLoad) {
+        if (this.props.onLayout) {
             this.props.onLayout(layout);
         }
     }

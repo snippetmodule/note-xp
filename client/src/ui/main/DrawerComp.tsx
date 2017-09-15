@@ -27,8 +27,8 @@ const Drawer = DrawerNavigator(
         },
     });
 
-export = Home;
-class DrawerScreen extends fm.component.BaseNavComp<{}, null> {
+export default Home;
+class DrawerScreen extends fm.component.NavComp<{}, null> {
     private _backPressedTime: number = 0;
 
     public componentDidMount() {

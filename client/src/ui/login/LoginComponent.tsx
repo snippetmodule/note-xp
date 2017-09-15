@@ -52,7 +52,7 @@ const styles = ReactNative.StyleSheet.create({
     },
 });
 
-export default class LonginComponent extends fm.component.BaseNavComp<{}, null> {
+export default class LonginComponent extends fm.component.NavComp<{}, null> {
     render() {
         return (
             <ReactNative.ScrollView style={styles.scroll}>
@@ -80,6 +80,6 @@ export default class LonginComponent extends fm.component.BaseNavComp<{}, null> 
         // this.props.onShowTodoPanel();
     }
     private _onPressRegitser = () => {
-        this.props.navigation.navigate('register');
+        this.go('register');
     }
 }

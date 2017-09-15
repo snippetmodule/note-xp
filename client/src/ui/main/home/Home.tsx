@@ -20,7 +20,7 @@ const styles = ReactNative.StyleSheet.create({
 });
 let data: fm.models.BaseJson<models.Json.Article[]> = require('./data');
 
-export class Home extends fm.component.BaseNavComp<{}, null> {
+export class Home extends fm.component.NavComp<{}, null> {
     private onMenu = () => {
         this.props.navigation.navigate('DrawerToggle');
     }

@@ -1,38 +1,15 @@
 import React = require('react');
 import ReactNative = require('react-native');
-import { NavigationScreenProp, NavigationRoute, NavigationAction, NavigationParams } from 'react-navigation';
+import Navigation = require('react-navigation');
 
-import Md5 = require('./Md5Utils');
-import StringUtils = require('./StringUtils');
-import DeviceUtils = require('./DeviceUtils');
-
-export let _nav: NavigationScreenProp<NavigationRoute<any>, NavigationAction>;
-
-export function go(routeName: string, params?: NavigationParams, action?: NavigationAction) {
-    if (!_nav) {
-        return;
-    }
-    _nav.navigate(routeName, params, action);
-}
-// TODO
-export function replace(routeName: string, params?: NavigationParams) {
-    if (!_nav) {
-        return;
-    }
-    _nav.navigate(routeName, params);
-}
-export function back(routeName?: (string | null)) {
-    if (!_nav) {
-        return;
-    }
-    _nav.goBack(routeName);
-}
-
-export function goToMain() {
-    if (!_nav) {
-        return;
-    }
-    if (_nav.state.routeName !== 'index') {
-        back('index');
-    }
+import Log = require('./Log');
+// export function withNavigation(){
+//     return ;
+// }
+export function onNavigationStateChange(prevNavigationState: Navigation.NavigationState, nextNavigationState: Navigation.NavigationState, action: Navigation.NavigationAction) {
+    Log.i('NavUtils', 'start------------');
+    Log.i('NavUtils', 'prevNavigationState' + JSON.stringify(prevNavigationState));
+    Log.i('NavUtils', 'nextNavigationState' + JSON.stringify(nextNavigationState));
+    Log.i('NavUtils', 'action' + JSON.stringify(action));
+    Log.i('NavUtils', 'end------------');
 }

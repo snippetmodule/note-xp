@@ -1,5 +1,6 @@
 import React = require('react');
 import ReactNative = require('react-native');
+import Navigation = require('react-navigation');
 
 import fm = require('../../framework');
 import * as utils from '../utils';
@@ -69,7 +70,7 @@ interface IState {
     checkCodeBtn: number;
 }
 
-export = class RegisterScreen extends fm.component.BaseNavComp<{}, IState>{
+export = class RegisterScreen extends fm.component.NavComp<{}, IState>{
     private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCode[]> = new fm.component.HttpStore.HttpStore();
     private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfo[]> = new fm.component.HttpStore.HttpStore();
 
@@ -90,7 +91,14 @@ export = class RegisterScreen extends fm.component.BaseNavComp<{}, IState>{
                 let message = this.state.registerResult.result.message;
                 fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
                 this._stopInterval();
-                this.props.navigation.navigate('index');
+
+                const resetAction = Navigation.NavigationActions.reset({
+                    index: 0,
+                    actions: [
+                        Navigation.NavigationActions.navigate({ routeName: 'main'}),
+                    ],
+                });
+                let result = this.props.navigation.dispatch(resetAction);
             });
         }
         if (newState.checkCodeResult.state === 'sucess' && !this._intervalToken) {
@@ -134,6 +142,7 @@ export = class RegisterScreen extends fm.component.BaseNavComp<{}, IState>{
                     keyboardType="numeric"
                     style={styles.phoneInput}
                     value={this.state.phoneNumber}
+                    underlineColorAndroid="#0000"
                     onChangeText={this._onNumberChange}
                 />
                 <ReactNative.View style={styles.dividerLine} />
@@ -147,6 +156,7 @@ export = class RegisterScreen extends fm.component.BaseNavComp<{}, IState>{
                         keyboardType="numeric"
                         style={styles.codeInput}
                         value={this.state.checkCode}
+                        underlineColorAndroid="#0000"
                         onChangeText={this._onCheckCodeChange}
                     />
                     <ReactNative.TouchableOpacity onPress={this._onGetCode} style={[styles.codeBtn]}>

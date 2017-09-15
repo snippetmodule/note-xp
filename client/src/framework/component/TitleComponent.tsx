@@ -1,6 +1,6 @@
 import React = require('react');
 import ReactNative = require('react-native');
-import { NavigationScreenProp } from 'react-navigation';
+import Navigation = require('react-navigation');
 import * as Widget from './widget';
 
 const styles = ReactNative.StyleSheet.create({
@@ -52,7 +52,7 @@ const styles = ReactNative.StyleSheet.create({
 });
 
 interface IProp extends ReactNative.ViewProperties {
-    navigation: NavigationScreenProp<any, any>;
+    navigation: Navigation.NavigationScreenProp<Navigation.NavigationRoute<any>, Navigation.NavigationAction>;
     isShowTitle?: boolean;
     backImg?: ReactNative.ImageURISource;
     backImageSize?: { width: number, height: number };
@@ -91,7 +91,7 @@ class TitleComponent extends React.Component<IProp, IState> {
             null, null, this.props.onRight);
         let titleLayout = this.state.isShowTitle ? (
             <ReactNative.View style={styles.titleContainer} ref="titleLayout">
-                <ReactNative.TouchableOpacity onPress={this.props.onBack} style={styles.backBtn}>
+                <ReactNative.TouchableOpacity onPress={this._onBack} style={styles.backBtn}>
                     <ReactNative.Image source={this.props.backImg} style={this.props.backImageSize || { height: 17, width: 10.5 }} />
                 </ReactNative.TouchableOpacity>
                 {titleBtn}

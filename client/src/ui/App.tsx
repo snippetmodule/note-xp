@@ -3,34 +3,28 @@ import React = require('react');
 import ReactNative = require('react-native');
 import { NavigationContainer, StackNavigator, NavigationScreenProp, NavigationState, NavigationAction } from 'react-navigation';
 
+import SplashScreen = require('./main/SplashScreen');
 import MainScreen = require('./main/MainScreen');
-import DrawerScreen = require('./main/DrawerScreen');
 import RegisterScreen = require('./login/RegisterScreen');
 import fm = require('../framework');
 
 const AppNavigator: NavigationContainer = StackNavigator(
     {
+        splash: { screen: SplashScreen },
+        main: { screen: MainScreen },
         register: { screen: RegisterScreen },
-        drawer: { screen: DrawerScreen },
-        Index: { screen: MainScreen },
     },
     {
-        initialRouteName: 'Index',
+        initialRouteName: 'splash',
         headerMode: 'none',
+        navigationOptions: { gesturesEnabled: true },
         mode: ReactNative.Platform.OS === 'ios' ? 'modal' : 'card',
     },
 );
 export default class App extends React.Component<any, any> {
     render() {
         return (
-            <AppNavigator onNavigationStateChange={this.onNavigationStateChange} />
+            <AppNavigator onNavigationStateChange={fm.utils.NavUtils.onNavigationStateChange} />
         );
-    }
-    onNavigationStateChange = (prevNavigationState: NavigationState, nextNavigationState: NavigationState, action: NavigationAction) => {
-        fm.utils.Log.i('NavigationState', 'start------------');
-        fm.utils.Log.i('NavigationState', 'prevNavigationState' + JSON.stringify(prevNavigationState));
-        fm.utils.Log.i('NavigationState', 'nextNavigationState' + JSON.stringify(nextNavigationState));
-        fm.utils.Log.i('NavigationState', 'action' + JSON.stringify(action));
-        fm.utils.Log.i('NavigationState', 'end------------');
     }
 }

@@ -2,12 +2,12 @@ import widget = require('./widget');
 import * as HttpStore from './HttpStore';
 import { HttpComponent } from './HttpComponent';
 import TitleComponent = require('./TitleComponent');
-import {BaseNavComp} from './BaseNavComp';
+import {NavComp} from './NavComp';
 
 export {
     widget,
     HttpStore,
     HttpComponent,
     TitleComponent,
-    BaseNavComp,
+    NavComp,
 };

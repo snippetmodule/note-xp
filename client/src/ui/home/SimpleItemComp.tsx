@@ -1,7 +1,7 @@
 import React = require('react');
 import ReactNative = require('react-native');
 
-import models = require('../../modles');
+import models = require('../modles');
 
 const styles = ReactNative.StyleSheet.create({
     root: {
@@ -80,15 +80,15 @@ export class SimpleItemComp extends React.Component<IProp, any> {
                     </ReactNative.Text>
                     <ReactNative.TouchableOpacity style={styles.checkbox} onPress={this.props.onLikeBtn}>
                         <ReactNative.Image style={styles.checkboxImg}
-                            source={this.props.data.isLike ? require('../../../../asserts/home/ic_has_like.png') : require('../../../../asserts/home/ic_like.png')} />
+                            source={this.props.data.isLike ? require('../../../asserts/home/ic_has_like.png') : require('../../../asserts/home/ic_like.png')} />
                     </ReactNative.TouchableOpacity>
                     <ReactNative.TouchableOpacity style={styles.checkbox} onPress={this.props.onCollectionBtn}>
                         <ReactNative.Image style={styles.checkboxImg}
-                            source={this.props.data.hasCollection ? require('../../../../asserts/home/ic_has_collection.png') : require('../../../../asserts/home/ic_collection.png')} />
+                            source={this.props.data.hasCollection ? require('../../../asserts/home/ic_has_collection.png') : require('../../../asserts/home/ic_collection.png')} />
                     </ReactNative.TouchableOpacity>
                     <ReactNative.TouchableOpacity style={[styles.checkbox, { marginRight: 6 }]} onPress={this.props.onShare}>
                         <ReactNative.Image style={styles.checkboxImg}
-                            source={require('../../../../asserts/home/ic_share.png')} />
+                            source={require('../../../asserts/home/ic_share.png')} />
                     </ReactNative.TouchableOpacity>
                 </ReactNative.View>
             </ReactNative.View>

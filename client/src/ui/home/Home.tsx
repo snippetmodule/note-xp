@@ -1,9 +1,9 @@
 import React = require('react');
 import ReactNative = require('react-native');
 
-import fm = require('../../../framework');
-import models = require('../../modles');
-import utils = require('../../utils');
+import fm = require('../../framework');
+import models = require('../modles');
+import utils = require('../utils');
 
 import { SimpleItemComp } from './SimpleItemComp';
 import { PicItemComp } from './PicItemComp';
@@ -37,11 +37,11 @@ export class Home extends fm.component.NavComp<{}, null> {
                 onBack={this.onSearch}
                 onTitle={this.onTitle}
                 onRight={this.onMenu}
-                backImg={require('../../../../asserts/home/home_search.png')}
+                backImg={require('../../../asserts/home/home_search.png')}
                 backImageSize={{ width: 22, height: 21 }}
-                titleImg={require('../../../../asserts/home/logo.png')}
+                titleImg={require('../../../asserts/home/logo.png')}
                 titleImgSize={{ width: 62, height: 18.5 }}
-                rightImg={require('../../../../asserts/home/home_menu.png')}
+                rightImg={require('../../../asserts/home/home_menu.png')}
                 rightImgSize={{ width: 22, height: 20.5 }}
             >
                 <fm.component.HttpComponent ref="httpComp"

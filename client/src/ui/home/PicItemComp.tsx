@@ -1,7 +1,7 @@
 import React = require('react');
 import ReactNative = require('react-native');
 
-import models = require('../../modles');
+import models = require('../modles');
 import { SimpleItemComp, IArticleItem } from './SimpleItemComp';
 
 export class PicItemComp extends React.Component<IArticleItem, any> {

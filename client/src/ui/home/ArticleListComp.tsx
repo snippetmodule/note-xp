@@ -1,9 +1,9 @@
 import React = require('react');
 import ReactNative = require('react-native');
 
-import fm = require('../../../framework');
-import models = require('../../modles');
-import utils = require('../../utils');
+import fm = require('../../framework');
+import models = require('../modles');
+import utils = require('../utils');
 
 import { SimpleItemComp, IArticleItem } from './SimpleItemComp';
 import { PicItemComp } from './PicItemComp';

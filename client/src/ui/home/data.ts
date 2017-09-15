@@ -48,7 +48,7 @@ export ={
             "income": 0,
             "avatorUrl": "http://kita-avator.oss-cn-shanghai.aliyuncs.com/l63g53gv9c53cbe48c151502764339252?x-oss-process=image/resize,h_200",
             "nikeName": "因吹丝挺",
-            "userNo": "l63g53gv",
+            "userNo": 'l63g53gv',
             "isLike": "false",
             "profitIncome": "0.00",
             "paymentStatus": "2",
@@ -189,5 +189,5 @@ export ={
             "certified": "1"
         }
     ],
-    "serverTime": 1504147694879
-}
+    serverTime: 1504147694879
+};

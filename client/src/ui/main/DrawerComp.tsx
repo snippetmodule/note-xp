@@ -3,7 +3,7 @@ import ReactNative = require('react-native');
 import { DrawerNavigator } from 'react-navigation';
 
 import fm = require('../../framework');
-import { Home } from './home/Home';
+import { Home } from '../home/Home';
 import { MenuComp } from './MenuComp';
 
 // let BackAndroid: any;

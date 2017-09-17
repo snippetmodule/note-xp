@@ -45,6 +45,10 @@ function requestImpl<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
         .then((response: WebResponse<BaseJson<T>>) => {
             Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if (response.statusCode === 200) {
+                if (response.body.code === 401) {
+                    UserManager.Instance.logOut();
+                    return SyncTasks.Rejected(`stateCode: 200,but response.body.code: ${response.body.code}`);
+                }
                 let messages = response.body.message;
                 if (params.emptyUseCache && (!messages || (_.isArray(messages) && (messages as any).length === 0))) {
                     return findInCache(params, response);

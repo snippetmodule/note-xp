@@ -62,7 +62,6 @@ const styles = ReactNative.StyleSheet.create({
     },
 });
 interface IState {
-    isLogined: boolean;
     phoneNumber: string;
     checkCode: string;
     checkCodeResult: fm.component.HttpStore.HttpResponse<models.Json.CheckCode[]>;
@@ -75,18 +74,18 @@ export = class RegisterScreen extends fm.component.NavComp<{}, IState>{
     private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfo[]> = new fm.component.HttpStore.HttpStore();
 
     private _intervalToken: number;
+    private _phoneNumberView: ReactNative.TextInput;
 
     protected _buildState(props: {}, initialBuild: boolean): IState {
         const newState = {
             ...this.state,
-            isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
             checkCodeResult: this.mGetCodeStore.getHttpResonse(),
             registerResult: this.mLoginStore.getHttpResonse(),
             checkCodeBtn: 0,
         };
         if (newState.registerResult.state === 'sucess'
-            && newState.registerResult.result.code === 200
-            && !newState.isLogined) {
+            && newState.registerResult.result.code === 200) {
+            this._stopInterval();
             window.setTimeout(() => {
                 let message = this.state.registerResult.result.message;
                 fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
@@ -95,7 +94,7 @@ export = class RegisterScreen extends fm.component.NavComp<{}, IState>{
                 const resetAction = Navigation.NavigationActions.reset({
                     index: 0,
                     actions: [
-                        Navigation.NavigationActions.navigate({ routeName: 'main'}),
+                        Navigation.NavigationActions.navigate({ routeName: 'main' }),
                     ],
                 });
                 let result = this.props.navigation.dispatch(resetAction);
@@ -108,8 +107,12 @@ export = class RegisterScreen extends fm.component.NavComp<{}, IState>{
         }
         return newState;
     }
-
+    componentDidMount() {
+        super.componentDidMount();
+        this._phoneNumberView.focus();
+    }
     componentWillUnmount() {
+        super.componentWillUnmount();
         this._stopInterval();
     }
     private _startInterval = () => {
@@ -133,7 +136,9 @@ export = class RegisterScreen extends fm.component.NavComp<{}, IState>{
         let codeTex = this.state.checkCodeBtn ? this.state.checkCodeBtn + '' : 'Code';
         return (
             <fm.component.TitleComponent title="手机登录" {...this.props}>
-                <ReactNative.TextInput placeholder="Phone"
+                <ReactNative.TextInput
+                    ref={this._onPhoneInputRef}
+                    placeholder="Phone"
                     placeholderTextColor="#BBBBBB"
                     multiline={false}
                     autoFocus={true}
@@ -173,6 +178,9 @@ export = class RegisterScreen extends fm.component.NavComp<{}, IState>{
                 </ReactNative.TouchableOpacity>
             </fm.component.TitleComponent>
         );
+    }
+    private _onPhoneInputRef = (ref: any) => {
+        this._phoneNumberView = ref;
     }
     private _onNumberChange = (v: string) => {
         this.setState({ ...this.state, phoneNumber: v });

@@ -21,11 +21,15 @@ const styles = ReactNative.StyleSheet.create({
 let data: fm.models.BaseJson<models.Json.Article[]> = require('./data');
 
 export class Home extends fm.component.NavComp<{}, null> {
+    private _data: models.Json.Article[] = [];
+    private _list: ArticleListComp;
+    private _httpComp: fm.component.HttpComponent<models.Json.Article[]>;
+
     private onMenu = () => {
         this.props.navigation.navigate('DrawerToggle');
     }
     private onTitle = () => {
-        (this.refs['httpComp'] as fm.component.HttpComponent<models.Json.Article[]>).freshData();
+        this._httpComp.freshData();
     }
     private onSearch = () => {
 
@@ -44,8 +48,9 @@ export class Home extends fm.component.NavComp<{}, null> {
                 rightImg={require('../../../asserts/home/home_menu.png')}
                 rightImgSize={{ width: 22, height: 20.5 }}
             >
-                <fm.component.HttpComponent ref="httpComp"
+                <fm.component.HttpComponent ref={this._onRefHttpComp}
                     onFail={this._renderFail}
+                    onLoading={this._renderLoading}
                     onSucess={this._renderSucess}
                     onSucessFilter={this._onSucessFilter}
                     httpParams={{
@@ -55,18 +60,32 @@ export class Home extends fm.component.NavComp<{}, null> {
             </fm.component.TitleComponent>
         );
     }
+    private _onRefHttpComp = (ref: fm.component.HttpComponent<models.Json.Article[]>) => {
+        this._httpComp = ref;
+    }
+    private _onRefList = (ref: ArticleListComp) => {
+        this._list = ref;
+    }
     private _renderFail = (v: any) => {
         return (
-            <ArticleListComp data={data.message} />
+            <fm.component.widget.EmptyView state="fail" btnPress={this._httpComp.freshData} />
         );
     }
-
-    private _renderSucess = (result: fm.models.BaseJson<models.Json.Article[]>) => {
+    private _renderLoading = () => {
         return (
-            <ArticleListComp data={result.message} />
+            <ArticleListComp ref={this._onRefList} data={this._data} onRefresh={this._httpComp.freshData} refreshing={true} onEndReached={this._onEndReached} />
+        );
+    }
+    private _renderSucess = (result: fm.models.BaseJson<models.Json.Article[]>) => {
+        this._data = result.message;
+        return (
+            <ArticleListComp ref={this._onRefList} data={this._data} onRefresh={this._httpComp.freshData} refreshing={false} onEndReached={this._onEndReached} />
         );
     }
     private _onSucessFilter = (result: fm.models.BaseJson<models.Json.Article[]>) => {
         return result.message.length === 0;
+    }
+    private _onEndReached = (info: { distanceFromEnd: number }) => {
+        fm.utils.Log.i('_onEndReached', JSON.stringify(info));
     }
 }

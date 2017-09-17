@@ -24,6 +24,9 @@ interface IState {
 
 interface IProp {
     data: models.Json.Article[];
+    onRefresh: () => any;
+    refreshing: boolean;
+    onEndReached: (info: { distanceFromEnd: number }) => any;
 }
 export class ArticleListComp extends React.Component<IProp, IState> {
 
@@ -34,13 +37,20 @@ export class ArticleListComp extends React.Component<IProp, IState> {
         };
         // this.refreshList(this.props.data);
     }
-
+    componentWillReceiveProps(nextProps: IProp, nextContext: any) {
+        let list: IArticleItem[] = this.generalList(nextProps.data);
+        this.setState({ list });
+    }
     render() {
         return (
             <ReactNative.FlatList
                 data={this.state.list}
+                onRefresh={this.props.onRefresh}
+                refreshing={this.props.refreshing}
+                onEndReached={this.props.onEndReached}
                 extraData={this.state}
                 keyExtractor={this._keyExtractor}
+
                 renderItem={this._renderItem}
             />
         );
@@ -64,10 +74,6 @@ export class ArticleListComp extends React.Component<IProp, IState> {
                 onShare: () => { },
             };
         });
-    }
-    refreshList = (data: models.Json.Article[]) => {
-        let list: IArticleItem[] = this.generalList(data);
-        this.setState({ list });
     }
     private _getItemTemplate = (article: models.Json.Article) => {
         switch (article.articleType) {

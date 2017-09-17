@@ -19,10 +19,11 @@ class UserManager extends StoreBase {
 
     }
 
-    loginOut() {
+    logOut() {
         return UrlCacheUtils.del('file://userloginInfo')
             .then(() => {
                 this.mUser = new User();
+                this.trigger();
             });
     }
 

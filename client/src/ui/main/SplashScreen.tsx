@@ -1,8 +1,5 @@
 import React = require('react');
 import ReactNative = require('react-native');
-import { CordovaNativeSqliteProvider } from 'nosqlprovider/dist/CordovaNativeSqliteProvider';
-import { InMemoryProvider } from 'nosqlprovider/dist/InMemoryProvider';
-const rnSqliteProvider = require('react-native-sqlite-storage');
 
 import fm = require('../../framework');
 
@@ -12,41 +9,17 @@ const styles = ReactNative.StyleSheet.create({
     },
 });
 
-interface IState {
-    isLoadingOk: boolean;
-}
-
-export = class SplashScreen extends fm.component.NavComp<any, IState> {
+export = class SplashScreen extends fm.component.NavComp<any, null> {
 
     private _progressTimerToken: number;
 
-    constructor(props: any) {
-        super(props);
-
-        fm.db.DbUtils.init([
-            // Specify the DB providers that are valid on the RN platforms.
-            new CordovaNativeSqliteProvider(rnSqliteProvider),
-            new InMemoryProvider(),
-        ]).then(() => {
-            // to do Other Init
-            return fm.manager.UserManager.Instance.init();
-        }).then(() => {
-            if (this.isComponentMounted()) {
-                this.setState({ isLoadingOk: true });
-            }
-        }).catch((err) => {
-            fm.utils.Log.i('Index', err);
-        });
-        this.state = { isLoadingOk: false };
-    }
-
-    componentDidUpdate(prevProps: any, prevState: IState) {
-        if (this.state.isLoadingOk) {
-            this._startTimerr();
-        }
+    componentWillMount() {
+        super.componentWillMount();
+        this._startTimerr();
     }
 
     componentWillUnmount() {
+        super.componentWillUnmount();
         this._stopTimer();
     }
 
@@ -54,7 +27,7 @@ export = class SplashScreen extends fm.component.NavComp<any, IState> {
         this._progressTimerToken = window.setTimeout(() => {
             const params = this.props.navigation.state.params;
             this.reset('main');
-        }, 500);
+        }, 100);
     }
 
     private _stopTimer = () => {

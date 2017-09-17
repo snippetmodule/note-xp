@@ -42,8 +42,8 @@ export class VideoItemComp extends React.Component<IArticleItem, null> {
     render() {
         return (
             <SimpleItemComp {...this.props}>
-                <ReactNative.TouchableWithoutFeedback style={styles.view} onPress={this._onPlay}>
-                    <ReactNative.Image source={{ uri: this.props.data.simpleUrl }} style={styles.content} resizeMode="contain" />
+                <ReactNative.TouchableWithoutFeedback onPress={this._onPlay}>
+                    <ReactNative.Image source={{ uri: this.props.data.simpleUrl }} style={[{ height: 189 }]}/>
                     {/* <ReactNative.Video ref="video"
                         style={styles.content}
                         source={this.props.data.videoUrl}

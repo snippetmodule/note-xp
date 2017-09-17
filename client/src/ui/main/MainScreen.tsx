@@ -18,7 +18,7 @@ export = class MainScreen extends fm.ComponentBase<any, IState> {
     protected _buildState(props: {}, initialBuild: boolean): IState {
         return {
             ...this.state,
-            isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
+            isLogined: fm.manager.UserManager.getUser().isLogined,
         };
     }
     render() {

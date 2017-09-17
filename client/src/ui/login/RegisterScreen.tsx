@@ -88,7 +88,7 @@ export = class RegisterScreen extends fm.component.NavComp<{}, IState>{
             this._stopInterval();
             window.setTimeout(() => {
                 let message = this.state.registerResult.result.message;
-                fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
+                fm.manager.UserManager.save(JSON.stringify(message[0]));
                 this._stopInterval();
 
                 const resetAction = Navigation.NavigationActions.reset({

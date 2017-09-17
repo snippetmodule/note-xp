@@ -7,7 +7,7 @@ import DBModels = require('../db/DbModels');
 const mUrlCacheDao = new UrlCacheDao();
 
 export function save(url: string, response: string, method = 'GET', body = ''): SyncTasks.Promise<void> {
-    let md5 = MD5Utils.hash(`{$url}_{$method}_{$body}`);
+    let md5 = MD5Utils.hash(`${url}_${method}_${body}`);
     return mUrlCacheDao.put({
         id: md5 as string,
         createTime: new Date().getTime(),
@@ -15,7 +15,7 @@ export function save(url: string, response: string, method = 'GET', body = ''): 
     });
 }
 export function get(url: string, expiredTime = 0, method = 'GET', body = ''): SyncTasks.Promise<DBModels.UrlCache> {
-    let md5 = MD5Utils.hash(`{$url}_{$method}_{$body}`);
+    let md5 = MD5Utils.hash(`${url}_${method}_${body}`);
     return mUrlCacheDao.get(md5).then((cache) => {
         if (!cache) {
             return null;
@@ -31,6 +31,6 @@ export function get(url: string, expiredTime = 0, method = 'GET', body = ''): Sy
     });
 }
 export function del(url: string, method = 'GET', body = ''): SyncTasks.Promise<void> {
-    let md5 = MD5Utils.hash(`{$url}_{$method}_{$body}`);
+    let md5 = MD5Utils.hash(`${url}_${method}_${body}`);
     return mUrlCacheDao.remove(md5);
 }

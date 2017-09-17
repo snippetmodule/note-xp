@@ -11,7 +11,7 @@ interface IProp {
     btnPress?: () => any;
 }
 const loadingValue = new ReactNative.Animated.Value(0);
-const loadingAnim = {
+const loadingAnimStyle = {
     transform: [{
         rotate: loadingValue.interpolate({
             inputRange: [0, 1],
@@ -76,7 +76,7 @@ export class EmptyView extends React.Component<IProp, any> {
         return (
             <ReactNative.View style={styles.continer}>
                 <ReactNative.Animated.Image
-                    source={require('../../../../asserts/common/loading.png')} style={[styles.loadingStatic, loadingAnim]} />
+                    source={require('../../../../asserts/common/loading.png')} style={[styles.loadingStatic, loadingAnimStyle]} />
             </ReactNative.View>
         );
     }

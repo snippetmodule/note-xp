@@ -13,7 +13,7 @@ fm.db.DbUtils.init([
     new InMemoryProvider(),
 ]).then(() => {
     // to do Other Init
-    return fm.manager.UserManager.Instance.init();
+    return fm.manager.UserManager.init();
 }).then(() => {
     AppRegistry.registerComponent('NoteTs', () => App);
 }).catch((err) => {

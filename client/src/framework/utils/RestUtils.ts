@@ -18,10 +18,10 @@ export type HttpParams = {
 
 class RestClient extends GenericRestClient {
     // Override _getHeaders to append a custom header with the app ID.
-    protected _getHeaders(options: ApiCallOptions): { [key: string]: string } {
+    public _getHeaders(options: ApiCallOptions): { [key: string]: string } {
         let headers = super._getHeaders(options);
         headers['Client-Device-Id'] = '1213113131313';
-        headers['Authorization'] = `Bearer ${UserManager.Instance.getUser().token}`;
+        headers['Authorization'] = `Bearer ${UserManager.getUser().token}`;
         return headers;
     }
     public _performApiCall<T>(apiPath: string, action: HttpAction, objToPost: any, givenOptions: ApiCallOptions): SyncTasks.Promise<WebResponse<T>> {
@@ -40,13 +40,13 @@ function findInCache<T>(params: HttpParams, response: WebResponse<BaseJson<T>>):
 }
 function requestImpl<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
     const client = new RestClient('');
-    Log.i('RestUtils', `request url:${params.url} \n \t\t method:${params.method} body:${params.body}`);
+    Log.i('RestUtils', `request url:${params.url} \n \t\t header:${JSON.stringify(client._getHeaders(null))} method:${params.method} body:${params.body}`);
     return client._performApiCall<BaseJson<T>>(params.url, params.method || 'GET', params.body || '', null)
         .then((response: WebResponse<BaseJson<T>>) => {
             Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if (response.statusCode === 200) {
                 if (response.body.code === 401) {
-                    UserManager.Instance.logOut();
+                    UserManager.logOut();
                     return SyncTasks.Rejected(`stateCode: 200,but response.body.code: ${response.body.code}`);
                 }
                 let messages = response.body.message;

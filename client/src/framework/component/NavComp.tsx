@@ -5,11 +5,8 @@ import Navigation = require('react-navigation');
 import { ComponentBase } from 'resub';
 import Log = require('../utils/Log');
 
-interface IProp<Params> extends Navigation.NavigationScreenConfigProps {
-    children?: React.ReactNode;
-    key?: React.Key;
-    ref?: React.Ref<any>;
-}
+type IProp<Params> = Navigation.NavigationScreenConfigProps & Params;
+
 export class NavComp<Params, S> extends ComponentBase<IProp<Params>, S> {
     constructor(props: IProp<Params>) {
         super(props);

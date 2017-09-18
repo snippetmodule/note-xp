@@ -23,7 +23,7 @@ const styles = ReactNative.StyleSheet.create({
         paddingRight: 5,
     },
 });
-let data: fm.models.BaseJson<models.Json.Article[]> = require('./data');
+let data: fm.models.IBaseJson<models.Json.Article[]> = require('./data');
 
 export class Home extends fm.component.NavComp<{}, IState> {
     private _backPressedTime: number = 0;

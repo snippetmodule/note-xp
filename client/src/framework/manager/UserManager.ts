@@ -44,6 +44,9 @@ class User {
     get token(): string {
         return this.mInfo ? this.mInfo.token : '';
     }
+    get info(): IUserInfo {
+        return this.mInfo;
+    }
     json(response: string) {
         this.mInfo = JSON.parse(response);
     }

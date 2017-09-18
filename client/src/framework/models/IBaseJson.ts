@@ -1,5 +1,5 @@
 
-export default interface BaseJons<T> {
+ export default interface IBaseJson<T> {
     code: number;
     message: T;
     serverTime: string;

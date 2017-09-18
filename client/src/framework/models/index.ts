@@ -1,7 +1,7 @@
-import BaseJson from './BaseJson';
-import User from './User';
+import IBaseJson from './IBaseJson';
+import IUser from './IUser';
 
-export　{
-    BaseJson,
-    User,
-}
+export {
+    IBaseJson ,
+    IUser,
+};

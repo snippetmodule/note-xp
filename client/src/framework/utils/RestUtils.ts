@@ -1,7 +1,7 @@
 import SyncTasks = require('synctasks');
 import { GenericRestClient, ApiCallOptions, HttpAction, WebResponse } from 'simplerestclients';
 import UrlCacheUtils = require('./UrlCacheUtils');
-import BaseJson from '../models/BaseJson';
+import IBaseJson from '../models/IBaseJson';
 import UserManager = require('../manager/UserManager');
 import Log = require('./Log');
 import _ = require('lodash');
@@ -28,21 +28,21 @@ class RestClient extends GenericRestClient {
         return super._performApiCall(apiPath, action, objToPost, givenOptions);
     }
 }
-function findInCache<T>(params: HttpParams, response: WebResponse<BaseJson<T>>): SyncTasks.Promise<BaseJson<T>> {
+function findInCache<T>(params: HttpParams, response: WebResponse<IBaseJson<T>>): SyncTasks.Promise<IBaseJson<T>> {
     return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
         .then((cache) => {
             if (cache) {
-                return JSON.parse(cache.response) as BaseJson<T>;
+                return JSON.parse(cache.response) as IBaseJson<T>;
             } else {
                 return SyncTasks.Rejected(`{$response.url} \n {$response.statusCode} {$reponse.statusText}`);
             }
         });
 }
-function requestImpl<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
+function requestImpl<T>(params: HttpParams): SyncTasks.Promise<IBaseJson<T>> {
     const client = new RestClient('');
     Log.i('RestUtils', `request url:${params.url} \n \t\t header:${JSON.stringify(client._getHeaders(null))} method:${params.method} body:${params.body}`);
-    return client._performApiCall<BaseJson<T>>(params.url, params.method || 'GET', params.body || '', null)
-        .then((response: WebResponse<BaseJson<T>>) => {
+    return client._performApiCall<IBaseJson<T>>(params.url, params.method || 'GET', params.body || '', null)
+        .then((response: WebResponse<IBaseJson<T>>) => {
             Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if (response.statusCode === 200) {
                 if (response.body.code === 401) {
@@ -63,12 +63,12 @@ function requestImpl<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
             }
         });
 }
-export function request<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
+export function request<T>(params: HttpParams): SyncTasks.Promise<IBaseJson<T>> {
     if (params.expiredTime && params.expiredTime > 0) {
         return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
             .then((cache) => {
                 if (cache) {
-                    return SyncTasks.Resolved(JSON.parse(cache.response) as BaseJson<T>);
+                    return SyncTasks.Resolved(JSON.parse(cache.response) as IBaseJson<T>);
                 } else {
                     return requestImpl<T>(params);
                 }

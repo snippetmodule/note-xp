@@ -55,8 +55,11 @@ export = class SplashScreen extends fm.component.NavComp<any, IState> {
 
     private _startTimerr = () => {
         this._progressTimerToken = window.setTimeout(() => {
-            const params = this.props.navigation.state.params;
-            this.reset('main');
+            if (fm.manager.UserManager.getUser().isLogined) {
+                this.reset('main');
+            } else {
+                this.reset('login');
+            }
         }, 500);
     }
 

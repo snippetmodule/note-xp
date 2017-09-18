@@ -1,34 +1,40 @@
 import React = require('react');
 import ReactNative = require('react-native');
-import { CordovaNativeSqliteProvider } from 'nosqlprovider/dist/CordovaNativeSqliteProvider';
-import { InMemoryProvider } from 'nosqlprovider/dist/InMemoryProvider';
-const rnSqliteProvider = require('react-native-sqlite-storage');
-
-import LoginComponent from '../login/LoginComponent';
-import DrawerComp from './DrawerComp';
+import { DrawerNavigator } from 'react-navigation';
 
 import fm = require('../../framework');
+import { Home } from '../home/Home';
+import { MenuComp } from './MenuComp';
 
-interface IState {
-    isLogined: boolean;
-}
-
-export = class MainScreen extends fm.ComponentBase<any, IState> {
-
-    protected _buildState(props: {}, initialBuild: boolean): IState {
-        return {
-            ...this.state,
-            isLogined: fm.manager.UserManager.getUser().isLogined,
-        };
+const Drawer = DrawerNavigator(
+    {
+        Home: {
+            screen: Home,
+        },
+        Menu: {
+            screen: MenuComp,
+        },
+    },
+    {
+        drawerWidth: 270,
+        drawerPosition: 'right',
+        contentComponent: (props: any) => <MenuComp />,
+        initialRouteName: 'Home',
+        contentOptions: {
+            activeTintColor: '#e91e63',
+        },
+    });
+export let isDrawerOpen: boolean = false;
+const defaultGetStateForAction = Drawer.router.getStateForAction;
+Drawer.router.getStateForAction = (action, state) => {
+    // use 'DrawerOpen' to capture drawer open event
+    if (state && action.type === 'Navigation/NAVIGATE' && action.routeName === 'DrawerClose') {
+        console.log('DrawerClose');
+        isDrawerOpen = false;
+        // write the code you want to deal with 'DrawerClose' event
+    }else {
+        isDrawerOpen = true;
     }
-    render() {
-        if (this.state.isLogined) {
-            return (
-                <DrawerComp {...this.props} />
-            );
-        }
-        return (
-            <LoginComponent {...this.props} />
-        );
-    }
+    return defaultGetStateForAction(action, state);
 };
+export default Drawer;

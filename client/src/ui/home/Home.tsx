@@ -9,6 +9,11 @@ import { SimpleItemComp } from './SimpleItemComp';
 import { PicItemComp } from './PicItemComp';
 import { VideoItemComp } from './VideoItemComp';
 import { ArticleListComp } from './ArticleListComp';
+import { isDrawerOpen } from '../main/MainScreen';
+
+interface IState {
+    isLogined: boolean;
+}
 
 const styles = ReactNative.StyleSheet.create({
     listView: {
@@ -20,9 +25,45 @@ const styles = ReactNative.StyleSheet.create({
 });
 let data: fm.models.BaseJson<models.Json.Article[]> = require('./data');
 
-export class Home extends fm.component.NavComp<{}, null> {
+export class Home extends fm.component.NavComp<{}, IState> {
+    private _backPressedTime: number = 0;
     private _list: ArticleListComp;
 
+    protected _buildState(props: {}, initialBuild: boolean): IState {
+        return {
+            isLogined: fm.manager.UserManager.getUser().isLogined,
+        };
+    }
+    public componentDidMount() {
+        ReactNative.BackHandler.addEventListener('hardwareBackPress', this.handleBackButton);
+    }
+
+    public componentWillUnmount() {
+        ReactNative.BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
+    }
+    private handleBackButton = () => {
+        if (isDrawerOpen) {
+            this.props.navigation.navigate('DrawerClose');
+            return true;
+        }
+        let curTime = new Date().getTime();
+        if (curTime - this._backPressedTime < 2 * 1000) {
+            // ReactNative.BackAndroid.exitApp();
+            return false;
+        } else {
+            this._backPressedTime = curTime;
+            fm.utils.ToastUtils.showToast('press back again');
+            return true;
+        }
+    }
+    shouldComponentUpdate(nextProps: any, nextState: IState): boolean {
+        let result = super.shouldComponentUpdate(nextProps, nextState);
+        if (!nextState.isLogined) {
+            this.reset('login');
+            return false;
+        }
+        return result;
+    }
     private onMenu = () => {
         this.props.navigation.navigate('DrawerToggle');
     }

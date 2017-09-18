@@ -43,16 +43,18 @@ const styles = ReactNative.StyleSheet.create({
         borderRadius: 4,
         backgroundColor: '#5E62FF',
         opacity: 0.9,
+        flex: 1,
+        flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
     },
     loginTxt: {
         color: '#fff',
         fontSize: 15,
-        flex: 1,
     },
 });
 
-export default class LonginComponent extends fm.component.NavComp<{}, null> {
+export = class LoginScreen extends fm.component.NavComp<{}, null> {
     render() {
         return (
             <ReactNative.ScrollView style={styles.scroll}>
@@ -82,4 +84,4 @@ export default class LonginComponent extends fm.component.NavComp<{}, null> {
     private _onPressRegitser = () => {
         this.go('register');
     }
-}
+};

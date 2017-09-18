@@ -4,8 +4,9 @@ import ReactNative = require('react-native');
 import { NavigationContainer, StackNavigator, NavigationScreenProp, NavigationState, NavigationAction } from 'react-navigation';
 
 import SplashScreen = require('./main/SplashScreen');
-import MainScreen = require('./main/MainScreen');
+import MainScreen from './main/MainScreen';
 import RegisterScreen = require('./login/RegisterScreen');
+import LoginScreen = require('./login/LoginScreen');
 import fm = require('../framework');
 
 const AppNavigator: NavigationContainer = StackNavigator(
@@ -13,6 +14,7 @@ const AppNavigator: NavigationContainer = StackNavigator(
         splash: { screen: SplashScreen },
         main: { screen: MainScreen },
         register: { screen: RegisterScreen },
+        login: { screen: LoginScreen },
     },
     {
         initialRouteName: 'splash',

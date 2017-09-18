@@ -10,16 +10,7 @@ interface IProp {
     btnStr?: string;
     btnPress?: () => any;
 }
-const loadingValue = new ReactNative.Animated.Value(0);
-const loadingAnimStyle = {
-    transform: [{
-        rotate: loadingValue.interpolate({
-            inputRange: [0, 1],
-            outputRange: ['0deg', '360deg'],
-            extrapolate: 'clamp',
-        }),
-    }],
-};
+
 const styles = ReactNative.StyleSheet.create({
     continer: {
         flex: 1,
@@ -52,11 +43,27 @@ const styles = ReactNative.StyleSheet.create({
 });
 
 export class EmptyView extends React.Component<IProp, any> {
-    private _loadingAnim = ReactNative.Animated.timing(loadingValue, {
-        toValue: 1,
-        duration: 1500,
-        easing: ReactNative.Easing.linear,
-    });
+    private loadingValue = new ReactNative.Animated.Value(0);
+    private loadingAnimStyle = {
+        transform: [{
+            rotate: this.loadingValue.interpolate({
+                inputRange: [0, 1],
+                outputRange: ['0deg', '360deg'],
+            }),
+        }],
+    };
+    private _loadingAnim = ReactNative.Animated.loop(
+        ReactNative.Animated.timing(this.loadingValue, {
+            toValue: 1,
+            duration: 1500,
+            easing: ReactNative.Easing.linear,
+        }),
+    );
+    componentDidMount() {
+        if (this.props.state === 'loading') {
+            this._loadingAnim.start();
+        }
+      }
     componentDidUpdate(prevProps: IProp, prevState: any, prevContext: any): void {
         if (this.props.state === 'loading') {
             this._loadingAnim.start();
@@ -76,14 +83,14 @@ export class EmptyView extends React.Component<IProp, any> {
         return (
             <ReactNative.View style={styles.continer}>
                 <ReactNative.Animated.Image
-                    source={require('../../../../asserts/common/loading.png')} style={[styles.loadingStatic, loadingAnimStyle]} />
+                    source={require('../../../../asserts/common/loading.png')} style={[styles.loadingStatic, this.loadingAnimStyle]} />
             </ReactNative.View>
         );
     }
     private renderLoadFail = () => {
         return (
             <ReactNative.View style={styles.continer}>
-                <ReactNative.Image source={this.props.pic || require('../../../../asserts/common/empty_img.png')} style={{height: 75.5, width: 67.5}}/>
+                <ReactNative.Image source={this.props.pic || require('../../../../asserts/common/empty_img.png')} style={{ height: 75.5, width: 67.5 }} />
                 <ReactNative.Text style={styles.failHint}>
                     {this.props.hint || '喝杯咖啡休息一会吧'}
                 </ReactNative.Text>

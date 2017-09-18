@@ -18,7 +18,7 @@ const Drawer = DrawerNavigator(
     {
         drawerWidth: 270,
         drawerPosition: 'right',
-        contentComponent: (props: any) => <MenuComp />,
+        contentComponent: (props: any) => <MenuComp {...props} />,
         initialRouteName: 'Home',
         contentOptions: {
             activeTintColor: '#e91e63',
@@ -32,7 +32,7 @@ Drawer.router.getStateForAction = (action, state) => {
         console.log('DrawerClose');
         isDrawerOpen = false;
         // write the code you want to deal with 'DrawerClose' event
-    }else {
+    } else {
         isDrawerOpen = true;
     }
     return defaultGetStateForAction(action, state);

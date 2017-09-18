@@ -36,7 +36,7 @@ export class ArticleListComp extends fm.ComponentBase<{}, IState> {
         if (!newState.list) {
             newState.list = [];
         }
-        // http 成功,且没有处理过
+        // refresh 成功,且没有处理过
         if (newState.refreshResult.state === 'sucess'
             && newState.refreshResult.state !== this.state.refreshResult.state) {
             newState.list = this.generalList(newState.refreshResult.result.message);

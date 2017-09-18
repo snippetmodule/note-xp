@@ -65,7 +65,11 @@ export class Home extends fm.component.NavComp<{}, IState> {
         return result;
     }
     private onMenu = () => {
-        this.props.navigation.navigate('DrawerToggle');
+        if (isDrawerOpen) {
+            this.props.navigation.navigate('DrawerClose');
+        } else {
+            this.props.navigation.navigate('DrawerOpen');
+        }
     }
     private onTitle = () => {
         this._list._onRefresh();

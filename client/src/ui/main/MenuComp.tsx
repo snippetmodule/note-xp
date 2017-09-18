@@ -3,12 +3,10 @@ import ReactNative = require('react-native');
 
 import fm = require('../../framework');
 
-export class MenuComp extends React.Component<{}, null> {
+export class MenuComp extends fm.component.NavComp<{}, null> {
     render() {
         return (
-            <ReactNative.Text>
-                ..............
-                </ReactNative.Text>
+            <fm.component.widget.EmptyView state="loading" />
         );
     }
 }

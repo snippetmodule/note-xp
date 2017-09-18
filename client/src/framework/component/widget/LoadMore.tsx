@@ -32,13 +32,20 @@ export = class LoadMore extends React.Component<IProp, null> {
             }),
         }],
     };
-    const _loadingAnim = ReactNative.Animated.timing(this._loadingValue, {
-        toValue: 360 * 400,
-        duration: 800 * 400,
-        easing: ReactNative.Easing.linear,
-    });
+    private _loadingAnim = ReactNative.Animated.loop(
+        ReactNative.Animated.timing(this._loadingValue, {
+            toValue: 1,
+            duration: 1500,
+            easing: ReactNative.Easing.linear,
+        }),
+    );
+    componentDidMount() {
+        if (this.props.state === 'loading' || this.props.state === 'idle') {
+            this._loadingAnim.start();
+        }
+    }
     componentDidUpdate(prevProps: IProp, prevState: any, prevContext: any): void {
-        if (this.props.state === 'loading') {
+        if (this.props.state === 'loading' || this.props.state === 'idle') {
             this._loadingAnim.start();
         }
     }

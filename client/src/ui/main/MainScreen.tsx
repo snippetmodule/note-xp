@@ -28,12 +28,14 @@ export let isDrawerOpen: boolean = false;
 const defaultGetStateForAction = Drawer.router.getStateForAction;
 Drawer.router.getStateForAction = (action, state) => {
     // use 'DrawerOpen' to capture drawer open event
-    if (state && action.type === 'Navigation/NAVIGATE' && action.routeName === 'DrawerClose') {
-        console.log('DrawerClose');
-        isDrawerOpen = false;
+    if (state && action.type === 'Navigation/NAVIGATE') {
+        if (action.routeName === 'DrawerClose') {
+            console.log('DrawerClose');
+            isDrawerOpen = false;
+        } else if (action.routeName === 'DrawerOpen') {
+            isDrawerOpen = true;
+        }
         // write the code you want to deal with 'DrawerClose' event
-    } else {
-        isDrawerOpen = true;
     }
     return defaultGetStateForAction(action, state);
 };

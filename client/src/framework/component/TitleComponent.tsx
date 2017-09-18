@@ -20,30 +20,42 @@ const styles = ReactNative.StyleSheet.create({
     titleContainer: {
         alignSelf: 'stretch',
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'stretch',
         height: 56,
         backgroundColor: '#fff',
+        justifyContent: 'center',
     },
     backBtn: {
         width: 56,
-        height: 56,
         alignItems: 'center',
         justifyContent: 'center',
     },
+    backImg: {
+        height: 17,
+        width: 10.5,
+    },
     titleBtn: {
         flex: 1,
+        flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
     },
     titleTex: {
         fontSize: 17,
         color: '#333333',
+        textAlign: 'center',
     },
     titleImg: {
-
+        alignItems: 'center',
     },
     rightBtn: {
         width: 56,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    righteImg: {
+        alignItems: 'center',
     },
     dividerLine: {
         height: 0.5,
@@ -85,17 +97,18 @@ class TitleComponent extends React.Component<IProp, IState> {
         this.state = { isShowTitle: this.props.isShowTitle, dividerLine: true, right: false };
     }
     render() {
-        let titleBtn = this.renderBtn(this.props.title, this.props.titleImg, this.props.titleImgSize,
-            [styles.titleBtn, this.state.right ? {} : { marginRight: 56 }], styles.titleTex, this.props.onTitle);
-        let rightBtn = this.renderBtn(this.props.right, this.props.rightImg, this.props.rightImgSize,
-            null, null, this.props.onRight);
         let titleLayout = this.state.isShowTitle ? (
             <ReactNative.View style={styles.titleContainer} ref="titleLayout">
+                {/* back btn */}
                 <ReactNative.TouchableOpacity onPress={this._onBack} style={styles.backBtn}>
-                    <ReactNative.Image source={this.props.backImg} style={this.props.backImageSize || { height: 17, width: 10.5 }} />
+                    <ReactNative.Image source={this.props.backImg} style={[{ height: 17, width: 10.5 }, this.props.backImageSize]} />
                 </ReactNative.TouchableOpacity>
-                {titleBtn}
-                {rightBtn}
+                {/* title */}
+                {this.renderBtn(this.props.titleImg, [styles.titleImg, this.props.titleImgSize], this.props.title,
+                    styles.titleTex, [styles.titleBtn], this.props.onTitle)}
+                {/* right btn */}
+                {this.renderBtn(this.props.rightImg, [styles.righteImg, this.props.rightImgSize], this.props.right,
+                    null, styles.rightBtn, this.props.onRight)}
             </ReactNative.View>
         ) : null;
         return (
@@ -110,15 +123,19 @@ class TitleComponent extends React.Component<IProp, IState> {
         );
     }
 
-    private renderBtn = (title: string, img: ReactNative.ImageURISource, imgSizeStyle: { width: number, height: number },
-                         btnstyle: ReactNative.StyleProp<ReactNative.ViewStyle>,
-                         titleStyle: ReactNative.StyleProp<ReactNative.TextStyle>, onPress: () => any) => {
+    private renderBtn = (
+        img: ReactNative.ImageURISource,
+        imgStyle: ReactNative.StyleProp<ReactNative.ImageStyle>,
+        tex: string,
+        texStyle: ReactNative.StyleProp<ReactNative.TextStyle>,
+        btnstyle: ReactNative.StyleProp<ReactNative.ViewStyle>,
+        onPress: () => any) => {
         return (
             <ReactNative.TouchableOpacity onPress={onPress} style={btnstyle}>
-                {img === null ? null : (<ReactNative.Image source={img} style={imgSizeStyle} />)}
-                {title === null ? null : (
-                    <ReactNative.Text style={titleStyle}>
-                        {title}
+                {img === null ? null : (<ReactNative.Image source={img} style={imgStyle} />)}
+                {tex === null ? null : (
+                    <ReactNative.Text style={texStyle}>
+                        {tex}
                     </ReactNative.Text>
                 )}
             </ReactNative.TouchableOpacity>

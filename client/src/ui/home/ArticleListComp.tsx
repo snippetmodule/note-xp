@@ -41,12 +41,12 @@ export class ArticleListComp extends fm.ComponentBase<{}, IState> {
             && newState.refreshResult.state !== this.state.refreshResult.state) {
             newState.list = this.generalList(newState.refreshResult.result.message);
         }
-        // loadmore 成功,且没有处理过
-        // if (newState.loadMoreResult.state === 'sucess'
-        //     && newState.loadMoreResult.state !== this.state.loadMoreResult.state) {
-        //     newState.list.push(...this.generalList(newState.loadMoreResult.result.message));
-        // }
-        newState.loadMoreResult.state = 'loading';
+        // loadmore; 成功,且没有处理过;
+        if (newState.loadMoreResult.state === 'sucess'
+            && newState.loadMoreResult.state !== this.state.loadMoreResult.state) {
+            newState.list.push(...this.generalList(newState.loadMoreResult.result.message));
+        }
+        // newState.loadMoreResult.state = 'loading';
         return newState;
     }
     componentDidMount() {

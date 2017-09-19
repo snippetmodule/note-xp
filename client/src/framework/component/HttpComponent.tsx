@@ -8,16 +8,16 @@ import { HttpParams } from '../utils/RestUtils';
 import IBaseJson from '../models/IBaseJson';
 import { HttpStore, HttpResponse } from './HttpStore';
 
-interface IHttpProps<T> extends React.Props<T> {
+interface IHttpProps<T extends IBaseJson<any>> extends React.Props<T> {
     httpParams?: HttpParams;
-    task?: SyncTasks.Promise<IBaseJson<T>>;
+    task?: () => SyncTasks.Promise<T>;
     onLoading?: () => JSX.Element;
-    onSucess: (result: IBaseJson<T>) => JSX.Element;
-    onSucessFilter?: (result: IBaseJson<T>) => boolean; // 根据http 结果判断结果是否有效,有校会调用:onSucess
+    onSucess: (result: T) => JSX.Element;
+    onSucessFilter?: (result: T) => boolean; // 根据http 结果判断结果是否有效,有校会调用:onSucess
     onFail?: (err: any) => JSX.Element;
 }
 
-export class HttpComponent<T> extends ComponentBase<IHttpProps<T>, HttpResponse<T>> {
+export class HttpComponent<T extends IBaseJson<any>> extends ComponentBase<IHttpProps<T>, HttpResponse<T>> {
 
     private _httpStore: HttpStore<T>;
 
@@ -73,7 +73,7 @@ export class HttpComponent<T> extends ComponentBase<IHttpProps<T>, HttpResponse<
             this._httpStore.exeHttp(this.props.httpParams);
         }
         if (this.props.task) {
-            this._httpStore.exeAsync(this.props.task);
+            this._httpStore.exeAsync(this.props.task());
         }
     }
 }

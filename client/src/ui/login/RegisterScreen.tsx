@@ -69,14 +69,14 @@ const styles = ReactNative.StyleSheet.create({
 interface IState {
     phoneNumber: string;
     checkCode: string;
-    checkCodeResult: fm.component.HttpStore.HttpResponse<models.Json.CheckCode[]>;
-    registerResult: fm.component.HttpStore.HttpResponse<models.Json.RegisterInfo[]>;
+    checkCodeResult: fm.component.HttpStore.HttpResponse<models.Json.CheckCodeJson>;
+    registerResult: fm.component.HttpStore.HttpResponse<models.Json.RegisterInfoJson>;
     checkCodeBtn: number;
 }
 
 export = class RegisterScreen extends fm.component.NavComp<{}, IState>{
-    private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCode[]> = new fm.component.HttpStore.HttpStore();
-    private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfo[]> = new fm.component.HttpStore.HttpStore();
+    private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCodeJson> = new fm.component.HttpStore.HttpStore();
+    private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfoJson> = new fm.component.HttpStore.HttpStore();
 
     private _intervalToken: number;
     private _phoneNumberView: ReactNative.TextInput;
@@ -213,9 +213,9 @@ export = class RegisterScreen extends fm.component.NavComp<{}, IState>{
         if (!this.state.checkCodeResult.result) {
             return;
         }
-        let messages = this.state.checkCodeResult.result.message as [models.Json.CheckCode];
+        let messages = this.state.checkCodeResult.result.message;
         let verifyingId = messages[0].verifyingId;
-        let task = fm.utils.RestUtils.request<models.Json.RegisterInfo[]>({
+        let task = fm.utils.RestUtils.request<models.Json.RegisterInfoJson>({
             url: utils.UrlConst.RegisterUrl + '/' + verifyingId,
             method: 'PUT',
             body: {

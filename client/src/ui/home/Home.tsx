@@ -42,6 +42,9 @@ export class Home extends fm.component.NavComp<{}, IState> {
         ReactNative.BackHandler.removeEventListener('hardwareBackPress', this.handleBackButton);
     }
     private handleBackButton = () => {
+        if (!fm.utils.NavUtils.isInMain) {
+            return false;
+        }
         if (isDrawerOpen) {
             this.props.navigation.navigate('DrawerClose');
             return true;
@@ -91,7 +94,7 @@ export class Home extends fm.component.NavComp<{}, IState> {
                 rightImg={require('../../../asserts/home/home_menu.png')}
                 rightImgSize={{ width: 22, height: 20.5 }}
             >
-                <ArticleListComp ref={this._onRefList} />
+                <ArticleListComp ref={this._onRefList} {...this.props} />
             </fm.component.TitleComponent>
         );
     }

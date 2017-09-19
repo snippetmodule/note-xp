@@ -1,3 +1,5 @@
+import IBaseJson from '../../framework/models/IBaseJson';
+
 export type CheckCode = {
     id: string,
     phoneNumber: string,
@@ -54,3 +56,52 @@ export type Article = {
     videoUrl: string,
     certified: string,
 };
+export type ArticleResource = {
+    id: string,
+    logicalDel: number,
+    createTime: Date,
+    updateTime: Date,
+    version: number,
+    articleId: string,
+    indexNo: number,
+    cost: number,
+    asPreview: boolean,
+    size: string[],
+    paymentStatus: number,
+    name: string,
+    path: string,
+    resizePath: string,
+
+};
+export type ArticleDetail = {
+    id: string,
+    createTime: Date, // : "2017-09-09T04:59:03.705+0000",
+    updateTime: Date; // "2017-09-09T04:59:03.705+0000",
+    version: number,
+    bucketName: string,
+    title: string,
+    content: string,
+    ownerId: string,
+    articleType: number,
+    resources: string[],
+    categories: string[],
+    cost: number,
+    modular: string,
+    readNum: number,
+    likeNum: number,
+    hasCollection: boolean,
+    income: number,
+    avatorUrl: string,
+    nikeName: string,
+    userNo: string,
+    isLike: boolean,
+    profitIncome: number,
+    collectionNum: number,
+    url: string,
+    certified: string,
+    resourceDetailsList: ArticleResource[],
+};
+export type ArticleListJson = IBaseJson<Article[]>;
+export type CheckCodeJson = IBaseJson<CheckCode[]>;
+export type RegisterInfoJson = IBaseJson<RegisterInfo[]>;
+export type ArticleDetailJson = IBaseJson<ArticleDetail[]>;

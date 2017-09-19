@@ -73,7 +73,7 @@ export class SimpleItemComp extends React.Component<IProp, any> {
                 </ReactNative.Text>
                 {this.props.children}
                 <ReactNative.View style={styles.dividerLine} />
-                <ReactNative.View style={styles.bottomLayout}>
+                <ReactNative.View style={styles.bottomLayout} >
                     <ReactNative.Image source={{ uri: this.props.data.avatorUrl }} style={styles.authorImg} />
                     <ReactNative.Text numberOfLines={1} ellipsizeMode="tail" style={styles.authorName}>
                         {this.props.data.nikeName}

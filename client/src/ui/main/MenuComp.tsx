@@ -91,13 +91,13 @@ export class MenuComp extends fm.component.NavComp<{}, IState> {
                     </ReactNative.Text>
                     <ReactNative.Image style={styles.userQr} source={require('../../../asserts/home/menu/ic_fanslist.png')} />
                 </ReactNative.View>
-                <ReactNative.View style={styles.dividLine}/>
-                <MenuItem img={require('../../../asserts/home/menu/ic_drawer_follow.png')} tex="Follow" routerName="about" {...this.props} />
-                <MenuItem img={require('../../../asserts/home/menu/ic_fans.png')} tex="粉丝" routerName="about" {...this.props} />
-                <MenuItem img={require('../../../asserts/home/menu/ic_group.png')} tex="圈子" routerName="about" {...this.props} />
-                <MenuItem img={require('../../../asserts/home/menu/ic_scan.png')} tex="Scan" routerName="about" {...this.props} />
-                <MenuItem img={require('../../../asserts/home/menu/ic_personal.png')} tex="个人中心" routerName="about" {...this.props} />
-                <MenuItem img={require('../../../asserts/home/menu/ic_setting.png')} tex="设置" routerName="about" {...this.props} />
+                <ReactNative.View style={styles.dividLine} />
+                <MenuItem {...this.props as any} img={require('../../../asserts/home/menu/ic_drawer_follow.png')} tex="Follow" routerName="about" />
+                <MenuItem {...this.props as any} img={require('../../../asserts/home/menu/ic_fans.png')} tex="粉丝" routerName="about" />
+                <MenuItem {...this.props as any} img={require('../../../asserts/home/menu/ic_group.png')} tex="圈子" routerName="about" />
+                <MenuItem {...this.props as any} img={require('../../../asserts/home/menu/ic_scan.png')} tex="Scan" routerName="about" />
+                <MenuItem {...this.props as any} img={require('../../../asserts/home/menu/ic_personal.png')} tex="个人中心" routerName="about" />
+                <MenuItem {...this.props as any} img={require('../../../asserts/home/menu/ic_setting.png')} tex="设置" routerName="about" />
             </ReactNative.View>
         );
     }

@@ -5,10 +5,12 @@ import Navigation = require('react-navigation');
 import { ComponentBase } from 'resub';
 import Log = require('../utils/Log');
 
-type IProp<Params> = Navigation.NavigationScreenConfigProps & Params;
+type NavProp<Params> = Navigation.NavigationScreenProps<Params> & Params;
 
-export class NavComp<Params, S> extends ComponentBase<IProp<Params>, S> {
-    constructor(props: IProp<Params>) {
+//  Navigation 界面（Screen）之间参数的获取：this.props.navigation.state.params.XXXX
+//  Component　组件间的参数获取为：this.props.XXXX
+export class NavComp<Params, S> extends ComponentBase<NavProp<Params>, S> {
+    constructor(props: NavProp<Params>) {
         super(props);
     }
     go = (routeName: string, params?: Navigation.NavigationParams, action?: Navigation.NavigationAction) => {

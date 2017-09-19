@@ -2489,9 +2489,9 @@ normalize-path@^2.0.0, normalize-path@^2.0.1:
   dependencies:
     remove-trailing-separator "^1.0.1"
 
-nosqlprovider@^0.5.16:
-  version "0.5.16"
-  resolved "http://registry.npm.taobao.org/nosqlprovider/download/nosqlprovider-0.5.16.tgz#efb1d32b0ef44b726e25de9d34a11d3c663291a1"
+nosqlprovider@^0.5.17:
+  version "0.5.17"
+  resolved "http://registry.npm.taobao.org/nosqlprovider/download/nosqlprovider-0.5.17.tgz#7816c08339f36bcf09c32ef055b272cbb36f9efb"
   dependencies:
     "@types/lodash" "^4.14.62"
     "@types/sqlite3" "^2.2.32"

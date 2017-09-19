@@ -20,12 +20,12 @@ const styles = ReactNative.StyleSheet.create({
 
 interface IState {
     list: IArticleItem[];
-    refreshResult: fm.component.HttpStore.HttpResponse<models.Json.Article[]>;
-    loadMoreResult: fm.component.HttpStore.HttpResponse<models.Json.Article[]>;
+    refreshResult: fm.component.HttpStore.HttpResponse<models.Json.ArticleListJson>;
+    loadMoreResult: fm.component.HttpStore.HttpResponse<models.Json.ArticleListJson>;
 }
-export class ArticleListComp extends fm.ComponentBase<{}, IState> {
-    private mRefreshStore: fm.component.HttpStore.HttpStore<models.Json.Article[]> = new fm.component.HttpStore.HttpStore();
-    private mLoadingMoreStore: fm.component.HttpStore.HttpStore<models.Json.Article[]> = new fm.component.HttpStore.HttpStore();
+export class ArticleListComp extends fm.component.NavComp<{}, IState> {
+    private mRefreshStore: fm.component.HttpStore.HttpStore<models.Json.ArticleListJson> = new fm.component.HttpStore.HttpStore();
+    private mLoadingMoreStore: fm.component.HttpStore.HttpStore<models.Json.ArticleListJson> = new fm.component.HttpStore.HttpStore();
 
     protected _buildState(props: {}, initialBuild: boolean): IState {
         const newState = {
@@ -135,7 +135,7 @@ export class ArticleListComp extends fm.ComponentBase<{}, IState> {
                 data: item,
                 isPlaying: this._videoPlayingIndex === index,
                 onVideoBtn: () => this._onPlayVideo(index),
-                onPicBtn: () => { },
+                onPicBtn: () => { this.props.navigation.navigate('detail', {id: item.id}); },
                 onLikeBtn: () => { },
                 onCollectionBtn: () => { },
                 onShare: () => { },

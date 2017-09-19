@@ -31,7 +31,7 @@ function _openListOfProviders(providersToTry: NoSqlProvider.DbProvider[], dbName
         provider.open(dbName, schema, false, false).then(() => {
             console.log('DbUtils Provider ' + providerIndex + ': Open Success!');
             task.resolve(provider);
-        }, err => {
+        }, (err) => {
             console.error('DbUtils Provider ' + providerIndex + ': Open Failure: ' + JSON.stringify(err));
             errorList.push(err);
             providerIndex++;
@@ -44,7 +44,7 @@ function _openListOfProviders(providersToTry: NoSqlProvider.DbProvider[], dbName
     return task.promise();
 }
 export function getStore(storeName: string, writeNeeded = false): SyncTasks.Promise<NoSqlProvider.DbStore> {
-    return _db.openTransaction([storeName], writeNeeded).then((tx:NoSqlProvider.DbTransaction) => {
+    return _db.openTransaction([storeName], writeNeeded).then((tx: NoSqlProvider.DbTransaction) => {
         return tx.getStore(storeName);
     });
 }

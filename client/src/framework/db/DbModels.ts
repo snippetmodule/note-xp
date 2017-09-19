@@ -4,13 +4,12 @@ export interface BaseDBModel {
 export interface NoteItem extends BaseDBModel {
     createTime: number;
     text: string;
-    index:string;
-    _searchTerms: string;// 索引
+    index: string;
+    _searchTerms: string; // 索引
 }
 
 export interface UrlCache extends BaseDBModel {
     // url 做为主键
     createTime: number;
-    response:string;
+    response: string;
 }
-

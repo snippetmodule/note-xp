@@ -67,13 +67,13 @@ interface IProp extends ReactNative.ViewProperties {
     navigation: Navigation.NavigationScreenProp<Navigation.NavigationRoute<any>, Navigation.NavigationAction>;
     isShowTitle?: boolean;
     backImg?: ReactNative.ImageURISource;
-    backImageSize?: { width: number, height: number };
+    backImageSize?: ReactNative.ImageStyle;
     title?: string;
     titleImg?: ReactNative.ImageURISource;
-    titleImgSize?: { width: number, height: number };
+    titleImgSize?: ReactNative.ImageStyle;
     right?: string;
     rightImg?: ReactNative.ImageURISource;
-    rightImgSize?: { width: number, height: number };
+    rightImgSize?: ReactNative.ImageStyle;
     rightStyle?: any;
     onBack?: () => void;
     onTitle?: () => void;

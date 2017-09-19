@@ -28,21 +28,21 @@ class RestClient extends GenericRestClient {
         return super._performApiCall(apiPath, action, objToPost, givenOptions);
     }
 }
-function findInCache<T>(params: HttpParams, response: WebResponse<IBaseJson<T>>): SyncTasks.Promise<IBaseJson<T>> {
+function findInCache<T extends IBaseJson<any>>(params: HttpParams, response: WebResponse<T>): SyncTasks.Promise<T> {
     return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
         .then((cache) => {
             if (cache) {
-                return JSON.parse(cache.response) as IBaseJson<T>;
+                return JSON.parse(cache.response);
             } else {
                 return SyncTasks.Rejected(`{$response.url} \n {$response.statusCode} {$reponse.statusText}`);
             }
         });
 }
-function requestImpl<T>(params: HttpParams): SyncTasks.Promise<IBaseJson<T>> {
+function requestImpl<T extends IBaseJson<any>>(params: HttpParams): SyncTasks.Promise<T> {
     const client = new RestClient('');
     Log.i('RestUtils', `request url:${params.url} \n \t\t header:${JSON.stringify(client._getHeaders(null))} method:${params.method} body:${params.body}`);
-    return client._performApiCall<IBaseJson<T>>(params.url, params.method || 'GET', params.body || '', null)
-        .then((response: WebResponse<IBaseJson<T>>) => {
+    return client._performApiCall<T>(params.url, params.method || 'GET', params.body || '', null)
+        .then((response: WebResponse<T>) => {
             Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if (response.statusCode === 200) {
                 if (response.body.code === 401) {
@@ -63,16 +63,15 @@ function requestImpl<T>(params: HttpParams): SyncTasks.Promise<IBaseJson<T>> {
             }
         });
 }
-export function request<T>(params: HttpParams): SyncTasks.Promise<IBaseJson<T>> {
+export function request<T extends IBaseJson<any>>(params: HttpParams): SyncTasks.Promise<T> {
     if (params.expiredTime && params.expiredTime > 0) {
         return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
             .then((cache) => {
                 if (cache) {
-                    return SyncTasks.Resolved(JSON.parse(cache.response) as IBaseJson<T>);
+                    return SyncTasks.Resolved(JSON.parse(cache.response));
                 } else {
                     return requestImpl<T>(params);
                 }
-
             });
     }
     return requestImpl<T>(params);

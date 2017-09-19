@@ -71,7 +71,7 @@ export = class DetailScreen extends fm.component.NavComp<IProp, null>{
                 titleImg={{ uri: detail.avatorUrl }}
                 titleImgSize={{ width: 30, height: 30, borderRadius: 15, marginRight: 5 }}
             >
-                <DetailComp {...detail} />
+                <DetailComp article={detail} />
             </fm.component.TitleComponent >
         );
     }

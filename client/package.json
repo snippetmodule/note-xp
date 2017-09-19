@@ -6,7 +6,7 @@
   "scripts": {
     "watchmanErr": "echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_watches && echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_queued_events && echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_instances && watchman shutdown-server && sudo sysctl -p",
     "buildErr": "ed -s ./node_modules/@types/react-native/index.d.ts <<< $',s/declare global/declare namespace FuckGlobals/g\nw'",
-    "errWhenStart": "yarn run buildErr && yarn run watchmanErr",
+    "errWhenStart": "yarn run buildErr && yarn run watchmanErr && node_modules/react-native/scripts/packager.sh --reset-cache ",
     "rn-watch": "./node_modules/.bin/tsc --watch &",
     "prestart": "yarn run rn-kill && yarn run rn-watch && echo 'prestart end -------'",
     "start": "node node_modules/react-native/local-cli/cli.js start",

@@ -5,12 +5,20 @@ import fm = require('../../framework');
 import models = require('../modles');
 import utils = require('../utils');
 
-export = class DetailComp extends React.Component<models.Json.ArticleDetail, null>{
+import PicList = require('./PicList');
+import ArticleInfo = require('./ArticleInfo');
+
+interface IProp {
+    article: models.Json.ArticleDetail;
+}
+
+export = class DetailComp extends React.Component<IProp, null>{
     render() {
         return (
-            <ReactNative.Text>
-                {'sucess'}
-            </ReactNative.Text>
+            <ReactNative.View>
+                <PicList pics={...this.props.article.resourceDetailsList} />
+                <ArticleInfo {...this.props} />
+            </ReactNative.View>
         );
     }
 };

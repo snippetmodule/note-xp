@@ -6,7 +6,7 @@ import models = require('../modles');
 import utils = require('../utils');
 
 import PicList = require('./PicList');
-import ArticleInfo = require('./ArticleInfo');
+import Info = require('./Info');
 
 interface IProp {
     article: models.Json.ArticleDetail;
@@ -17,7 +17,7 @@ export = class DetailComp extends React.Component<IProp, null>{
         return (
             <ReactNative.View>
                 <PicList pics={...this.props.article.resourceDetailsList} />
-                <ArticleInfo {...this.props} />
+                <Info article={this.props.article} />
             </ReactNative.View>
         );
     }

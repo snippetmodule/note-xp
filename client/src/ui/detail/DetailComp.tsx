@@ -7,6 +7,7 @@ import utils = require('../utils');
 
 import PicList = require('./PicList');
 import Info = require('./Info');
+import VideoComp = require('./VideoComp');
 
 interface IProp {
     article: models.Json.ArticleDetail;
@@ -14,11 +15,16 @@ interface IProp {
 
 export = class DetailComp extends React.Component<IProp, null>{
     render() {
+        console.info('DetailComp:' + this.props.article.articleType);
         return (
-            <ReactNative.View>
-                <PicList pics={...this.props.article.resourceDetailsList} />
+            <ReactNative.ScrollView>
+                {
+                    this.props.article.articleType === 3 ?
+                        (<VideoComp videoInfo={this.props.article.resourceDetailsList} />) :
+                        (<PicList pics={...this.props.article.resourceDetailsList} />)
+                }
                 <Info article={this.props.article} />
-            </ReactNative.View>
+            </ReactNative.ScrollView>
         );
     }
 };

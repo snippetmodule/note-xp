@@ -102,13 +102,9 @@ export = class Info extends React.Component<IProp, null>{
         let readNum = ' 22' + this.props.article.readNum;
         return (
             <ReactNative.View>
-                <ReactNative.Text style={styles.titleTex}>
-                    {this.props.article.title}
-                </ReactNative.Text>
+                {this._renderText(this.props.article.title, styles.titleTex)}
                 {this._renderTags(this.props.article.categories)}
-                <ReactNative.Text style={styles.contentTex}>
-                    {this.props.article.content}
-                </ReactNative.Text>
+                {this._renderText(this.props.article.content, styles.contentTex)}
 
                 <ReactNative.View style={styles.btnLaout}>
                     <ReactNative.TouchableOpacity style={styles.btn}>
@@ -143,6 +139,16 @@ export = class Info extends React.Component<IProp, null>{
 
                 <ReactNative.View />
             </ReactNative.View>
+        );
+    }
+    _renderText = (tex: string, textStyle: ReactNative.TextStyle) => {
+        if (!tex) {
+            return null;
+        }
+        return (
+            <ReactNative.Text style={textStyle}>
+                {tex}
+            </ReactNative.Text>
         );
     }
     _renderTags = (tags: string[]) => {

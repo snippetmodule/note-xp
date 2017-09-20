@@ -15,6 +15,12 @@ const styles = ReactNative.StyleSheet.create({
         position: 'absolute',
         top: 0, left: 0, right: 0, bottom: 0,
     },
+    thum: {
+        height: 189,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
 });
 
 enum PlayerState {
@@ -43,7 +49,9 @@ export class VideoItemComp extends React.Component<IArticleItem, null> {
         return (
             <SimpleItemComp {...this.props}>
                 <ReactNative.TouchableWithoutFeedback onPress={this.props.onPicBtn}>
-                    <ReactNative.Image source={{ uri: this.props.data.simpleUrl }} style={[{ height: 189 }]}/>
+                    <ReactNative.Image source={{ uri: this.props.data.simpleUrl }} style={[styles.thum]}>
+                        <ReactNative.Image source={require('../../../asserts/home/ic_like.png')} />
+                    </ReactNative.Image>
                     {/* <ReactNative.Video ref="video"
                         style={styles.content}
                         source={this.props.data.videoUrl}

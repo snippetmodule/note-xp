@@ -118,7 +118,7 @@ export class DrawerControl extends rx.Component<Props, null> {
         });
     }
 
-    private _onLayout = (layoutInfo: rx.Types.LayoutInfo) => {
+    private _onLayout = (layoutInfo: rx.Types.ViewOnLayoutEvent) => {
         this._viewWidth = layoutInfo.width;
 
         // Stop any animation.
@@ -160,55 +160,55 @@ export class DrawerControl extends rx.Component<Props, null> {
             </rx.View>
         );
     }
-    _onStartShouldSetResponder = (e: React.SyntheticEvent) => {
+    _onStartShouldSetResponder = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onMoveShouldSetResponder:' + e);
         return true;
     }
-    _onMoveShouldSetResponder = (e: React.SyntheticEvent) => {
+    _onMoveShouldSetResponder = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onMoveShouldSetResponder:' + e);
         return true;
     };
-    onContextMenu = (e: React.SyntheticEvent) => {
+    onContextMenu = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111onContextMenu:' + e);
     };
-    onStartShouldSetResponder = (e: React.SyntheticEvent) => {
+    onStartShouldSetResponder = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onStartShouldSetResponder:' + e);
         return true;
     };
-    onMoveShouldSetResponder = (e: React.SyntheticEvent) => {
+    onMoveShouldSetResponder = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onMoveShouldSetResponder:' + e);
         return true;
     };
-    onStartShouldSetResponderCapture = (e: React.SyntheticEvent) => {
+    onStartShouldSetResponderCapture = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onStartShouldSetResponderCapture:' + e);
         return false;
     };
-    onMoveShouldSetResponderCapture = (e: React.SyntheticEvent) => {
+    onMoveShouldSetResponderCapture = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onMoveShouldSetResponderCapture:' + e);
         return false;
     };
-    onResponderGrant = (e: React.SyntheticEvent) => {
+    onResponderGrant = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderGrant:' + e);
     };
-    onResponderReject = (e: React.SyntheticEvent) => {
+    onResponderReject = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderReject:' + e);
     };
-    onResponderRelease = (e: React.SyntheticEvent) => {
+    onResponderRelease = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderRelease:' + e);
     };
-    onResponderStart = (e: React.TouchEvent) => {
+    onResponderStart = (e: React.TouchEvent<any>) => {
         console.info('1111111111_onResponderStart:' + e);
     };
-    onResponderMove = (e: React.TouchEvent) => {
+    onResponderMove = (e: React.TouchEvent<any>) => {
         console.info('1111111111_onResponderMove:' + e);
     };
-    onResponderEnd = (e: React.TouchEvent) => {
+    onResponderEnd = (e: React.TouchEvent<any>) => {
         console.info('1111111111_onResponderEnd:' + e);
     };
-    onResponderTerminate = (e: React.SyntheticEvent) => {
+    onResponderTerminate = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderTerminate:' + e);
     };
-    onResponderTerminationRequest = (e: React.SyntheticEvent) => {
+    onResponderTerminationRequest = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderTerminationRequest:' + e);
         return false;
     };

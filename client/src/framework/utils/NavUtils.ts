@@ -1,6 +1,6 @@
 import rx = require('reactxp');
 import React = require('react');
-import Navigator, { Types } from 'reactxp-navigation';
+import Navigator = require('reactxp-navigation');
 
 import Md5 = require('./Md5Utils');
 import StringUtils = require('./StringUtils');
@@ -9,9 +9,9 @@ import DeviceUtils = require('./DeviceUtils');
 type GoParams<P> = {
     component: React.ComponentClass<any>,
     props?: P,
-    sceneConfigType?: rx.Types.NavigatorSceneConfigType,
+    sceneConfigType?: Navigator.Types.NavigatorSceneConfigType,
     gestureResponseDistance?: number,
-    customSceneConfig?: rx.Types.CustomNavigatorSceneConfig
+    customSceneConfig?: Navigator.Types.CustomNavigatorSceneConfig
 }
 type NavigatorScene = {
     [index: number]: GoParams<any>
@@ -19,12 +19,12 @@ type NavigatorScene = {
 
 let _navigatorScene: NavigatorScene = {};
 
-let _navigator: Navigator;
+let _navigator: Navigator.NavigatorImpl;
 
-export function registerMain<P>(navigator: Navigator,params: GoParams<P>) {
+export function registerMain<P>(navigator: Navigator.NavigatorImpl,params: GoParams<P>) {
     _navigator = navigator;
     params = {
-        sceneConfigType: rx.Types.NavigatorSceneConfigType.Fade,
+        sceneConfigType: Navigator.Types.NavigatorSceneConfigType.Fade,
         ...params
     };
     const md5 = 0; // 默认route id 为0
@@ -37,7 +37,7 @@ export function registerMain<P>(navigator: Navigator,params: GoParams<P>) {
 
 export function go<P>(params: GoParams<P>) {
     params = {
-        sceneConfigType: rx.Types.NavigatorSceneConfigType.FloatFromRight,
+        sceneConfigType: Navigator.Types.NavigatorSceneConfigType.FloatFromRight,
         ...params
     };
     const md5 = StringUtils.toNumber(Md5.hash((params.component as any).name as string));
@@ -52,7 +52,7 @@ export function go<P>(params: GoParams<P>) {
 let count = 2;
 export function replace<P>(params: GoParams<P>) {
     params = {
-        sceneConfigType: rx.Types.NavigatorSceneConfigType.FloatFromRight,
+        sceneConfigType: Navigator.Types.NavigatorSceneConfigType.FloatFromRight,
         ...params
     };
     let route = _navigator.getCurrentRoutes().reverse()[0];
@@ -66,7 +66,7 @@ export function replace<P>(params: GoParams<P>) {
         customSceneConfig: params.customSceneConfig
     });
 }
-export function renderScene(navigatorRoute: Types.NavigatorRoute): JSX.Element {
+export function renderScene(navigatorRoute: Navigator.Types.NavigatorRoute): JSX.Element {
     let params = _navigatorScene[navigatorRoute.routeId];
 
     if (!params) {

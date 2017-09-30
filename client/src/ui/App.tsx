@@ -20,7 +20,7 @@ export class App extends rx.Component<{}, State> {
     }
     render() {
         return (
-            <rx.Navigator
+            <Navigator
                 ref={this._onNavigatorRef}
                 renderScene={this._renderScene}
                 cardStyle={styles.navCardStyle}

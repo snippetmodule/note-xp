@@ -104,7 +104,7 @@ export class DrawerLayout extends rx.Component<Props, State> {
         );
     }
 
-    _onOverlayClick = (e: React.SyntheticEvent) => {
+    _onOverlayClick = (e: rx.Types.SyntheticEvent) => {
         if (this.state.drawerShown) {
             e.stopPropagation();
             if (!this._isLockedClosed() && !this._isLockedOpen()) {

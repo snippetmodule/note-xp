@@ -7,7 +7,9 @@ import { WebSqlProvider } from 'nosqlprovider/dist/WebSqlProvider';
 import fm = require('./framework');
 import { App } from './ui/App';
 
-rx.App.initialize(true, true);
+fm.utils.Log.i('index', JSON.stringify(process.env));
+
+rx.App.initialize(fm.utils.DeviceUtils.isDebug, fm.utils.DeviceUtils.isDebug);
 fm.db.DbUtils.init([
     new IndexedDbProvider(),
     new WebSqlProvider(),

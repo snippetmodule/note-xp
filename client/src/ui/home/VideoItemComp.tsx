@@ -1,8 +1,8 @@
 import rx = require('reactxp');
 import Video from 'reactxp-video';
 
-import fm = require('../../../framework');
-import models = require('../../modles');
+import fm = require('../../framework');
+import models = require('../modles');
 
 import { SimpleItemComp, IArticleItem } from './SimpleItemComp';
 

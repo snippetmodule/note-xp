@@ -43,9 +43,9 @@ const config: webpack.Configuration = {
         }),
         new webpack.DefinePlugin({
             'process.env': {
-                browser: JSON.stringify(true),
-                development: JSON.stringify(true),
-                version: JSON.stringify('0.1'),
+                mobile: true,
+                dev: true,
+                version: '0.1',
             },
         }),
         new webpack.HotModuleReplacementPlugin(),

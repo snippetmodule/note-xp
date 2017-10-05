@@ -1,7 +1,7 @@
 import rx = require('reactxp');
-import fm = require('../../../framework');
-import models = require('../../modles');
-import utils = require('../../utils');
+import fm = require('../../framework');
+import models = require('../modles');
+import utils = require('../utils');
 
 import { VirtualListView, VirtualListViewItemInfo } from 'reactxp-virtuallistview';
 

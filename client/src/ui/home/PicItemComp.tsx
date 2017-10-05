@@ -1,7 +1,7 @@
 import rx = require('reactxp');
 import react = require('react');
 
-import models = require('../../modles');
+import models = require('../modles');
 import { SimpleItemComp, IArticleItem } from './SimpleItemComp';
 
 export class PicItemComp extends rx.Component<IArticleItem, any> {

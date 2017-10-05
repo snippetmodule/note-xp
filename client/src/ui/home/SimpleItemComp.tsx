@@ -2,7 +2,7 @@ import rx = require('reactxp');
 import react = require('react');
 import { VirtualListViewItemInfo } from 'reactxp-virtuallistview';
 
-import models = require('../../modles');
+import models = require('../modles');
 
 const styles = {
     root: rx.Styles.createViewStyle({
@@ -80,15 +80,15 @@ export class SimpleItemComp extends rx.Component<IProp, any> {
                     </rx.Text>
                     <rx.Button style={styles.checkbox} onPress={this.props.onLikeBtn}>
                         <rx.Image style={styles.checkboxImg}
-                            source={this.props.data.isLike ? require('../../../../asserts/home/ic_has_like.png') : require('../../../../asserts/home/ic_like.png')} />
+                            source={this.props.data.isLike ? require('../../../asserts/home/ic_has_like.png') : require('../../../asserts/home/ic_like.png')} />
                     </rx.Button>
                     <rx.Button style={styles.checkbox} onPress={this.props.onCollectionBtn}>
                         <rx.Image style={styles.checkboxImg}
-                            source={this.props.data.hasCollection ? require('../../../../asserts/home/ic_has_collection.png') : require('../../../../asserts/home/ic_collection.png')} />
+                            source={this.props.data.hasCollection ? require('../../../asserts/home/ic_has_collection.png') : require('../../../asserts/home/ic_collection.png')} />
                     </rx.Button>
                     <rx.Button style={[styles.checkbox, { marginRight: 6 }]} onPress={this.props.onShare}>
                         <rx.Image style={styles.checkboxImg}
-                            source={require('../../../../asserts/home/ic_share.png')} />
+                            source={require('../../../asserts/home/ic_share.png')} />
                     </rx.Button>
                 </rx.View>
             </rx.View>

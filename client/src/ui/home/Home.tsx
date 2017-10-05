@@ -1,7 +1,7 @@
 import rx = require('reactxp');
-import fm = require('../../../framework');
-import models = require('../../modles');
-import utils = require('../../utils');
+import fm = require('../../framework');
+import models = require('../modles');
+import utils = require('../utils');
 
 import { SimpleItemComp, IArticleItem } from './SimpleItemComp';
 import { PicItemComp } from './PicItemComp';
@@ -40,9 +40,9 @@ export class Home extends rx.Component<IProps, any> {
                 onBack={this.onSearch}
                 onTitle={this.onTitle}
                 onRight={this.onMenu}
-                backImg={require('../../../../asserts/home/home_search.png')}
-                titleImg={require('../../../../asserts/home/logo.png')}
-                rightImg={require('../../../../asserts/home/home_menu.png')}
+                backImg={require('../../../asserts/home/home_search.png')}
+                titleImg={require('../../../asserts/home/logo.png')}
+                rightImg={require('../../../asserts/home/home_menu.png')}
             >
                 <fm.component.HttpComponent ref="httpComp"
                     onSucess={this._renderSucess}

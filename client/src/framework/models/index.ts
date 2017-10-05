@@ -1,7 +1,7 @@
 import BaseJson from './BaseJson';
 import User from './User';
 
-export　{
+export　 {
     BaseJson,
     User,
-}
+};

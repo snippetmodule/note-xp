@@ -24,14 +24,14 @@ const styles = {
         height: 48,
         marginLeft: 20,
         marginRight: 17,
-        flexDirection: 'row'
+        flexDirection: 'row',
     }),
     codeInput: rx.Styles.createTextInputStyle({
         backgroundColor: 'transparent',
         fontSize: 16,
         flex: 1,
         color: '#333333',
-        marginRight: 6
+        marginRight: 6,
     }),
     codeBtn: rx.Styles.createButtonStyle({
         marginTop: 6,
@@ -50,15 +50,15 @@ const styles = {
         backgroundColor: '#5E62FF',
         borderRadius: 4,
         marginTop: 27,
-        alignSelf: 'center'
+        alignSelf: 'center',
     }),
     registerTxt: rx.Styles.createTextStyle({
         fontSize: 14,
         color: '#999999',
-        alignSelf: 'center'
+        alignSelf: 'center',
     }),
 };
-interface State {
+interface IState {
     isLogined: boolean;
     phoneNumber: string;
     checkCode: string;
@@ -67,7 +67,7 @@ interface State {
     checkCodeBtn: number;
 }
 
-export = class RegisterScene extends fm.ComponentBase<{}, State>{
+export = class RegisterScene extends fm.ComponentBase<{}, IState>{
     private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCode[]> = new fm.component.HttpStore.HttpStore();
     private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfo[]> = new fm.component.HttpStore.HttpStore();
 
@@ -76,7 +76,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
         super(props);
     }
 
-    protected _buildState(props: {}, initialBuild: boolean): State {
+    protected _buildState(props: {}, initialBuild: boolean): IState {
         const newState = {
             ...this.state,
             isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
@@ -125,33 +125,31 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
     render() {
         let codeTex = this.state.checkCodeBtn ? this.state.checkCodeBtn + '' : 'Code';
         return (
-            <fm.component.TitleComponent title='手机登录'>
-                <rx.TextInput placeholder='Phone'
-                    placeholderTextColor='#BBBBBB'
+            <fm.component.TitleComponent title="手机登录">
+                <rx.TextInput placeholder="Phone"
+                    placeholderTextColor="#BBBBBB"
                     multiline={false}
                     autoFocus={true}
                     maxLength={11}
                     returnKeyType="next"
-                    keyboardType='numeric'
+                    keyboardType="numeric"
                     style={styles.phoneInput}
                     value={this.state.phoneNumber}
                     onChangeText={this._onNumberChange}
-                >
-                </rx.TextInput>
+                />
                 <rx.View style={styles.dividerLine} />
                 <rx.View style={styles.codeLayout}>
-                    <rx.TextInput placeholder='Code'
-                        placeholderTextColor='#BBBBBB'
+                    <rx.TextInput placeholder="Code"
+                        placeholderTextColor="#BBBBBB"
                         multiline={false}
                         autoFocus={true}
                         maxLength={11}
                         returnKeyType="next"
-                        keyboardType='numeric'
+                        keyboardType="numeric"
                         style={styles.codeInput}
                         value={this.state.checkCode}
                         onChangeText={this._onCheckCodeChange}
-                    >
-                    </rx.TextInput>
+                    />
                     <rx.Button onPress={this._onGetCode} style={[styles.codeBtn]}>
                         <rx.Text style={styles.codeTxt}>
                             {`${codeTex}`}
@@ -159,7 +157,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
                     </rx.Button>
                 </rx.View>
                 <rx.View style={[styles.dividerLine]} />
-                <rx.Button style={[styles.registerLaout]} onPress={this._onRegiser} ref='register'>
+                <rx.Button style={[styles.registerLaout]} onPress={this._onRegiser} ref="register">
                     <rx.Text style={styles.registerTxt}>
                         Continue
                     </rx.Text>
@@ -183,8 +181,8 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
                 url: utils.UrlConst.RegisterUrl,
                 method: 'POST',
                 body: {
-                    phoneNumber: this.state.phoneNumber
-                }
+                    phoneNumber: this.state.phoneNumber,
+                },
             });
             return;
         }
@@ -205,10 +203,10 @@ export = class RegisterScene extends fm.ComponentBase<{}, State>{
             method: 'PUT',
             body: {
                 phoneNumber: this.state.phoneNumber,
-                validateCode: this.state.checkCode
-            }
+                validateCode: this.state.checkCode,
+            },
 
         });
         this.mLoginStore.exeAsync(task);
     }
-}
+};

@@ -5,7 +5,7 @@ import DbModels = require('./DbModels');
 import DbUtils = require('./DbUtils');
 import DbConfig = require('./DbConfig');
 
-export class BaseDao<T extends DbModels.BaseDBModel>{
+export class BaseDao<T extends DbModels.IBaseDBModel> {
     private storeName: string;
 
     public constructor(storeName: string) {
@@ -15,7 +15,7 @@ export class BaseDao<T extends DbModels.BaseDBModel>{
     getAll(): SyncTasks.Promise<T[]> {
         return DbUtils.getStore(this.storeName, false)
             .then((store: NoSqlProvider.DbStore) => {
-                return store.openPrimaryKey().getAll() as SyncTasks.Promise<T[]>;;
+                return store.openPrimaryKey().getAll() as SyncTasks.Promise<T[]>;
             }).fail(this._handleDbFail);
     }
 
@@ -30,19 +30,19 @@ export class BaseDao<T extends DbModels.BaseDBModel>{
     remove(keyOrKeys: any | any[]): SyncTasks.Promise<void> {
         return DbUtils.getStore(this.storeName, true)
             .then((store: NoSqlProvider.DbStore) => {
-                return store.remove(keyOrKeys) as SyncTasks.Promise<void>;;
+                return store.remove(keyOrKeys) as SyncTasks.Promise<void>;
             }).fail(this._handleDbFail);
     }
     get(key: any | any[]): SyncTasks.Promise<T> {
         return DbUtils.getStore(this.storeName, false)
             .then((store: NoSqlProvider.DbStore) => {
-                return store.get(key) as SyncTasks.Promise<T>;;
+                return store.get(key) as SyncTasks.Promise<T>;
             }).fail(this._handleDbFail);
     }
     getMultiple(key: any | any[]): SyncTasks.Promise<T[]> {
         return DbUtils.getStore(this.storeName, false)
             .then((store: NoSqlProvider.DbStore) => {
-                return store.getMultiple(key) as SyncTasks.Promise<T[]>;;
+                return store.getMultiple(key) as SyncTasks.Promise<T[]>;
             }).fail(this._handleDbFail);
     }
     clear(): SyncTasks.Promise<void> {
@@ -67,15 +67,15 @@ export class BaseDao<T extends DbModels.BaseDBModel>{
                 console.error(`IDBStore: ${source.name}, ${source.keyPath}, indexes: ${source.indexNames.join()}`);
             }
         }
-    };
+    }
 }
-export class NoteItemDao extends BaseDao<DbModels.NoteItem>{
+export class NoteItemDao extends BaseDao<DbModels.INoteItem> {
     public constructor() {
         super(DbConfig.Stores.noteItems);
     }
 }
 
-export class UrlCacheDao extends BaseDao<DbModels.UrlCache>{
+export class UrlCacheDao extends BaseDao<DbModels.IUrlCache> {
     public constructor() {
         super(DbConfig.Stores.urlCache);
     }

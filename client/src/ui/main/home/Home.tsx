@@ -3,7 +3,7 @@ import fm = require('../../../framework');
 import models = require('../../modles');
 import utils = require('../../utils');
 
-import { SimpleItemComp, ArticleItem } from './SimpleItemComp';
+import { SimpleItemComp, IArticleItem } from './SimpleItemComp';
 import { PicItemComp } from './PicItemComp';
 import { VideoItemComp } from './VideoItemComp';
 import { ArticleListComp } from './ArticleListComp';
@@ -13,17 +13,17 @@ const styles = {
         flex: 1,
         paddingTop: 5,
         paddingLeft: 5,
-        paddingRight: 5
+        paddingRight: 5,
     }),
 };
-let data: fm.models.BaseJson<models.Json.Article[]> = require('./data');
+// let data: fm.models.BaseJson<models.Json.Article[]> = require('./data');
 
-interface Props {
-    isDrawerOpen: () => boolean,
-    toggleDrawer: () => any
+interface IProps {
+    isDrawerOpen: () => boolean;
+    toggleDrawer: () => any;
 }
-export class Home extends rx.Component<Props, any>{
-    private _list: ArticleItem[];
+export class Home extends rx.Component<IProps, any> {
+    private _list: IArticleItem[];
 
     private onMenu = () => {
         this.props.toggleDrawer();
@@ -44,12 +44,12 @@ export class Home extends rx.Component<Props, any>{
                 titleImg={require('../../../../asserts/home/logo.png')}
                 rightImg={require('../../../../asserts/home/home_menu.png')}
             >
-                <fm.component.HttpComponent ref='httpComp'
+                <fm.component.HttpComponent ref="httpComp"
                     onSucess={this._renderSucess}
                     onSucessFilter={this._onSucessFilter}
                     httpParams={{
                         url: utils.UrlConst.HomeArticleUrl,
-                        emptyUseCache: true
+                        emptyUseCache: true,
                     }} />
             </fm.component.TitleComponent>
         );

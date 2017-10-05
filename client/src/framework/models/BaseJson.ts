@@ -1,8 +1,6 @@
-
-
-export default interface BaseJons<T>{
-    code:number;
-    message:T;
-    serverTime:string;
-    des:string;
+export default interface IBaseJons<T> {
+    code: number;
+    message: T;
+    serverTime: string;
+    des: string;
 }

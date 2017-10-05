@@ -9,26 +9,26 @@ const VX_MAX = 0.1;
 const animationDuration = 250;
 
 enum DrawerState {
-    idle, dragging, setting
+    idle, dragging, setting,
 }
-interface Props extends rx.CommonStyledProps<rx.Types.ViewStyleRuleSet> {
-    drawerWidth: number,
-    drawerPosition: 'left' | 'right',
-    drawerLockMode?: 'unlocked' | 'locked-closed' | 'locked-open',
-    onDrawerOpen?: () => any,
-    onDrawerClose?: () => any,
-    onDrawerStateChanged?: (newState: DrawerState) => any,
-    renderNavigationView?: () => JSX.Element,
+interface IProps extends rx.CommonStyledProps<rx.Types.ViewStyleRuleSet> {
+    drawerWidth: number;
+    drawerPosition: 'left' | 'right';
+    drawerLockMode?: 'unlocked' | 'locked-closed' | 'locked-open';
+    onDrawerOpen?: () => any;
+    onDrawerClose?: () => any;
+    onDrawerStateChanged?: (newState: DrawerState) => any;
+    renderNavigationView?: () => JSX.Element;
 }
-interface State {
-    drawerShown: boolean,
-    openValue: rx.Animated.Value,
-    translateValue: rx.Animated.Value,
+interface IState {
+    drawerShown: boolean;
+    openValue: rx.Animated.Value;
+    translateValue: rx.Animated.Value;
 }
-export class DrawerLayout extends rx.Component<Props, State> {
-    static defaultProps: Props = {
+export class DrawerLayout extends rx.Component<IProps, IState> {
+    static defaultProps: IProps = {
         drawerWidth: 0,
-        drawerPosition: 'left'
+        drawerPosition: 'left',
     };
 
     static positions = {
@@ -38,7 +38,7 @@ export class DrawerLayout extends rx.Component<Props, State> {
     private _isRTL: boolean = false;
     private _lastOpenValue: number = 0;
 
-    constructor(props: Props, context: any) {
+    constructor(props: IProps, context: any) {
         super(props, context);
         this.state = {
             drawerShown: false,
@@ -48,7 +48,7 @@ export class DrawerLayout extends rx.Component<Props, State> {
     }
 
     render() {
-        const { drawerShown, openValue, } = this.state;
+        const { drawerShown, openValue } = this.state;
         const { drawerPosition, drawerWidth } = this.props;
 
         const dynamicDrawerStyles = {
@@ -59,7 +59,7 @@ export class DrawerLayout extends rx.Component<Props, State> {
 
         /* Drawer styles */
         let outputRange;
-        if (drawerPosition === 'left') {
+        if ('left' === drawerPosition) {
             outputRange = this._isRTL ? [drawerWidth, 0] : [-drawerWidth, 0];
         } else {
             outputRange = this._isRTL ? [-drawerWidth, 0] : [drawerWidth, 0];
@@ -111,13 +111,13 @@ export class DrawerLayout extends rx.Component<Props, State> {
                 this.closeDrawer();
             }
         }
-    };
+    }
 
     _emitStateChanged = (newState: DrawerState) => {
         if (this.props.onDrawerStateChanged) {
             this.props.onDrawerStateChanged(newState);
         }
-    };
+    }
 
     openDrawer = () => {
         this._emitStateChanged(DrawerState.setting);
@@ -125,13 +125,13 @@ export class DrawerLayout extends rx.Component<Props, State> {
             rx.Animated.timing(this.state.openValue, {
                 toValue: 1,
                 easing: rx.Animated.Easing.InOut(),
-                duration: animationDuration
+                duration: animationDuration,
             }),
             rx.Animated.timing(this.state.translateValue, {
                 toValue: 1,
                 easing: rx.Animated.Easing.InOut(),
-                duration: animationDuration
-            })
+                duration: animationDuration,
+            }),
         ]).start(() => {
             if (this.props.onDrawerOpen) {
                 this.props.onDrawerOpen();
@@ -139,7 +139,7 @@ export class DrawerLayout extends rx.Component<Props, State> {
             this.setState({ drawerShown: true });
             this._emitStateChanged(DrawerState.idle);
         });
-    };
+    }
 
     closeDrawer = () => {
         this._emitStateChanged(DrawerState.setting);
@@ -147,13 +147,13 @@ export class DrawerLayout extends rx.Component<Props, State> {
             rx.Animated.timing(this.state.openValue, {
                 toValue: 0,
                 easing: rx.Animated.Easing.InOut(),
-                duration: animationDuration
+                duration: animationDuration,
             }),
             rx.Animated.timing(this.state.translateValue, {
                 toValue: 0,
                 easing: rx.Animated.Easing.InOut(),
-                duration: animationDuration
-            })
+                duration: animationDuration,
+            }),
         ]).start(() => {
             if (this.props.onDrawerClose) {
                 this.props.onDrawerClose();
@@ -161,7 +161,7 @@ export class DrawerLayout extends rx.Component<Props, State> {
             this.setState({ drawerShown: false });
             this._emitStateChanged(DrawerState.idle);
         });
-    };
+    }
     // _onPanHorizontal = (gesture: rx.Types.PanGestureState): void => {
     //     if (this._isLockedClosed() || this._isLockedOpen()) {
     //         return;
@@ -232,7 +232,7 @@ export class DrawerLayout extends rx.Component<Props, State> {
         }
         console.info('_onPanHorizontal:' + openValue);
         this.state.openValue.setValue(openValue);
-    };
+    }
 
     // _panResponderRelease = (
     //     e: EventType,
@@ -283,23 +283,23 @@ export class DrawerLayout extends rx.Component<Props, State> {
         if (this.props.onDrawerOpen) {
             this.props.onDrawerOpen();
         }
-    };
+    }
 
     _handleDrawerClose = () => {
         if (this.props.onDrawerClose) {
             this.props.onDrawerClose();
         }
-    };
+    }
 
     _isLockedClosed = () => {
         return this.props.drawerLockMode === 'locked-closed' &&
             !this.state.drawerShown;
-    };
+    }
 
     _isLockedOpen = () => {
         return this.props.drawerLockMode === 'locked-open' &&
             this.state.drawerShown;
-    };
+    }
 }
 
 const styles = {
@@ -310,7 +310,7 @@ const styles = {
     }),
     main: rx.Styles.createViewStyle({
         flex: 1,
-        alignSelf: 'stretch'
+        alignSelf: 'stretch',
     }),
     overlay: rx.Styles.createViewStyle({
         backgroundColor: '#000',

@@ -1,21 +1,13 @@
-/**
-* ProgressIndicator.tsx
-* Copyright: Microsoft 2017
-*
-* Circular progress indicator that shows off the use of ImageSVG
-* ReactXP extension.
-*/
-
 import rx = require('reactxp');
 import { default as RXImageSvg, SvgPath as RXSvgPath } from 'reactxp-imagesvg';
 
-interface ProgressIndicatorProps extends rx.CommonStyledProps<rx.Types.ImageStyleRuleSet> {
+interface IProgressIndicatorProps extends rx.CommonStyledProps<rx.Types.ImageStyleRuleSet> {
     progress: number;
     fillColor: string;
     size: number;
 }
 
-export = class ProgressIndicator extends rx.Component<ProgressIndicatorProps, {}> {
+export = class ProgressIndicator extends rx.Component<IProgressIndicatorProps, {}> {
     render() {
         const size = this.props.size;
         const progress = this.props.progress;
@@ -42,4 +34,4 @@ export = class ProgressIndicator extends rx.Component<ProgressIndicatorProps, {}
             </RXImageSvg>
         );
     }
-}
+};

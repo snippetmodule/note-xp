@@ -2,29 +2,29 @@ import rx = require('reactxp');
 import React = require('react');
 import _ = require('lodash');
 
-interface Props extends rx.CommonStyledProps<rx.Types.ViewStyle> {
+interface IProps extends rx.CommonStyledProps<rx.Types.ViewStyle> {
     count: number;
     selectedIndex: number;
     onSelectedIndexChange?: (index: number) => void;
     bounces?: boolean;
-};
+}
 
-interface State {
+interface IState {
     width: number;
     height: number;
     selectedIndex: number;
-};
+}
 
-class ViewPager extends rx.Component<Props, State> {
+class ViewPager extends rx.Component<IProps, IState> {
 
     private mScrollView: rx.ScrollView;
 
-    constructor(props: Props) {
+    constructor(props: IProps) {
         super(props);
         this.state = {
             width: 0,
             height: 0,
-            selectedIndex: this.props.selectedIndex
+            selectedIndex: this.props.selectedIndex,
         };
     }
 
@@ -39,7 +39,7 @@ class ViewPager extends rx.Component<Props, State> {
                         <rx.View style={[{ width, height }]} key={'r_' + i} >
                             {child}
                         </rx.View>
-                    )
+                    );
                 });
             } else {
                 content.push(this.props.children);
@@ -71,12 +71,12 @@ class ViewPager extends rx.Component<Props, State> {
         });
     }
 
-    public componentWillReceiveProps(nextProps: Props) {
+    public componentWillReceiveProps(nextProps: IProps) {
         if (nextProps.selectedIndex !== this.state.selectedIndex) {
             this.mScrollView.setScrollLeft(nextProps.selectedIndex * this.state.width, true);
             this.setState({
                 ...this.state,
-                selectedIndex: nextProps.selectedIndex
+                selectedIndex: nextProps.selectedIndex,
             });
         }
     }
@@ -94,4 +94,3 @@ class ViewPager extends rx.Component<Props, State> {
         }
     }
 }
-

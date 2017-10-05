@@ -11,7 +11,7 @@ rx.App.initialize(true, true);
 fm.db.DbUtils.init([
     new IndexedDbProvider(),
     new WebSqlProvider(),
-    new InMemoryProvider()
+    new InMemoryProvider(),
 ]).then(() => {
     // to do Other Init
     return fm.manager.UserManager.Instance.init();

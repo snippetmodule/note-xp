@@ -11,13 +11,13 @@ export function save(url: string, response: string, method = 'GET', body = ''): 
     return mUrlCacheDao.put({
         id: md5 as string,
         createTime: new Date().getTime(),
-        response: response
+        response: response,
     });
 }
-export function get(url: string, expiredTime = 0, method = 'GET', body = ''): SyncTasks.Promise<DBModels.UrlCache> {
+export function get(url: string, expiredTime = 0, method = 'GET', body = ''): SyncTasks.Promise<DBModels.IUrlCache> {
     let md5 = MD5Utils.hash(`{$url}_{$method}_{$body}`);
     return mUrlCacheDao.get(md5).then((cache) => {
-        if(!cache){
+        if (!cache) {
             return null;
         }
         if (expiredTime <= 0) {

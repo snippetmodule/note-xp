@@ -4,7 +4,7 @@ import Video from 'reactxp-video';
 import fm = require('../../../framework');
 import models = require('../../modles');
 
-import { SimpleItemComp, ArticleItem } from './SimpleItemComp';
+import { SimpleItemComp, IArticleItem } from './SimpleItemComp';
 
 const styles = {
     view: rx.Styles.createImageStyle({
@@ -13,14 +13,14 @@ const styles = {
     }),
     content: rx.Styles.createViewStyle({
         position: 'absolute',
-        top: 0, left: 0, right: 0, bottom: 0
+        top: 0, left: 0, right: 0, bottom: 0,
     }),
-}
+};
 
 enum PlayerState {
-    idle, playing, pause, error
+    idle, playing, pause, error,
 }
-export class VideoItemComp extends rx.Component<ArticleItem, null>{
+export class VideoItemComp extends rx.Component<IArticleItem, null> {
 
     private _playerState: PlayerState = PlayerState.idle;
     // componentWillReceiveProps(nextProps: ArticleItem, nextContext: any): void {
@@ -30,7 +30,7 @@ export class VideoItemComp extends rx.Component<ArticleItem, null>{
     //     fm.utils.Log.i('VideoItemComp', 'shouldComponentUpdate');
     //     return true;
     // }
-    componentDidUpdate(prevProps: ArticleItem, prevState: null, prevContext: any): void {
+    componentDidUpdate(prevProps: IArticleItem, prevState: null, prevContext: any): void {
         fm.utils.Log.i('VideoItemComp', 'componentDidUpdate');
         if (!this.props.isPlaying) {
             let video = this.refs['video'] as Video;
@@ -43,11 +43,11 @@ export class VideoItemComp extends rx.Component<ArticleItem, null>{
         return (
             <SimpleItemComp {...this.props}>
                 <rx.View style={styles.view} onPress={this._onPlay}>
-                    <rx.Image source={this.props.data.simpleUrl} style={styles.content} resizeMode='contain' />
-                    <Video ref='video'
+                    <rx.Image source={this.props.data.simpleUrl} style={styles.content} resizeMode="contain" />
+                    <Video ref="video"
                         style={styles.content}
                         source={this.props.data.videoUrl}
-                        resizeMode='contain' />
+                        resizeMode="contain" />
                 </rx.View>
             </SimpleItemComp>
         );
@@ -63,7 +63,7 @@ export class VideoItemComp extends rx.Component<ArticleItem, null>{
                 this._playerState = PlayerState.playing;
                 this.props.onVideoBtn();
                 video.play();
-                break
+                break;
         }
     }
 }

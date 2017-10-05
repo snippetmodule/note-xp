@@ -10,17 +10,17 @@ import { MenuComp } from './MenuComp';
 //     BackAndroid = ReactNative.BackAndroid;
 // }
 
-export class DrawerComp extends rx.Component<{}, null>{
+export class DrawerComp extends rx.Component<{}, null> {
 
     private _drawer: fm.component.widget.DrawerLayout;
     private _backPressedTime: number = 0;
 
     public componentDidMount() {
-        window.addEventListener('hardwareBackPress',this.handleBackButton);
+        window.addEventListener('hardwareBackPress', this.handleBackButton);
     }
 
     public componentWillUnmount() {
-        window.removeEventListener('hardwareBackPress',this.handleBackButton);
+        window.removeEventListener('hardwareBackPress', this.handleBackButton);
     }
     private handleBackButton = () => {
         if (this._isDrawerOpen()) {
@@ -42,7 +42,7 @@ export class DrawerComp extends rx.Component<{}, null>{
             <fm.component.widget.DrawerLayout
                 ref={(ref: fm.component.widget.DrawerLayout) => this._drawer = ref}
                 drawerWidth={270}
-                drawerPosition='right'
+                drawerPosition="right"
                 renderNavigationView={this._renderDrawer}
             >
                 <Home isDrawerOpen={this._isDrawerOpen} toggleDrawer={this._toggleDrawer} />

@@ -8,9 +8,9 @@ const DEVICE_WIDTH = DimenUtils.getWindowSize().width;
 const THRESHOLD = DEVICE_WIDTH / 2;
 const VX_MAX = 0.1;
 
-interface Props extends rx.CommonStyledProps<rx.Types.ViewStyleRuleSet> {
-    drawerWidth?: number,
-    drawerPosition?: 'left' | 'right',
+interface IProps extends rx.CommonStyledProps<rx.Types.ViewStyleRuleSet> {
+    drawerWidth?: number;
+    drawerPosition?: 'left' | 'right';
     renderDrawer?: () => JSX.Element;
     renderContent?: () => JSX.Element;
 }
@@ -23,7 +23,7 @@ const _drawerWidth = 100;
 const styles = {
     container: rx.Styles.createViewStyle({
         flex: 1,
-        alignSelf: 'stretch'
+        alignSelf: 'stretch',
     }),
     drawerContainer: rx.Styles.createViewStyle({
         position: 'absolute',
@@ -36,17 +36,17 @@ const styles = {
         top: 0,
         right: 0,
         bottom: 0,
-        left: 0
-    })
+        left: 0,
+    }),
 };
-interface State {
+interface IState {
     openValue: rx.Animated.Value;
 }
-export class DrawerControl extends rx.Component<Props, null> {
-    static defaultProps: Props = {
+export class DrawerControl extends rx.Component<IProps, null> {
+    static defaultProps: IProps = {
         drawerWidth: _drawerWidth,
         drawerPosition: 'right',
-    }
+    };
     private _drawerShown = false;
     private _viewWidth: number = 0;
 
@@ -70,13 +70,13 @@ export class DrawerControl extends rx.Component<Props, null> {
             rx.Animated.timing(this._drawerTranslationValue, {
                 toValue: this._getDrawerAnimToValue(),
                 easing: rx.Animated.Easing.InOut(),
-                duration: animationDuration
+                duration: animationDuration,
             }),
             rx.Animated.timing(this._contentTranslationValue, {
                 toValue: this._getContentAnimToValue(),
                 easing: rx.Animated.Easing.InOut(),
-                duration: animationDuration
-            })
+                duration: animationDuration,
+            }),
         ]);
 
         this._animation.start(() => {
@@ -97,24 +97,24 @@ export class DrawerControl extends rx.Component<Props, null> {
             return this._drawerShown ? -this.props.drawerWidth : 0;
         }
     }
-    constructor(props: Props) {
+    constructor(props: IProps) {
         super(props);
         this._drawerTranslationValue = new rx.Animated.Value(0);
         this._animatedDrawerStyle = rx.Styles.createAnimatedViewStyle({
             transform: [
                 {
-                    translateX: this._drawerTranslationValue
-                }
-            ]
+                    translateX: this._drawerTranslationValue,
+                },
+            ],
         });
 
         this._contentTranslationValue = new rx.Animated.Value(0);
         this._animatedContentStyle = rx.Styles.createAnimatedViewStyle({
             transform: [
                 {
-                    translateX: this._contentTranslationValue
-                }
-            ]
+                    translateX: this._contentTranslationValue,
+                },
+            ],
         });
     }
 
@@ -132,7 +132,7 @@ export class DrawerControl extends rx.Component<Props, null> {
     }
 
     render() {
-        let drawerPositionStyle = this.props.drawerPosition === 'left' ? { left: 0 } : { right: 0 }
+        let drawerPositionStyle = this.props.drawerPosition === 'left' ? { left: 0 } : { right: 0 };
         return (
             <rx.View
                 style={[styles.container, this.props.style]}
@@ -167,49 +167,49 @@ export class DrawerControl extends rx.Component<Props, null> {
     _onMoveShouldSetResponder = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onMoveShouldSetResponder:' + e);
         return true;
-    };
+    }
     onContextMenu = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111onContextMenu:' + e);
-    };
+    }
     onStartShouldSetResponder = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onStartShouldSetResponder:' + e);
         return true;
-    };
+    }
     onMoveShouldSetResponder = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onMoveShouldSetResponder:' + e);
         return true;
-    };
+    }
     onStartShouldSetResponderCapture = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onStartShouldSetResponderCapture:' + e);
         return false;
-    };
+    }
     onMoveShouldSetResponderCapture = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onMoveShouldSetResponderCapture:' + e);
         return false;
-    };
+    }
     onResponderGrant = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderGrant:' + e);
-    };
+    }
     onResponderReject = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderReject:' + e);
-    };
+    }
     onResponderRelease = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderRelease:' + e);
-    };
+    }
     onResponderStart = (e: React.TouchEvent<any>) => {
         console.info('1111111111_onResponderStart:' + e);
-    };
+    }
     onResponderMove = (e: React.TouchEvent<any>) => {
         console.info('1111111111_onResponderMove:' + e);
-    };
+    }
     onResponderEnd = (e: React.TouchEvent<any>) => {
         console.info('1111111111_onResponderEnd:' + e);
-    };
+    }
     onResponderTerminate = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderTerminate:' + e);
-    };
+    }
     onResponderTerminationRequest = (e: rx.Types.SyntheticEvent) => {
         console.info('1111111111_onResponderTerminationRequest:' + e);
         return false;
-    };
+    }
 }

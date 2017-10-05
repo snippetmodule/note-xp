@@ -14,7 +14,7 @@ export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> 
     static defaultState: IFitImageState = {
         width: 0,
         height: 0,
-        isLoading: true
+        isLoading: true,
     };
 
     private isFirstLoad: boolean;
@@ -40,7 +40,7 @@ export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> 
         return (
             <rx.Image
                 {...this.props}
-                onLoad={this._onLoad.bind(this)}
+                onLoad={this._onLoad}
                 source={this.props.source}
                 style={[
                     this.props.style,
@@ -54,12 +54,12 @@ export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> 
     private getSize() {
         let { width, height } = this.props.style ? this.props.style : {} as any;
         if (width && height) {
-            return { width, height }
+            return { width, height };
         } else {
-            return { width: this.state.width, height: this.state.height }
+            return { width: this.state.width, height: this.state.height };
         }
     }
-    private _onLoad(size: rx.Types.Dimensions) {
+    private _onLoad = (size: rx.Types.Dimensions) => {
         if (!this.mounted) {
             return;
         }
@@ -69,7 +69,7 @@ export class FitImage extends rx.Component<rx.Types.ImageProps, IFitImageState> 
         this.setState({
             ...this.state,
             ...size,
-            isLoading: false
+            isLoading: false,
         });
         if (this.props.onLoad) {
             this.props.onLoad(size);

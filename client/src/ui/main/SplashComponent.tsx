@@ -15,7 +15,7 @@ export default class SplashComponent extends rx.Component<{}, null> {
 
     render() {
         return (
-            <fm.component.TitleComponent ref='titleLayout' isShowTitle={false}>
+            <fm.component.TitleComponent ref="titleLayout" isShowTitle={false}>
                 <fm.component.widget.FitImage source={require('../../../asserts/login/logo.png')} style={styles.img} />
             </fm.component.TitleComponent>
         );

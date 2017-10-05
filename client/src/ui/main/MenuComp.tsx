@@ -2,10 +2,10 @@ import rx = require('reactxp');
 
 import fm = require('../../framework');
 
-interface Props extends rx.CommonStyledProps<rx.Types.ViewStyleRuleSet> {
+interface IProps extends rx.CommonStyledProps<rx.Types.ViewStyleRuleSet> {
 
 }
-export class MenuComp extends rx.Component<Props, null>{
+export class MenuComp extends rx.Component<IProps, null> {
     render() {
         return (
             <rx.Text>

@@ -6,7 +6,7 @@ let pixelRatio: number = rx.UserInterface.getPixelRatio();
 let window = rx.UserInterface.measureWindow();
 
 export function get(): number {
-    //'web' | 'ios' | 'android' | 'windows';
+    // 'web' | 'ios' | 'android' | 'windows';
     return pixelRatio;
 }
 

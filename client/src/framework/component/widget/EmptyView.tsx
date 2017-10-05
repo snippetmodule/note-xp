@@ -1,13 +1,13 @@
 import rx = require('reactxp');
 import { FitImage } from './FitImage';
 
-interface Prop {
+interface IProp {
     state?: 'loading' | 'sucess' | 'fail';
-    pic?: string,
-    hint?: string,
-    btnStr?: string,
-    btnPress?: () => any
-};
+    pic?: string;
+    hint?: string;
+    btnStr?: string;
+    btnPress?: () => any;
+}
 const loadingValue = new rx.Animated.Value(0);
 const styles = {
     continer: rx.Styles.createViewStyle({
@@ -25,10 +25,10 @@ const styles = {
             {
                 rotate: loadingValue.interpolate({
                     inputRange: [0, 1],
-                    outputRange: ['0deg', '360deg']
+                    outputRange: ['0deg', '360deg'],
                 }),
-            }
-        ]
+            },
+        ],
     }),
     failHint: rx.Styles.createTextStyle({
         marginTop: 17,
@@ -46,19 +46,19 @@ const styles = {
     }),
     failTxt: rx.Styles.createTextStyle({
         fontSize: 12,
-        color: '#2c86ff'
+        color: '#2c86ff',
     }),
 };
 
-export class EmptyView extends rx.Component<Prop, any>{
+export class EmptyView extends rx.Component<IProp, any> {
     private _loadingAnim = rx.Animated.timing(loadingValue, {
         toValue: 1,
         duration: 1500,
         easing: rx.Animated.Easing.Linear(),
-        loop: { restartFrom: 0 }
+        loop: { restartFrom: 0 },
     });
-    componentDidUpdate(prevProps: Prop, prevState: any, prevContext: any): void{
-        if(this.props.state === 'loading'){
+    componentDidUpdate(prevProps: IProp, prevState: any, prevContext: any): void {
+        if (this.props.state === 'loading') {
             this._loadingAnim.start();
         }
     }

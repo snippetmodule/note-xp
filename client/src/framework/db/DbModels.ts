@@ -1,16 +1,15 @@
-export interface BaseDBModel {
+export interface IBaseDBModel {
     id: string; // 主键
 }
-export interface NoteItem extends BaseDBModel {
+export interface INoteItem extends IBaseDBModel {
     createTime: number;
     text: string;
-    index:string;
-    _searchTerms: string;// 索引
+    index: string;
+    _searchTerms: string; // 索引
 }
 
-export interface UrlCache extends BaseDBModel {
+export interface IUrlCache extends IBaseDBModel {
     // url 做为主键
     createTime: number;
-    response:string;
+    response: string;
 }
-

@@ -11,34 +11,34 @@ type GoParams<P> = {
     props?: P,
     sceneConfigType?: Navigator.Types.NavigatorSceneConfigType,
     gestureResponseDistance?: number,
-    customSceneConfig?: Navigator.Types.CustomNavigatorSceneConfig
-}
+    customSceneConfig?: Navigator.Types.CustomNavigatorSceneConfig,
+};
 type NavigatorScene = {
-    [index: number]: GoParams<any>
+    [index: number]: GoParams<any>,
 };
 
 let _navigatorScene: NavigatorScene = {};
 
 let _navigator: Navigator.NavigatorImpl;
 
-export function registerMain<P>(navigator: Navigator.NavigatorImpl,params: GoParams<P>) {
+export function registerMain<P>(navigator: Navigator.NavigatorImpl, params: GoParams<P>) {
     _navigator = navigator;
     params = {
         sceneConfigType: Navigator.Types.NavigatorSceneConfigType.Fade,
-        ...params
+        ...params,
     };
     const md5 = 0; // 默认route id 为0
     _navigatorScene[md5] = params;
     _navigator.immediatelyResetRouteStack([{
         routeId: md5,
-        sceneConfigType: params.sceneConfigType
+        sceneConfigType: params.sceneConfigType,
     }]);
 }
 
 export function go<P>(params: GoParams<P>) {
     params = {
         sceneConfigType: Navigator.Types.NavigatorSceneConfigType.FloatFromRight,
-        ...params
+        ...params,
     };
     const md5 = StringUtils.toNumber(Md5.hash((params.component as any).name as string));
     _navigatorScene[md5] = params;
@@ -46,14 +46,14 @@ export function go<P>(params: GoParams<P>) {
         routeId: md5,
         sceneConfigType: params.sceneConfigType,
         gestureResponseDistance: params.gestureResponseDistance,
-        customSceneConfig: params.customSceneConfig
+        customSceneConfig: params.customSceneConfig,
     });
 }
 let count = 2;
 export function replace<P>(params: GoParams<P>) {
     params = {
         sceneConfigType: Navigator.Types.NavigatorSceneConfigType.FloatFromRight,
-        ...params
+        ...params,
     };
     let route = _navigator.getCurrentRoutes().reverse()[0];
     _navigatorScene[route.routeId] = null;
@@ -63,7 +63,7 @@ export function replace<P>(params: GoParams<P>) {
         routeId: md5,
         sceneConfigType: params.sceneConfigType,
         gestureResponseDistance: params.gestureResponseDistance,
-        customSceneConfig: params.customSceneConfig
+        customSceneConfig: params.customSceneConfig,
     });
 }
 export function renderScene(navigatorRoute: Navigator.Types.NavigatorRoute): JSX.Element {

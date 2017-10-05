@@ -11,7 +11,7 @@ rx.App.initialize(true, true);
 fm.db.DbUtils.init([
     // Specify the DB providers that are valid on the RN platforms.
     new CordovaNativeSqliteProvider(rnSqliteProvider),
-    new InMemoryProvider()
+    new InMemoryProvider(),
 ]).then(() => {
     // to do Other Init
     return fm.manager.UserManager.Instance.init();

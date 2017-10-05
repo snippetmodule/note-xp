@@ -22,4 +22,4 @@ export {
     DeviceUtils,
     PopupUtils,
     ToastUtils,
-}
+};

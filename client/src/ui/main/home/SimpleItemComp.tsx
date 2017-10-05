@@ -11,7 +11,7 @@ const styles = {
         borderRadius: 5,
         shadowRadius: 3,
         margin: 4.5,
-        elevation: 2
+        elevation: 2,
     }),
     title: rx.Styles.createTextStyle({
         marginLeft: 5,
@@ -22,13 +22,13 @@ const styles = {
     dividerLine: rx.Styles.createViewStyle({
         height: 1,
         marginTop: 17,
-        backgroundColor: '#e9e9e9'
+        backgroundColor: '#e9e9e9',
     }),
     bottomLayout: rx.Styles.createViewStyle({
         height: 35,
         margin: 5,
         flexDirection: 'row',
-        alignItems: 'center'
+        alignItems: 'center',
     }),
     authorImg: rx.Styles.createImageStyle({
         height: 35,
@@ -49,8 +49,8 @@ const styles = {
         height: 25,
         width: 25,
     }),
-}
-export interface ArticleItem extends VirtualListViewItemInfo {
+};
+export interface IArticleItem extends VirtualListViewItemInfo {
     isPlaying: boolean; // for VideoItemComp
     onVideoBtn: () => any;
     onPicBtn: () => any;
@@ -60,22 +60,22 @@ export interface ArticleItem extends VirtualListViewItemInfo {
     data: models.Json.Article;
 }
 
-interface Prop extends ArticleItem {
+interface IProp extends IArticleItem {
     children?: react.ReactNode;
 }
-export class SimpleItemComp extends rx.Component<Prop, any>{
+export class SimpleItemComp extends rx.Component<IProp, any> {
 
     render() {
         return (
             <rx.View style={styles.root}>
-                <rx.Text numberOfLines={3} ellipsizeMode='tail' style={styles.title}>
+                <rx.Text numberOfLines={3} ellipsizeMode="tail" style={styles.title}>
                     {this.props.data.title}
                 </rx.Text>
                 {this.props.children}
                 <rx.View style={styles.dividerLine} />
                 <rx.View style={styles.bottomLayout}>
                     <rx.Image source={this.props.data.avatorUrl} style={styles.authorImg} />
-                    <rx.Text numberOfLines={1} ellipsizeMode='tail' style={styles.authorName}>
+                    <rx.Text numberOfLines={1} ellipsizeMode="tail" style={styles.authorName}>
                         {this.props.data.nikeName}
                     </rx.Text>
                     <rx.Button style={styles.checkbox} onPress={this.props.onLikeBtn}>

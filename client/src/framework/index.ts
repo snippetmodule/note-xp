@@ -12,5 +12,5 @@ export {
     models,
     manager,
 
-    ComponentBase
+    ComponentBase,
 };

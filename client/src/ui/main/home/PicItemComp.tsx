@@ -2,10 +2,9 @@ import rx = require('reactxp');
 import react = require('react');
 
 import models = require('../../modles');
-import { SimpleItemComp, ArticleItem } from './SimpleItemComp';
+import { SimpleItemComp, IArticleItem } from './SimpleItemComp';
 
-
-export class PicItemComp extends rx.Component<ArticleItem, any>{
+export class PicItemComp extends rx.Component<IArticleItem, any> {
     render() {
         return (
             <SimpleItemComp {...this.props}>

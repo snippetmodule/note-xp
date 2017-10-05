@@ -4,9 +4,9 @@ import ToastUtils = require('../../utils/ToastUtils');
 
 // import ToastService, { ToastMessage, ToastMessageParams } from '../service/ToastService';
 
-interface ToastViewProps extends rx.CommonProps { }
+interface IToastViewProps extends rx.CommonProps { }
 
-export interface ToastMessage {
+export interface IToastMessage {
     key: string;
     textMessage: string;
     bottomMargin?: number;
@@ -16,8 +16,8 @@ export interface ToastMessage {
     textColor?: string;
     onPress?: () => void;
 }
-interface ToastViewState {
-    currentMessage?: ToastMessage;
+interface IToastViewState {
+    currentMessage?: IToastMessage;
 }
 
 const _defaultToastTimeout = 2000;
@@ -34,13 +34,13 @@ const _styles = {
         flexDirection: 'row',
         height: _containerHeight,
         justifyContent: 'center',
-        alignItems: 'flex-end'
+        alignItems: 'flex-end',
     }),
     barButton: rx.Styles.createButtonStyle({
         bottom: 0,
         left: 0,
         right: 0,
-        height: _toastHeight
+        height: _toastHeight,
     }),
     contentContainer: rx.Styles.createViewStyle({
         flexDirection: 'row',
@@ -49,14 +49,14 @@ const _styles = {
         paddingHorizontal: 25,
         height: _toastHeight,
         backgroundColor: '#3b3b3b',
-        borderRadius: _toastHeight / 2
+        borderRadius: _toastHeight / 2,
     }),
     contentText: rx.Styles.createTextStyle({
         color: '#fff',
-    })
+    }),
 };
 
-export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
+export class ToastView extends ComponentBase<IToastViewProps, IToastViewState> {
 
     private _hideToastTimerId: number;
     private _button: rx.Button;
@@ -64,21 +64,21 @@ export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
     private _verticalAnimatedValue = new rx.Animated.Value(_containerHeight);
     private _verticalAnimatedStyle = rx.Styles.createAnimatedViewStyle({
         transform: [{
-            translateY: this._verticalAnimatedValue
-        }]
+            translateY: this._verticalAnimatedValue,
+        }],
     });
 
-    private _recalcDisplay(message: ToastMessage): void {
-        let newState: ToastViewState = {
-            currentMessage: message
+    private _recalcDisplay(message: IToastMessage): void {
+        let newState: IToastViewState = {
+            currentMessage: message,
         };
         this.setState(newState, () => {
             this._showToast(0);
         });
     }
 
-    protected _buildState(props: ToastViewProps, initialBuild: boolean): ToastViewState {
-        let newState: ToastViewState = {};
+    protected _buildState(props: IToastViewProps, initialBuild: boolean): IToastViewState {
+        let newState: IToastViewState = {};
 
         if (initialBuild) {
             newState.currentMessage = null;
@@ -127,20 +127,20 @@ export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
         );
     }
 
-    private _onShowToast = (message: ToastMessage) => {
+    private _onShowToast = (message: IToastMessage) => {
         if (this.isComponentMounted()) {
             this._recalcDisplay(message);
         }
-    };
+    }
 
     private _onTapDismiss = () => {
-        const params: ToastMessage = this.state.currentMessage ? this.state.currentMessage : null;
+        const params: IToastMessage = this.state.currentMessage ? this.state.currentMessage : null;
         if (params && params.onPress) {
             params.onPress();
         }
         window.clearTimeout(this._hideToastTimerId);
         this._hideToast(0);
-    };
+    }
 
     private _showToast(delay: number) {
         const message = this.state.currentMessage;
@@ -155,7 +155,7 @@ export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
                     toValue: toValue,
                     easing: rx.Animated.Easing.Out(),
                     duration: 250,
-                    isInteraction: false
+                    isInteraction: false,
                 }).start();
             }
         }, delay);
@@ -169,7 +169,7 @@ export class ToastView extends ComponentBase<ToastViewProps, ToastViewState> {
                     toValue: _containerHeight,
                     easing: rx.Animated.Easing.Out(),
                     duration: 200,
-                    isInteraction: false
+                    isInteraction: false,
                 }).start();
             }
         }, delay);

@@ -2,7 +2,7 @@ import { GenericRestClient, HttpAction, ApiCallOptions, WebResponse } from 'simp
 import SyncTasks = require('synctasks');
 
 import UrlCacheUtils = require('./UrlCacheUtils');
-import BaseJson from '../models/BaseJson'
+import BaseJson from '../models/BaseJson';
 import UserManager = require('../manager/UserManager');
 import Log = require('./Log');
 import _ = require('lodash');
@@ -15,7 +15,6 @@ export type HttpParams = {
     emptyUseCache?: boolean
 };
 
-
 // const _giphyApiUrl = 'https://api.giphy.com/v1/gifs/search';
 
 class RestClient extends GenericRestClient {
@@ -23,7 +22,7 @@ class RestClient extends GenericRestClient {
     protected _getHeaders(options: ApiCallOptions): { [key: string]: string } {
         let headers = super._getHeaders(options);
         headers['Client-Device-Id'] = '1213113131313';
-        headers['Authorization'] = `Bearer ${UserManager.Instance.getUser().token}`
+        headers['Authorization'] = `Bearer ${UserManager.Instance.getUser().token}`;
         return headers;
     }
     public _performApiCall<T>(apiPath: string, action: HttpAction, objToPost: any, givenOptions: ApiCallOptions): SyncTasks.Promise<WebResponse<T>> {
@@ -32,7 +31,7 @@ class RestClient extends GenericRestClient {
 }
 function findInCache<T>(params: HttpParams, response: WebResponse<BaseJson<T>>): SyncTasks.Promise<BaseJson<T>> {
     return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
-        .then(cache => {
+        .then((cache) => {
             if (cache) {
                 return JSON.parse(cache.response) as BaseJson<T>;
             } else {
@@ -71,7 +70,7 @@ export function request<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
                     return requestImpl<T>(params);
                 }
 
-            })
+            });
     }
     return requestImpl<T>(params);
 }
@@ -81,6 +80,3 @@ export function request<T>(params: HttpParams): SyncTasks.Promise<BaseJson<T>> {
 // export const del=(url:string,body?:any,option?:ApiCallOptions)=>request(url,'DELETE',body,option);
 // export const put=(url:string,body?:any,option?:ApiCallOptions)=>request(url,'PUT',body,option);
 // export const patch=(url:string,body?:any,option?:ApiCallOptions)=>request(url,'PATCH',body,option);
-
-
-

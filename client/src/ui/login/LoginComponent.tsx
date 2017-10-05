@@ -6,12 +6,12 @@ import fm = require('../../framework');
 const styles = {
     scroll: rx.Styles.createScrollViewStyle({
         alignSelf: 'stretch',
-        backgroundColor: '#fff'
+        backgroundColor: '#fff',
     }),
     container: rx.Styles.createViewStyle({
         padding: 16,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
     }),
     topLoginTxt: rx.Styles.createTextStyle({
         fontSize: 17,
@@ -24,10 +24,10 @@ const styles = {
     loginSolution: rx.Styles.createTextStyle({
         fontSize: 14,
         color: '#999999',
-        marginTop: 142
+        marginTop: 142,
     }),
     wechatBtn: rx.Styles.createButtonStyle({
-        marginTop: 38
+        marginTop: 38,
     }),
     wechatImg: rx.Styles.createButtonStyle({
         padding: 10,
@@ -39,15 +39,15 @@ const styles = {
         borderRadius: 4,
         backgroundColor: '#5E62FF',
         opacity: 0.9,
-        alignItems: 'center'
+        alignItems: 'center',
     }),
     loginTxt: rx.Styles.createTextStyle({
         color: '#fff',
         fontSize: 15,
     }),
-}
+};
 
-export default class LonginComponent extends rx.Component<{}, null>{
+export default class LonginComponent extends rx.Component<{}, null> {
     render() {
         return (
             <rx.ScrollView style={styles.scroll}>
@@ -75,6 +75,6 @@ export default class LonginComponent extends rx.Component<{}, null>{
         // this.props.onShowTodoPanel();
     }
     private _onPressRegitser() {
-        fm.utils.NavUtils.go({ component: RegisterScene })
+        fm.utils.NavUtils.go({ component: RegisterScene });
     }
-} 
+}

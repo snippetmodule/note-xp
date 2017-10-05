@@ -4,16 +4,15 @@ import Navigator, { Types } from 'reactxp-navigation';
 import MainScene = require('./main/MainScene');
 import fm = require('../framework');
 
-
 const styles = {
     navCardStyle: rx.Styles.createViewStyle({
-        backgroundColor: '#f5fcff'
-    })
+        backgroundColor: '#f5fcff',
+    }),
 };
-interface State {
+interface IState {
     isLoaded: boolean;
 }
-export class App extends rx.Component<{}, State> {
+export class App extends rx.Component<{}, IState> {
     constructor(props: {}, context: any) {
         super(props, context);
         this.state = { isLoaded: false };
@@ -31,7 +30,7 @@ export class App extends rx.Component<{}, State> {
     private _onNavigatorRef = (navigator: Navigator) => {
         if (this.state.isLoaded === false) {
             fm.utils.NavUtils.registerMain(navigator, {
-                component: MainScene
+                component: MainScene,
             });
             this.setState({ isLoaded: true });
         }
@@ -44,4 +43,3 @@ export class App extends rx.Component<{}, State> {
         }
     }
 }
-

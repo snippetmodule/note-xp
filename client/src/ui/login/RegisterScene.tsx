@@ -59,17 +59,16 @@ const styles = {
     }),
 };
 interface IState {
-    isLogined: boolean;
     phoneNumber: string;
     checkCode: string;
-    checkCodeResult: fm.component.HttpStore.HttpResponse<models.Json.CheckCode[]>;
-    registerResult: fm.component.HttpStore.HttpResponse<models.Json.RegisterInfo[]>;
+    checkCodeResult: fm.component.HttpStore.HttpResponse<models.Json.CheckCodeJson>;
+    registerResult: fm.component.HttpStore.HttpResponse<models.Json.RegisterInfoJson>;
     checkCodeBtn: number;
 }
 
-export = class RegisterScene extends fm.ComponentBase<{}, IState>{
-    private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCode[]> = new fm.component.HttpStore.HttpStore();
-    private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfo[]> = new fm.component.HttpStore.HttpStore();
+export = class RegisterScene extends fm.component.ComponentBase<{}, IState>{
+    private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCodeJson> = new fm.component.HttpStore.HttpStore();
+    private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfoJson> = new fm.component.HttpStore.HttpStore();
 
     private _intervalToken: number;
     constructor(props?: {}) {
@@ -79,7 +78,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, IState>{
     protected _buildState(props: {}, initialBuild: boolean): IState {
         const newState = {
             ...this.state,
-            isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
+            isLogined: fm.manager.UserManager.getUser().isLogined,
             checkCodeResult: this.mGetCodeStore.getHttpResonse(),
             registerResult: this.mLoginStore.getHttpResonse(),
             checkCodeBtn: 0,
@@ -89,7 +88,7 @@ export = class RegisterScene extends fm.ComponentBase<{}, IState>{
             && !newState.isLogined) {
             window.setTimeout(() => {
                 let message = this.state.registerResult.result.message;
-                fm.manager.UserManager.Instance.save(JSON.stringify(message[0]));
+                fm.manager.UserManager.save(JSON.stringify(message[0]));
                 this._stopInterval();
                 fm.utils.NavUtils.goToMain();
             });
@@ -196,16 +195,15 @@ export = class RegisterScene extends fm.ComponentBase<{}, IState>{
         if (!this.state.checkCodeResult.result) {
             return;
         }
-        let messages = this.state.checkCodeResult.result.message as [models.Json.CheckCode];
+        let messages = this.state.checkCodeResult.result.message;
         let verifyingId = messages[0].verifyingId;
-        let task = fm.utils.RestUtils.request<models.Json.RegisterInfo[]>({
+        let task = fm.utils.RestUtils.request<models.Json.RegisterInfoJson>({
             url: utils.UrlConst.RegisterUrl + '/' + verifyingId,
             method: 'PUT',
             body: {
                 phoneNumber: this.state.phoneNumber,
                 validateCode: this.state.checkCode,
             },
-
         });
         this.mLoginStore.exeAsync(task);
     }

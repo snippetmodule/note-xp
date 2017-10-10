@@ -1,4 +1,4 @@
-import * as UserManager from './UserManager';
+import UserManager = require('./UserManager');
 
 export {
     UserManager,

@@ -30,20 +30,53 @@ export interface IArticleItem extends VirtualListViewItemInfo {
     onShare: () => any;
     data: models.Json.Article;
 }
-interface IProp {
-    data: models.Json.Article[];
+
+interface IState {
+    list: IArticleItem[];
+    refreshResult: fm.component.HttpStore.HttpResponse<models.Json.ArticleListJson>;
+    loadMoreResult: fm.component.HttpStore.HttpResponse<models.Json.ArticleListJson>;
 }
-export class ArticleListComp extends rx.Component<IProp, IState> {
+export class ArticleListComp extends fm.component.ComponentBase<{}, IState> {
+    private mRefreshStore: fm.component.HttpStore.HttpStore<models.Json.ArticleListJson> = new fm.component.HttpStore.HttpStore();
+    private mLoadingMoreStore: fm.component.HttpStore.HttpStore<models.Json.ArticleListJson> = new fm.component.HttpStore.HttpStore();
 
-    constructor(props: IProp, context?: any) {
-        super(props, context);
-        this.state = {
-            list: this.generalList(this.props.data),
+    protected _buildState(props: {}, initialBuild: boolean): IState {
+        const newState = {
+            ...this.state,
+            refreshResult: this.mRefreshStore.getHttpResonse(),
+            loadMoreResult: this.mLoadingMoreStore.getHttpResonse(),
         };
-        // this.refreshList(this.props.data);
+        if (!newState.list) {
+            newState.list = [];
+        }
+        // refresh 成功,且没有处理过
+        if (newState.refreshResult.state === 'sucess'
+            && newState.refreshResult.state !== this.state.refreshResult.state) {
+            newState.list = this.generalList(newState.refreshResult.result.message);
+        }
+        // loadmore; 成功,且没有处理过;
+        if (newState.loadMoreResult.state === 'sucess'
+            && newState.loadMoreResult.state !== this.state.loadMoreResult.state) {
+            newState.list.push(...this.generalList(newState.loadMoreResult.result.message));
+        }
+        // newState.loadMoreResult.state = 'loading';
+        return newState;
     }
-
+    componentDidMount() {
+        super.componentDidMount();
+        this._onRefresh();
+    }
     render() {
+        if (this.state.refreshResult.state === 'fail') {
+            return (
+                <fm.component.widget.EmptyView state="fail" btnPress={this._onRefresh} />
+            );
+        }
+        if (fm.utils.StringUtils.isIn(this.state.refreshResult.state, 'idle', 'loading')) {
+            return (
+                <fm.component.widget.EmptyView state="loading" btnPress={this._onRefresh} />
+            );
+        }
         return (
             <VirtualListView style={styles.listView}
                 padding={5}
@@ -54,6 +87,18 @@ export class ArticleListComp extends rx.Component<IProp, IState> {
                 skipRenderIfItemUnchanged={true}
             />
         );
+    }
+    _loadMore = () => {
+        this.mLoadingMoreStore.exeHttp({
+            url: utils.UrlConst.HomeArticleUrl + '?loadmore',
+        });
+    }
+    _onRefresh = () => {
+        fm.utils.Log.i('_onRefresh', '');
+        this.mRefreshStore.exeHttp({
+            url: utils.UrlConst.HomeArticleUrl,
+            emptyUseCache: true,
+        });
     }
     private generalList = (data: models.Json.Article[]) => {
         return data.map((item, index) => {

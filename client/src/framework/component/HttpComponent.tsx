@@ -1,4 +1,3 @@
-import React = require('react');
 
 import rx = require('reactxp');
 import SyncTasks = require('synctasks');
@@ -7,19 +6,19 @@ import { ComponentBase } from 'resub';
 
 import { EmptyView } from './widget/EmptyView';
 import { HttpParams } from '../utils/RestUtils';
-import BaseJson from '../models/BaseJson';
+import IBaseJson from '../models/IBaseJson';
 import { HttpStore, HttpResponse } from './HttpStore';
 
-interface IHttpProps<T> extends rx.CommonStyledProps<rx.Types.ViewStyle> {
+interface IHttpProps<T extends IBaseJson<any>> extends React.Props<T> {
     httpParams?: HttpParams;
-    task?: SyncTasks.Promise<BaseJson<T>>;
+    task?: () => SyncTasks.Promise<T>;
     onLoading?: () => JSX.Element;
-    onSucess: (result: BaseJson<T>) => JSX.Element;
-    onSucessFilter?: (result: BaseJson<T>) => boolean; // 根据http 结果判断结果是否有效,有校会调用:onSucess
+    onSucess: (result: T) => JSX.Element;
+    onSucessFilter?: (result: T) => boolean; // 根据http 结果判断结果是否有效,有校会调用:onSucess
     onFail?: (err: any) => JSX.Element;
 }
 
-export class HttpComponent<T> extends ComponentBase<IHttpProps<T>, HttpResponse<T>> {
+export class HttpComponent<T extends IBaseJson<any>> extends ComponentBase<IHttpProps<T>, HttpResponse<T>> {
 
     private _httpStore: HttpStore<T>;
 
@@ -75,7 +74,7 @@ export class HttpComponent<T> extends ComponentBase<IHttpProps<T>, HttpResponse<
             this._httpStore.exeHttp(this.props.httpParams);
         }
         if (this.props.task) {
-            this._httpStore.exeAsync(this.props.task);
+            this._httpStore.exeAsync(this.props.task());
         }
     }
 }

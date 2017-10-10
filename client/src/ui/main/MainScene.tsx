@@ -9,11 +9,11 @@ interface IState {
     isLogined: boolean;
 }
 
-export = class MainScene extends fm.ComponentBase<any, IState> {
+export = class MainScene extends fm.component.ComponentBase<any, IState> {
 
     protected _buildState(props: {}, initialBuild: boolean): IState {
         return {
-            isLogined: fm.manager.UserManager.Instance.getUser().isLogined,
+            isLogined: fm.manager.UserManager.getUser().isLogined,
         };
     }
     render() {

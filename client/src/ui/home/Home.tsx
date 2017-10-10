@@ -23,13 +23,13 @@ interface IProps {
     toggleDrawer: () => any;
 }
 export class Home extends rx.Component<IProps, any> {
-    private _list: IArticleItem[];
+    private _list: ArticleListComp;
 
     private onMenu = () => {
         this.props.toggleDrawer();
     }
     private onTitle = () => {
-        (this.refs['httpComp'] as fm.component.HttpComponent<models.Json.Article[]>).freshData();
+        this._list._onRefresh();
     }
     private onSearch = () => {
 
@@ -44,28 +44,11 @@ export class Home extends rx.Component<IProps, any> {
                 titleImg={require('../../../asserts/home/logo.png')}
                 rightImg={require('../../../asserts/home/home_menu.png')}
             >
-                <fm.component.HttpComponent ref="httpComp"
-                    onSucess={this._renderSucess}
-                    onSucessFilter={this._onSucessFilter}
-                    httpParams={{
-                        url: utils.UrlConst.HomeArticleUrl,
-                        emptyUseCache: true,
-                    }} />
+                <ArticleListComp ref={this._onRefList} />
             </fm.component.TitleComponent>
         );
     }
-    // private _renderFail = (v: any) => {
-    //     return (
-    //         <ArticleListComp data={data.message} />
-    //     );
-    // }
-
-    private _renderSucess = (result: fm.models.BaseJson<models.Json.Article[]>) => {
-        return (
-            <ArticleListComp data={result.message} />
-        );
-    }
-    private _onSucessFilter = (result: fm.models.BaseJson<models.Json.Article[]>) => {
-        return result.message.length === 0;
+    private _onRefList = (ref: ArticleListComp) => {
+        this._list = ref;
     }
 }

@@ -8,7 +8,9 @@ class UserManager extends StoreBase {
 
     init() {
         return UrlCacheUtils.get('file://userloginInfo', Number.MAX_VALUE)
-            .then(((cache) => cache && this.mUser.json(cache.response)));
+            .then((cache) => {
+                cache && this.mUser.json(cache.response);
+            });
     }
     save(response: string) {
         return UrlCacheUtils.save('file://userloginInfo', response)
@@ -19,10 +21,11 @@ class UserManager extends StoreBase {
 
     }
 
-    loginOut() {
+    logOut() {
         return UrlCacheUtils.del('file://userloginInfo')
             .then(() => {
                 this.mUser = new User();
+                this.trigger();
             });
     }
 
@@ -32,7 +35,7 @@ class UserManager extends StoreBase {
     }
 }
 
-export class User {
+class User {
     private mInfo: IUserInfo;
 
     get isLogined(): boolean {
@@ -40,6 +43,9 @@ export class User {
     }
     get token(): string {
         return this.mInfo ? this.mInfo.token : '';
+    }
+    get info(): IUserInfo {
+        return this.mInfo;
     }
     json(response: string) {
         this.mInfo = JSON.parse(response);
@@ -55,4 +61,4 @@ interface IUserInfo {
     life: number;
 }
 
-export let Instance = new UserManager();
+export = new UserManager();

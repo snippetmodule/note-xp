@@ -20,9 +20,10 @@ type NavigatorScene = {
 let _navigatorScene: NavigatorScene = {};
 
 let _navigator: Navigator.NavigatorImpl;
-
-export function registerMain<P>(navigator: Navigator.NavigatorImpl, params: GoParams<P>) {
+export function registerNavigator(navigator: Navigator.NavigatorImpl) {
     _navigator = navigator;
+}
+export function registerMain<P>(params: GoParams<P>) {
     params = {
         sceneConfigType: Navigator.Types.NavigatorSceneConfigType.Fade,
         ...params,

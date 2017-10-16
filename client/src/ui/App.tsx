@@ -12,34 +12,39 @@ const styles = {
 interface IState {
     isLoaded: boolean;
 }
-export class App extends rx.Component<{}, IState> {
-    constructor(props: {}, context: any) {
-        super(props, context);
-        this.state = { isLoaded: false };
+export class App extends rx.Component<{}, {}> {
+
+    componentDidMount() {
+        fm.utils.NavUtils.registerMain({
+            component: MainScene,
+        });
     }
     render() {
         return (
             <Navigator
                 ref={this._onNavigatorRef}
                 renderScene={this._renderScene}
+                navigateBackCompleted={this._navigateBackCompleted}
+                transitionStarted={this._transitionStarted}
+                transitionCompleted={this._transitionCompleted}
                 cardStyle={styles.navCardStyle}
             />
         );
     }
 
     private _onNavigatorRef = (navigator: Navigator) => {
-        if (this.state.isLoaded === false) {
-            fm.utils.NavUtils.registerMain(navigator, {
-                component: MainScene,
-            });
-            this.setState({ isLoaded: true });
-        }
+        fm.utils.NavUtils.registerNavigator(navigator);
     }
     private _renderScene = (navigatorRoute: Types.NavigatorRoute) => {
-        if (this.state && this.state.isLoaded) {
-            return fm.utils.NavUtils.renderScene(navigatorRoute);
-        } else {
-            return null;
-        }
+        return fm.utils.NavUtils.renderScene(navigatorRoute);
+    }
+    private _transitionStarted = (progress?: rx.Types.AnimatedValue, toRouteId?: string, fromRouteId?: string, toIndex?: number, fromIndex?: number) => {
+        fm.utils.Log.i('App', `toRouteId:${toRouteId},fromRouteId:${fromRouteId},toIndex:${toIndex},fromIndex:${fromIndex}`);
+    }
+    private _transitionCompleted = () => {
+        fm.utils.Log.i('App', '_transitionCompleted');
+    }
+    private _navigateBackCompleted = () => {
+        fm.utils.Log.i('App', '_navigateBackCompleted');
     }
 }

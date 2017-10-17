@@ -27,7 +27,7 @@ const config: webpack.Configuration = {
             // All files with a '.ts' or '.tsx' extension will be handled by 'awesome-typescript-loader'.
             { test: /\.tsx?$/, loader: 'awesome-typescript-loader' },
             { test: /\.(gif|jpe?g|png|svg)$/, loader: 'url-loader', query: { name: 'images/[name]-[hash:16].[ext]' } },
-            { test: /\.(mp3|wav)$/, loader: 'file-loader', query: { name: 'sounds/[name]-[hash:16].[ext]' } },
+            { test: /\.(mp3|wav)$/, loader: 'url-loader', query: { name: 'sounds/[name]-[hash:16].[ext]' } },
         ],
     },
     plugins: [

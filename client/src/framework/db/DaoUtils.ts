@@ -80,3 +80,9 @@ export class UrlCacheDao extends BaseDao<DbModels.IUrlCache> {
         super(DbConfig.Stores.urlCache);
     }
 }
+
+export class KeyValueCacheDao extends BaseDao<DbModels.IKeyValueCache> {
+    public constructor() {
+        super(DbConfig.Stores.keyValueCache);
+    }
+}

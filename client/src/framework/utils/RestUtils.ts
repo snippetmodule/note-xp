@@ -38,6 +38,16 @@ function findInCache<T extends IBaseJson<any>>(params: HttpParams, response: Web
             }
         });
 }
+function fetchInCache<T>(params: HttpParams, response: WebResponse<T>): SyncTasks.Promise<T> {
+    return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
+        .then((cache) => {
+            if (cache) {
+                return JSON.parse(cache.response);
+            } else {
+                return SyncTasks.Rejected(`{$response.url} \n {$response.statusCode} {$reponse.statusText}`);
+            }
+        });
+}
 function requestImpl<T extends IBaseJson<any>>(params: HttpParams): SyncTasks.Promise<T> {
     const client = new RestClient('');
     Log.i('RestUtils', `request url:${params.url} \n \t\t header:${JSON.stringify(client._getHeaders(null))} method:${params.method} body:${params.body}`);
@@ -63,6 +73,22 @@ function requestImpl<T extends IBaseJson<any>>(params: HttpParams): SyncTasks.Pr
             }
         });
 }
+function fetchImpl<T>(params: HttpParams): SyncTasks.Promise<T> {
+    const client = new RestClient('');
+    Log.i('RestUtils', `request url:${params.url} \n \t\t header:${JSON.stringify(client._getHeaders(null))} method:${params.method} body:${params.body}`);
+    return client._performApiCall<T>(params.url, params.method || 'GET', params.body || '', null)
+        .then((response: WebResponse<T>) => {
+            Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
+            if (response.statusCode === 200) {
+                if ((params.expiredTime > 0 || params.emptyUseCache)) {
+                    UrlCacheUtils.save(params.url, JSON.stringify(response.body), params.method, params.body);
+                }
+                return response.body;
+            } else {
+                return fetchInCache(params, response);
+            }
+        });
+}
 export function request<T extends IBaseJson<any>>(params: HttpParams): SyncTasks.Promise<T> {
     if (params.expiredTime && params.expiredTime > 0) {
         return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
@@ -75,4 +101,18 @@ export function request<T extends IBaseJson<any>>(params: HttpParams): SyncTasks
             });
     }
     return requestImpl<T>(params);
+}
+
+export function fetch<T>(params: HttpParams): SyncTasks.Promise<T> {
+    if (params.expiredTime && params.expiredTime > 0) {
+        return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
+            .then((cache) => {
+                if (cache) {
+                    return SyncTasks.Resolved(JSON.parse(cache.response));
+                } else {
+                    return fetchImpl<T>(params);
+                }
+            });
+    }
+    return fetchImpl<T>(params);
 }

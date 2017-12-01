@@ -13,3 +13,9 @@ export interface IUrlCache extends IBaseDBModel {
     createTime: number;
     response: string;
 }
+
+export interface IKeyValueCache extends IBaseDBModel {
+    //
+    createTime: number;
+    value: any;
+}

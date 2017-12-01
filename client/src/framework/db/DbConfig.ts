@@ -9,6 +9,7 @@ type DBIndex<Store extends DBStore<string, any, any>, IndexKeyFormat> = string &
 export const Stores = {
     noteItems: 'noteItems_v1' as DBStore<'NoteItemsStore', DbModels.INoteItem, string>,
     urlCache: 'urlCache_v1' as DBStore<'UrlCacheStore', DbModels.IUrlCache, string>,
+    keyValueCache: 'keyValueCache_v1' as DBStore<'KeyValueCacheStore', DbModels.IKeyValueCache, string>,
 };
 export const Indexes = {
     noteSearchTerms: 'noteItems_searchTerms_v1' as DBIndex<typeof Stores.noteItems, string>,
@@ -33,6 +34,10 @@ export const _dbSchema: NoSqlProvider.DbSchema = {
         },
         {
             name: Stores.urlCache,
+            primaryKeyPath: 'id',
+        },
+        {
+            name: Stores.keyValueCache,
             primaryKeyPath: 'id',
         },
     ],

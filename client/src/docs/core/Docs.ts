@@ -1,8 +1,9 @@
 import { DocsModelEntriyType, DocsModelTypeType, IDocInfo, ISearchItem } from './model';
 import { Searcher } from './Searcher';
 import DocsCacheUtils = require('./DocsCacheUtils');
+import DocsList = require('./DocsList');
 import fm = require('../../framework');
-
+import _ = require('lodash');
 // 根据docsInfoArrays 初始化 mSearcher
 function initSearcher(docsInfoArrays: IDocInfo[]): Searcher<ISearchItem> {
     let searchItems: ISearchItem[] = [];
@@ -36,7 +37,6 @@ function initSearcher(docsInfoArrays: IDocInfo[]): Searcher<ISearchItem> {
     }));
     return new Searcher(searchItems, ['name']);
 }
-
 async function initDocsArray(docsInfoArrays: IDocInfo[], downloadDocs: string[]) {
     const downloadInfos: IDocInfo[] = downloadDocs.map((item) => {
         for (const docInfo of docsInfoArrays) {
@@ -49,25 +49,14 @@ async function initDocsArray(docsInfoArrays: IDocInfo[], downloadDocs: string[])
     for (const _downloadDocInfo of downloadInfos) {
         await downloadDoc(_downloadDocInfo);
     }
-    const keys: string[] = await localStorage.keys();
-    for (const key of keys) {
-        for (const info of docsInfoArrays) {
-            if (info.slug === key) {
-                const value: IDocInfo = await DocsCacheUtils.get(key) as IDocInfo;
-                if (value) {
-                    info.storeValue = value.storeValue;
-                }
-            }
-        }
-    }
 }
 async function downloadDoc(docInfo: IDocInfo) {
     return fm.utils.RestUtils.fetch<{
         entries: DocsModelEntriyType[],
         types: DocsModelTypeType[],
     }>({
-        url: config.docs_host + '/docs/' + docInfo.slug + '/index.json',
-        emptyUseCache: true,
+        url: config.docs_host + docInfo.slug + '/index.json',
+        expiredTime: Number.MAX_VALUE,
     }).then(res => {
         // const responseString = await res.text();
         docInfo.storeValue = res;
@@ -102,13 +91,13 @@ function sortTyps(types: DocsModelTypeType[]): DocsModelTypeType[] {
 }
 const config = {
     default_docs: ['css', 'dom', 'dom_events', 'html', 'http', 'javascript'],
-    docs_host: 'http://127.0.0.1:8081',
-    docs_host_link: 'localhost:8080',
+    docs_host: 'http://docs.devdocs.io/',
+    docs_host_link: 'http://docs.devdocs.io/',
     env: 'development',
     history_cache_size: 10,
-    index_path: '/docs',
+    index_path: '',
     max_results: 50,
-    production_host: 'www.devdocs.me',
+    production_host: 'http://docs.devdocs.io/',
     search_param: 'q',
     sentry_dsn: '',
     version: '1450281649',
@@ -116,18 +105,24 @@ const config = {
 
 class Docs {
     private isAutoUpdate: boolean;
-    private isDocChangedByUser: boolean;
 
+    private searchDocsList: string[];
+    private docsInfoArrays: IDocInfo[];
     private mSearcher: Searcher<ISearchItem>;
-    constructor(private docsInfoArrays: IDocInfo[] = []) {
-        this.docsInfoArrays.forEach((item) => item.pathname = '/docs/' + item.slug + '/');
+
+    constructor() {
         DocsCacheUtils.get<boolean>('Docs_IsAutoUpdate', true)
             .then(value => this.isAutoUpdate = value); // 默认为true
-        DocsCacheUtils.get('Docs_isDocChangedByUser', false)
-            .then(value => this.isDocChangedByUser = value); // 默认为false
+        DocsCacheUtils.get<string[]>('Docs_default_docs', config.default_docs)
+            .then(value => this.searchDocsList = value); // 默认为config.default_docs
+
     }
     public async init(searchFilter: string = '') {
-        await initDocsArray(this.docsInfoArrays, this.isDocChangedByUser ? [] : config.default_docs);
+        if (this.docsInfoArrays == null || this.docsInfoArrays.length === 0) {
+            this.docsInfoArrays = DocsList as IDocInfo[];
+        }
+        this.docsInfoArrays.forEach((item) => item.pathname = '/docs/' + item.slug + '/');
+        await initDocsArray(this.docsInfoArrays, config.default_docs);
         this.mSearcher = initSearcher(searchFilter ? this.docsInfoArrays.filter((item) => {
             if (item.slug === searchFilter) {
                 return true;
@@ -137,7 +132,6 @@ class Docs {
         if (this.docsInfoArrays.length === 0) {
             throw new Error('docsArrays is empty');
         }
-        this.isDocChangedByUser = true;
         this.save();
     }
     public get getDocsInfoArrays() {
@@ -145,13 +139,12 @@ class Docs {
     }
 
     public async addDoc(docInfo: IDocInfo): Promise<any> {
-        // if (!docInfo) {
-        //     return null;
-        // }
-        this.isDocChangedByUser = true;
-        this.save();
-        // 无论localstorage 有无,均下载
+        if (!docInfo || _.includes(this.searchDocsList, docInfo.slug)) {
+            return null;
+        }
+        this.searchDocsList.push(docInfo.slug);
         await downloadDoc(docInfo);
+        this.save();
         await this.init();
     }
 
@@ -159,27 +152,17 @@ class Docs {
         if (!docInfo) {
             return;
         }
-        this.isDocChangedByUser = true;
+        await fm.utils.UrlCacheUtils.del(config.docs_host + docInfo.slug + '/index.json');
         this.save();
-        await localStorage.removeItem(docInfo.slug);
-        for (const doc of this.docsInfoArrays) {
-            if (doc.slug === docInfo.slug) {
-                doc.storeValue = undefined;
-                break;
-            }
-        }
         await this.init();
     }
     public setIsAutoUpdate(isUpdate: boolean = true) {
         this.isAutoUpdate = isUpdate;
         this.save();
     }
-    public getConfig() {
-        return config;
-    }
     private save() {
         DocsCacheUtils.save('Docs_IsAutoUpdate', this.isAutoUpdate);
-        DocsCacheUtils.save('Docs_isDocChangedByUser', this.isDocChangedByUser);
+        DocsCacheUtils.save('Docs_default_docs', this.searchDocsList);
     }
     public search(input: string): Promise<ISearchItem[]> {
         return new Promise((resolve, reject) => {

@@ -61,14 +61,14 @@ const styles = {
 interface IState {
     phoneNumber: string;
     checkCode: string;
-    checkCodeResult: fm.component.HttpStore.HttpResponse<models.Json.CheckCodeJson>;
-    registerResult: fm.component.HttpStore.HttpResponse<models.Json.RegisterInfoJson>;
+    checkCodeResult: fm.component.AsyncStore.AsyncResponse<models.Json.CheckCodeJson>;
+    registerResult: fm.component.AsyncStore.AsyncResponse<models.Json.RegisterInfoJson>;
     checkCodeBtn: number;
 }
 
-export = class RegisterScene extends fm.component.ComponentBase<{}, IState>{
-    private const mGetCodeStore: fm.component.HttpStore.HttpStore<models.Json.CheckCodeJson> = new fm.component.HttpStore.HttpStore();
-    private const mLoginStore: fm.component.HttpStore.HttpStore<models.Json.RegisterInfoJson> = new fm.component.HttpStore.HttpStore();
+export = class RegisterScene extends fm.component.ComponentBase<{}, IState> {
+    private const mGetCodeStore: fm.component.AsyncStore.AsyncStore<models.Json.CheckCodeJson> = new fm.component.AsyncStore.AsyncStore();
+    private const mLoginStore: fm.component.AsyncStore.AsyncStore<models.Json.RegisterInfoJson> = new fm.component.AsyncStore.AsyncStore();
 
     private _intervalToken: number;
     constructor(props?: {}) {
@@ -79,8 +79,8 @@ export = class RegisterScene extends fm.component.ComponentBase<{}, IState>{
         const newState = {
             ...this.state,
             isLogined: fm.manager.UserManager.getUser().isLogined,
-            checkCodeResult: this.mGetCodeStore.getHttpResonse(),
-            registerResult: this.mLoginStore.getHttpResonse(),
+            checkCodeResult: this.mGetCodeStore.getResonse(),
+            registerResult: this.mLoginStore.getResonse(),
             checkCodeBtn: 0,
         };
         if (newState.registerResult.state === 'sucess'

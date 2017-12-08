@@ -1,13 +1,13 @@
 import widget = require('./widget');
-import * as HttpStore from './HttpStore';
-import { HttpComponent } from './HttpComponent';
+import * as AsyncStore from './AsyncStore';
+import { AsyncComponent } from './AsyncComponent';
 import TitleComponent = require('./TitleComponent');
 import { ComponentBase } from 'resub';
 
 export {
     widget,
-    HttpStore,
-    HttpComponent,
+    AsyncStore,
+    AsyncComponent,
     TitleComponent,
 
     ComponentBase,

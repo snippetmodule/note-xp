@@ -6,7 +6,7 @@ import RestUtils = require('../utils/RestUtils');
 
 export type State = 'idle' | 'loading' | 'sucess' | 'fail';
 
-export type HttpResponse<T extends IBaseJson<any>> = {
+export type AsyncResponse<T> = {
     state: State,
     startTime?: number,
     endTime?: number,
@@ -14,11 +14,11 @@ export type HttpResponse<T extends IBaseJson<any>> = {
 };
 
 @AutoSubscribeStore
-export class HttpStore<T extends IBaseJson<any>> extends StoreBase {
-    private response: HttpResponse<T> = { state: 'idle' };
+export class AsyncStore<T> extends StoreBase {
+    private response: AsyncResponse<T> = { state: 'idle' };
 
     @autoSubscribe
-    getHttpResonse() {
+    getResonse() {
         return { ...this.response };
     }
 
@@ -26,11 +26,11 @@ export class HttpStore<T extends IBaseJson<any>> extends StoreBase {
         this.response.state = 'loading';
         this.response.startTime = new Date().getTime();
         this.trigger();
-        RestUtils.request<T>(params)
+        RestUtils.request(params)
             .then((result) => {
                 this.response.state = 'sucess';
                 this.response.endTime = new Date().getTime();
-                this.response.result = result;
+                this.response.result = result as any;
                 this.trigger();
             }).catch((err) => {
                 this.response.state = 'fail';
@@ -41,6 +41,23 @@ export class HttpStore<T extends IBaseJson<any>> extends StoreBase {
     }
 
     exeAsync(task: SyncTasks.Promise<T>) {
+        this.response.state = 'loading';
+        this.response.startTime = new Date().getTime();
+        this.trigger();
+        task.then((result) => {
+            this.response.state = 'sucess';
+            this.response.endTime = new Date().getTime();
+            this.response.result = result;
+            this.trigger();
+        }).catch((err) => {
+            this.response.state = 'fail';
+            this.response.endTime = new Date().getTime();
+            this.response.result = err;
+            this.trigger();
+        });
+    }
+
+    exePromise(task: Promise<T>) {
         this.response.state = 'loading';
         this.response.startTime = new Date().getTime();
         this.trigger();

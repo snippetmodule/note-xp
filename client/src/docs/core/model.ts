@@ -1,15 +1,15 @@
 export type DocsModelEntriyType = {
     name: string,
     path: string,
-    pathname: string,
     type: string,
+    pathname?: string,
     doc?: IDocInfo,
 };
 export type DocsModelTypeType = {
     name: string,
-    pathname: string,
     slug: string,
     count: number,
+    pathname?: string,
     doc?: IDocInfo,
     childs?: DocsModelEntriyType[],
 };

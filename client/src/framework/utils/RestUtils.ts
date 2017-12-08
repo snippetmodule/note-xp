@@ -1,6 +1,8 @@
 import SyncTasks = require('synctasks');
+import fetchJsonp = require('fetch-jsonp');
 import { GenericRestClient, ApiCallOptions, HttpAction, WebResponse } from 'simplerestclients';
 import UrlCacheUtils = require('./UrlCacheUtils');
+import DeviceUtils = require('./DeviceUtils');
 import IBaseJson from '../models/IBaseJson';
 import UserManager = require('../manager/UserManager');
 import Log = require('./Log');
@@ -50,10 +52,10 @@ function fetchInCache<T>(params: HttpParams, response: WebResponse<T>): SyncTask
 }
 function requestImpl<T extends IBaseJson<any>>(params: HttpParams): SyncTasks.Promise<T> {
     const client = new RestClient('');
-    Log.i('RestUtils', `request url:${params.url} \n \t\t header:${JSON.stringify(client._getHeaders(null))} method:${params.method} body:${params.body}`);
+    // Log.i('RestUtils', `request url:${params.url} \n \t\t header:${JSON.stringify(client._getHeaders(null))} method:${params.method} body:${params.body}`);
     return client._performApiCall<T>(params.url, params.method || 'GET', params.body || '', null)
         .then((response: WebResponse<T>) => {
-            Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
+            // Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if (response.statusCode === 200) {
                 if (response.body.code === 401) {
                     UserManager.logOut();
@@ -75,10 +77,10 @@ function requestImpl<T extends IBaseJson<any>>(params: HttpParams): SyncTasks.Pr
 }
 function fetchImpl<T>(params: HttpParams): SyncTasks.Promise<T> {
     const client = new RestClient('');
-    Log.i('RestUtils', `request url:${params.url} \n \t\t header:${JSON.stringify(client._getHeaders(null))} method:${params.method} body:${params.body}`);
+    // Log.i('RestUtils', `request url:${params.url} \n \t\t header:${JSON.stringify(client._getHeaders(null))} method:${params.method} body:${params.body}`);
     return client._performApiCall<T>(params.url, params.method || 'GET', params.body || '', null)
         .then((response: WebResponse<T>) => {
-            Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
+            // Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if (response.statusCode === 200) {
                 if ((params.expiredTime > 0 || params.emptyUseCache)) {
                     UrlCacheUtils.save(params.url, JSON.stringify(response.body), params.method, params.body);
@@ -104,6 +106,23 @@ export function request<T extends IBaseJson<any>>(params: HttpParams): SyncTasks
 }
 
 export function fetch<T>(params: HttpParams): SyncTasks.Promise<T> {
+    // if (DeviceUtils.isWeb) {
+    //     let defer = SyncTasks.Defer<T>();
+    //     fetchJsonp(params.url, { timeout: 1000 * 90, jsonpCallback: 'custom_callback' })
+    //         .then(res => {
+    //             console.log('res.ok');
+    //             return res.json<T>();
+    //         })
+    //         .then(res => {
+    //             console.log('fetch11111');
+    //             return defer.resolve(res);
+    //         })
+    //         .catch(err => {
+    //             console.log('fetch2222');
+    //             defer.reject(err);
+    //         });
+    //     return defer.promise();
+    // }
     if (params.expiredTime && params.expiredTime > 0) {
         return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
             .then((cache) => {

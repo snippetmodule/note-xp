@@ -33,18 +33,18 @@ export interface IArticleItem extends VirtualListViewItemInfo {
 
 interface IState {
     list: IArticleItem[];
-    refreshResult: fm.component.HttpStore.HttpResponse<models.Json.ArticleListJson>;
-    loadMoreResult: fm.component.HttpStore.HttpResponse<models.Json.ArticleListJson>;
+    refreshResult: fm.component.AsyncStore.AsyncResponse<models.Json.ArticleListJson>;
+    loadMoreResult: fm.component.AsyncStore.AsyncResponse<models.Json.ArticleListJson>;
 }
 export class ArticleListComp extends fm.component.ComponentBase<{}, IState> {
-    private mRefreshStore: fm.component.HttpStore.HttpStore<models.Json.ArticleListJson> = new fm.component.HttpStore.HttpStore();
-    private mLoadingMoreStore: fm.component.HttpStore.HttpStore<models.Json.ArticleListJson> = new fm.component.HttpStore.HttpStore();
+    private mRefreshStore: fm.component.AsyncStore.AsyncStore<models.Json.ArticleListJson> = new fm.component.AsyncStore.AsyncStore();
+    private mLoadingMoreStore: fm.component.AsyncStore.AsyncStore<models.Json.ArticleListJson> = new fm.component.AsyncStore.AsyncStore();
 
     protected _buildState(props: {}, initialBuild: boolean): IState {
         const newState = {
             ...this.state,
-            refreshResult: this.mRefreshStore.getHttpResonse(),
-            loadMoreResult: this.mLoadingMoreStore.getHttpResonse(),
+            refreshResult: this.mRefreshStore.getResonse(),
+            loadMoreResult: this.mLoadingMoreStore.getResonse(),
         };
         if (!newState.list) {
             newState.list = [];

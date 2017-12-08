@@ -1,7 +1,7 @@
 import rx = require('reactxp');
 import Navigator, { Types } from 'reactxp-navigation';
 
-import MainScene = require('./main/MainScene');
+import {DocsScene } from '..//docs/ui/DocsScene';
 import fm = require('../framework');
 
 const styles = {
@@ -16,7 +16,7 @@ export class App extends rx.Component<{}, {}> {
 
     componentDidMount() {
         fm.utils.NavUtils.registerMain({
-            component: MainScene,
+            component: DocsScene,
         });
     }
     render() {

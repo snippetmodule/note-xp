@@ -7,27 +7,28 @@ import { ComponentBase } from 'resub';
 import { EmptyView } from './widget/EmptyView';
 import { HttpParams } from '../utils/RestUtils';
 import IBaseJson from '../models/IBaseJson';
-import { HttpStore, HttpResponse } from './HttpStore';
+import { AsyncStore, AsyncResponse } from './AsyncStore';
 
-interface IHttpProps<T extends IBaseJson<any>> extends React.Props<T> {
+interface IAsyncProps<T> extends React.Props<T> {
     httpParams?: HttpParams;
     task?: () => SyncTasks.Promise<T>;
+    promise?: () => Promise<T>;
     onLoading?: () => JSX.Element;
     onSucess: (result: T) => JSX.Element;
     onSucessFilter?: (result: T) => boolean; // 根据http 结果判断结果是否有效,有校会调用:onSucess
     onFail?: (err: any) => JSX.Element;
 }
 
-export class HttpComponent<T extends IBaseJson<any>> extends ComponentBase<IHttpProps<T>, HttpResponse<T>> {
+export class AsyncComponent<T> extends ComponentBase<IAsyncProps<T>, AsyncResponse<T>> {
 
-    private _httpStore: HttpStore<T>;
+    private _asyncStore: AsyncStore<T>;
 
-    protected _buildState(props: IHttpProps<T>, initialBuild: boolean): HttpResponse<T> {
-        if (!this._httpStore) {
-            this._httpStore = new HttpStore();
+    protected _buildState(props: IAsyncProps<T>, initialBuild: boolean): AsyncResponse<T> {
+        if (!this._asyncStore) {
+            this._asyncStore = new AsyncStore();
             window.setTimeout(this.freshData);
         }
-        return this._httpStore.getHttpResonse();
+        return this._asyncStore.getResonse();
     }
 
     render() {
@@ -71,10 +72,13 @@ export class HttpComponent<T extends IBaseJson<any>> extends ComponentBase<IHttp
     }
     freshData = () => {
         if (this.props.httpParams) {
-            this._httpStore.exeHttp(this.props.httpParams);
+            this._asyncStore.exeHttp(this.props.httpParams);
         }
         if (this.props.task) {
-            this._httpStore.exeAsync(this.props.task());
+            this._asyncStore.exeAsync(this.props.task());
+        }
+        if (this.props.promise) {
+            this._asyncStore.exePromise(this.props.promise());
         }
     }
 }

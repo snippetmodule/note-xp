@@ -1,60 +1,100 @@
 import rx = require('reactxp');
 import fm = require('../../framework');
 import { DocsModelEntriyType, DocsModelTypeType, IDocInfo, ISearchItem } from '../core/model';
-import { SearchInput } from './SearchInput';
 import { Docs } from '../core/Docs';
-import { ISearchViewItem, SearchResultList } from './SearchResultList';
 
-import uuid = require('uuid');
+import { SearchResultList } from './result/SearchResultList';
+import { DocList } from './doclist/DocList';
+import { SearchInput } from './SearchInput';
+import { DocDetail, IDetailInfo } from './detail/DocDetail';
+import { ICanExpendedItem } from './doclist/DocListState';
 
-interface IState {
-    docsResponse: fm.component.AsyncStore.AsyncResponse<Docs>;
-    searchResult?: ISearchViewItem[];
+const styles = {
+    root: rx.Styles.createViewStyle({
+        flex: 1,
+        justifyContent: 'center',
+        flexDirection: 'row',
+        alignSelf: 'stretch',
+    }),
+    left: rx.Styles.createViewStyle({
+        maxWidth: 300,
+        justifyContent: 'flex-start',
+        flexDirection: 'column',
+        alignSelf: 'stretch',
+    }),
+};
+interface IProp {
+    docs: Docs;
 }
+interface IState {
+    detailPathname?: string;
+    searchResult?: ISearchItem[];
+}
+export class SearchComp extends rx.Component<IProp, IState> {
+    private mSearchInput: SearchInput;
+    private mDocList: DocList;
 
-export class SearchComp extends fm.component.ComponentBase<{}, IState> {
-    private mDocsStore: fm.component.AsyncStore.AsyncStore<Docs>;
-
-    async _init(): Promise<Docs> {
-        let docs: Docs = new Docs();
-        await docs.init();
-        return docs;
+    _enableDoc = (selectedPath: string, docInfo: IDocInfo) => {
+        this.mSearchInput.setState({ searchKey: null });
+        this.props.docs.addDoc(docInfo).then((res) => {
+            this.setState({ searchResult: null });
+            this.mDocList.componentDidMount();
+        }).catch((err) => console.log('enableDoc err:' + docInfo.slug + err.stack));
     }
-    protected _buildState(props: {}, initialBuild: boolean): IState {
-        if (this.mDocsStore == null) {
-            this.mDocsStore = new fm.component.AsyncStore.AsyncStore();
-            window.setTimeout(() => this.mDocsStore.exePromise(this._init()));
+    _disableDoc = (docInfo: IDocInfo) => {
+        this.props.docs.removeDoc(docInfo).then((res) => {
+            this.setState({ ...this.state });
+        }).catch((err) => console.log('disableDoc err:' + docInfo.slug + err.stack));
+    }
+    _gotoSelectedPath = (pathname: string) => {
+        this.setState({ detailPathname: pathname });
+    }
+    _fetchDetailInfo = async (pathname: string): Promise<IDetailInfo> => {
+        let _clickExpendedItem: ICanExpendedItem = this.mDocList._getItemByPathName(pathname);
+        let htmlResponse: string = await this.props.docs.fetchDetail(pathname, _clickExpendedItem.data.docInfo);
+        if (_clickExpendedItem && _clickExpendedItem.data.docType && !_clickExpendedItem.data.docEntry) {
+            return { pathname: pathname, htmlResponse: null, clickExpendedItem: _clickExpendedItem };
         }
-        return { docsResponse: this.mDocsStore.getResonse() };
+        return { pathname: pathname, clickExpendedItem: _clickExpendedItem, htmlResponse: htmlResponse };
     }
     render() {
         return (
-            <fm.component.widget.EmptyView
-                state={this.state.docsResponse.state}
-                hint="init docs fail">
-                <SearchInput search={this._search} />
-                <SearchResultList searchResult={this.state.searchResult} />
-            </fm.component.widget.EmptyView>
+            <rx.View style={styles.root}>
+                <rx.View style={styles.left}>
+                    <SearchInput search={this._search} ref={ref => this.mSearchInput = ref} />
+                    {
+                        this.state && this.state.searchResult && this.state.searchResult.length > 0
+                            ? <SearchResultList
+                                enableDoc={this._enableDoc}
+                                disableDoc={this._disableDoc}
+                                gotoSelectedPath={this._gotoSelectedPath}
+                                searchResult={this.state.searchResult} />
+                            : <DocList
+                                ref={ref => this.mDocList = ref}
+                                docs={this.props.docs}
+                                enableDoc={this._enableDoc}
+                                disableDoc={this._disableDoc}
+                                gotoSelectedPath={this._gotoSelectedPath}
+                            />
+                    }
+                </rx.View>
+                <DocDetail
+                    pathname={this.state ? this.state.detailPathname : ''}
+                    gotoSelectedPath={this._gotoSelectedPath}
+                    fetchDetailInfo={this._fetchDetailInfo} />
+            </rx.View>
         );
     }
     _search = (key: string) => {
-        if (this.state.docsResponse && this.state.docsResponse.result) {
-            this.state.docsResponse.result.search(key)
-                .then(r => this.setState({ searchResult: this.generalList(r) }));
+        if (!key) {
+            this.setState({ searchResult: null });
+            return;
         }
-    }
-    private generalList = (data: ISearchItem[]) => {
-        return data.map((item, index) => {
-            return {
-                key: uuid.v4() + item.name + '__' + index,
-                height: 100,
-                measureHeight: true,
-                template: this._getItemTemplate(item),
-                data: item,
-            };
-        });
-    }
-    private _getItemTemplate = (item: ISearchItem) => {
-        return 'simple';
+        this.props.docs.search(key)
+            .then(r => {
+                if (this.mSearchInput.state.searchKey === key) {
+                    this.setState({ searchResult: r });
+                }
+            });
     }
 }

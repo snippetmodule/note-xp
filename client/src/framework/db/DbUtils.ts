@@ -4,16 +4,16 @@ import SyncTasks = require('synctasks');
 import DBConfig = require('./DbConfig');
 
 let _db: NoSqlProvider.DbProvider;
+let providers: NoSqlProvider.DbProvider[];
 
-export function init(providersToTry: NoSqlProvider.DbProvider[]): SyncTasks.Promise<void> {
-    return _openListOfProviders(providersToTry, DBConfig._databaseName, DBConfig._dbSchema)
-        .then((prov: NoSqlProvider.DbProvider) => {
-            _db = prov;
-        });
+export function init(providersToTry: NoSqlProvider.DbProvider[]): SyncTasks.Promise<NoSqlProvider.DbProvider> {
+    providers = providersToTry;
+    return _openListOfProviders(providers, DBConfig._databaseName, DBConfig._dbSchema)
+        .then((prov: NoSqlProvider.DbProvider) => _db = prov);
 }
 
-function _openListOfProviders(providersToTry: NoSqlProvider.DbProvider[], dbName: string, schema: NoSqlProvider.DbSchema):
-    SyncTasks.Promise<NoSqlProvider.DbProvider> {
+function _openListOfProviders(providersToTry: NoSqlProvider.DbProvider[], dbName: string, schema: NoSqlProvider.DbSchema)
+    : SyncTasks.Promise<NoSqlProvider.DbProvider> {
 
     const task = SyncTasks.Defer<NoSqlProvider.DbProvider>();
     let providerIndex = 0;
@@ -43,8 +43,8 @@ function _openListOfProviders(providersToTry: NoSqlProvider.DbProvider[], dbName
 
     return task.promise();
 }
-export function getStore(storeName: string, writeNeeded = false): SyncTasks.Promise<NoSqlProvider.DbStore> {
-    return _db.openTransaction([storeName], writeNeeded).then((tx: NoSqlProvider.DbTransaction) => {
-        return tx.getStore(storeName);
+export function getStore(storename: string, writeNeeded = false): SyncTasks.Promise<NoSqlProvider.DbStore> {
+    return _db.openTransaction([storename], writeNeeded).then((tx: NoSqlProvider.DbTransaction) => {
+        return tx.getStore(storename);
     });
 }

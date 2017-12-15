@@ -35,7 +35,7 @@ export class AsyncStore<T> extends StoreBase {
             }).catch((err) => {
                 this.response.state = 'fail';
                 this.response.endTime = new Date().getTime();
-                this.response.result = err;
+                this.response.result = err.name;
                 this.trigger();
             });
     }
@@ -52,7 +52,7 @@ export class AsyncStore<T> extends StoreBase {
         }).catch((err) => {
             this.response.state = 'fail';
             this.response.endTime = new Date().getTime();
-            this.response.result = err;
+            this.response.result = err.name;
             this.trigger();
         });
     }
@@ -69,7 +69,7 @@ export class AsyncStore<T> extends StoreBase {
         }).catch((err) => {
             this.response.state = 'fail';
             this.response.endTime = new Date().getTime();
-            this.response.result = err;
+            this.response.result = err.name;
             this.trigger();
         });
     }

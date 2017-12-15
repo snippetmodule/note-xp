@@ -10,6 +10,7 @@ import _ = require('lodash');
 
 export type HttpParams = {
     url: string;
+    isJsonp?: boolean;
     method?: 'POST' | 'GET' | 'PUT' | 'DELETE' | 'PATCH';
     body?: any;
     expiredTime?: number,
@@ -106,23 +107,23 @@ export function request<T extends IBaseJson<any>>(params: HttpParams): SyncTasks
 }
 
 export function fetch<T>(params: HttpParams): SyncTasks.Promise<T> {
-    // if (DeviceUtils.isWeb) {
-    //     let defer = SyncTasks.Defer<T>();
-    //     fetchJsonp(params.url, { timeout: 1000 * 90, jsonpCallback: 'custom_callback' })
-    //         .then(res => {
-    //             console.log('res.ok');
-    //             return res.json<T>();
-    //         })
-    //         .then(res => {
-    //             console.log('fetch11111');
-    //             return defer.resolve(res);
-    //         })
-    //         .catch(err => {
-    //             console.log('fetch2222');
-    //             defer.reject(err);
-    //         });
-    //     return defer.promise();
-    // }
+    if (params.isJsonp) {
+        let defer = SyncTasks.Defer<T>();
+        fetchJsonp(params.url, { timeout: 1000 * 900, jsonpCallback: 'custom_callback' })
+            .then(res => {
+                console.log('res.ok');
+                return res.json<T>();
+            })
+            .then(res => {
+                console.log('fetch11111');
+                return defer.resolve(res);
+            })
+            .catch(err => {
+                console.log('fetch2222' + err.message);
+                defer.reject(err);
+            });
+        return defer.promise();
+    }
     if (params.expiredTime && params.expiredTime > 0) {
         return UrlCacheUtils.get(params.url, params.expiredTime, params.method, params.body)
             .then((cache) => {

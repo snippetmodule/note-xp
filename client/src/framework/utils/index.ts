@@ -3,6 +3,7 @@ import Md5Utils = require('./Md5Utils');
 import RestUtils = require('./RestUtils');
 import NavUtils = require('./NavUtils');
 import UrlCacheUtils = require('./UrlCacheUtils');
+import CachesUtil = require('./CachesUtil');
 import StringUtils = require('./StringUtils');
 import DimenUtils = require('./DimenUtils');
 import DeviceUtils = require('./DeviceUtils');
@@ -17,6 +18,7 @@ export {
     RestUtils,
     NavUtils,
     UrlCacheUtils,
+    CachesUtil,
     StringUtils,
     DimenUtils,
     DeviceUtils,

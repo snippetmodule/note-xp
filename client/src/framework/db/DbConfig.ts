@@ -7,12 +7,13 @@ type DBStore<Name extends string, ObjectType, KeyFormat> = string & { name?: Nam
 type DBIndex<Store extends DBStore<string, any, any>, IndexKeyFormat> = string & { store?: Store, indexKeyFormat?: IndexKeyFormat };
 
 export const Stores = {
-    noteItems: 'noteItems_v1' as DBStore<'NoteItemsStore', DbModels.INoteItem, string>,
-    urlCache: 'urlCache_v1' as DBStore<'UrlCacheStore', DbModels.IUrlCache, string>,
-    keyValueCache: 'keyValueCache_v1' as DBStore<'KeyValueCacheStore', DbModels.IKeyValueCache, string>,
+    noteItems: 'noteItems' as DBStore<'NoteItemsStore', DbModels.INoteItem, string>,
+    urlCache: 'urlCache' as DBStore<'UrlCacheStore', DbModels.IUrlCache, string>,
+    keyValueCache: 'keyValueCache' as DBStore<'KeyValueCacheStore', DbModels.IKeyValueCache, string>,
+    docsDbCache: 'docsDbCache' as DBStore<'DocsDbStore', DbModels.IKeyValueCache, string>,
 };
 export const Indexes = {
-    noteSearchTerms: 'noteItems_searchTerms_v1' as DBIndex<typeof Stores.noteItems, string>,
+    noteSearchTerms: 'noteItems_searchTerms' as DBIndex<typeof Stores.noteItems, string>,
 };
 export const _databaseName = 'db';
 export const _dbSchemaVersion = 1;
@@ -38,6 +39,10 @@ export const _dbSchema: NoSqlProvider.DbSchema = {
         },
         {
             name: Stores.keyValueCache,
+            primaryKeyPath: 'id',
+        },
+        {
+            name: Stores.docsDbCache,
             primaryKeyPath: 'id',
         },
     ],

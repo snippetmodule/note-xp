@@ -66,6 +66,8 @@ export class BaseDao<T extends DbModels.IBaseDBModel> {
                 const source = err.target.source;
                 console.error(`IDBStore: ${source.name}, ${source.keyPath}, indexes: ${source.indexNames.join()}`);
             }
+        } else if (typeof err === 'string') {
+            console.error(err);
         }
     }
 }
@@ -82,7 +84,7 @@ export class UrlCacheDao extends BaseDao<DbModels.IUrlCache> {
 }
 
 export class KeyValueCacheDao extends BaseDao<DbModels.IKeyValueCache> {
-    public constructor() {
-        super(DbConfig.Stores.keyValueCache);
+    public constructor(storeName = DbConfig.Stores.keyValueCache) {
+        super(storeName);
     }
 }

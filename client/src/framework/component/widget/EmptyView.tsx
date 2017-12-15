@@ -7,6 +7,7 @@ interface IProp {
     hint?: string;
     btnStr?: string;
     btnPress?: () => any;
+    renderSucess?: () => JSX.Element;
 }
 const loadingValue = new rx.Animated.Value(0);
 const styles = {
@@ -15,7 +16,6 @@ const styles = {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
-        paddingBottom: 30,
     }),
     loadingStatic: rx.Styles.createImageStyle({
         height: 60,
@@ -71,6 +71,9 @@ export class EmptyView extends rx.Component<IProp, any> {
             case 'fail':
                 return this.renderLoadFail();
             case 'sucess':
+                if (this.props.renderSucess) {
+                    return this.props.renderSucess();
+                }
                 return (
                     <rx.View style={styles.continer}>
                         {this.props.children}

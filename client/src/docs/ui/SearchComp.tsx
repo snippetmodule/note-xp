@@ -5,10 +5,13 @@ import { SearchInput } from './SearchInput';
 import { Docs } from '../core/Docs';
 import { ISearchViewItem, SearchResultList } from './SearchResultList';
 
+import uuid = require('uuid');
+
 interface IState {
     docsResponse: fm.component.AsyncStore.AsyncResponse<Docs>;
     searchResult?: ISearchViewItem[];
 }
+
 export class SearchComp extends fm.component.ComponentBase<{}, IState> {
     private mDocsStore: fm.component.AsyncStore.AsyncStore<Docs>;
 
@@ -25,19 +28,14 @@ export class SearchComp extends fm.component.ComponentBase<{}, IState> {
         return { docsResponse: this.mDocsStore.getResonse() };
     }
     render() {
-        switch (this.state.docsResponse.state) {
-            case 'sucess':
-                return (
-                    <rx.View>
-                        <SearchInput search={this._search} />
-                        <SearchResultList searchResult={this.state.searchResult} />
-                    </rx.View>
-                );
-            case 'fail':
-                return (<fm.component.widget.EmptyView hint="init docs fail" state="fail" />);
-            default:
-                return (<fm.component.widget.EmptyView state="loading" />);
-        }
+        return (
+            <fm.component.widget.EmptyView
+                state={this.state.docsResponse.state}
+                hint="init docs fail">
+                <SearchInput search={this._search} />
+                <SearchResultList searchResult={this.state.searchResult} />
+            </fm.component.widget.EmptyView>
+        );
     }
     _search = (key: string) => {
         if (this.state.docsResponse && this.state.docsResponse.result) {
@@ -48,7 +46,7 @@ export class SearchComp extends fm.component.ComponentBase<{}, IState> {
     private generalList = (data: ISearchItem[]) => {
         return data.map((item, index) => {
             return {
-                key: item.name + '__' + index,
+                key: uuid.v4() + item.name + '__' + index,
                 height: 100,
                 measureHeight: true,
                 template: this._getItemTemplate(item),

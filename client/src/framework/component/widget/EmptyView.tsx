@@ -2,7 +2,7 @@ import rx = require('reactxp');
 import { FitImage } from './FitImage';
 
 interface IProp {
-    state?: 'loading' | 'sucess' | 'fail';
+    state?: 'idle' | 'loading' | 'sucess' | 'fail';
     pic?: string;
     hint?: string;
     btnStr?: string;
@@ -12,6 +12,7 @@ const loadingValue = new rx.Animated.Value(0);
 const styles = {
     continer: rx.Styles.createViewStyle({
         flex: 1,
+        flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
         paddingBottom: 30,
@@ -65,11 +66,16 @@ export class EmptyView extends rx.Component<IProp, any> {
     render() {
         switch (this.props.state) {
             case 'loading':
+            case 'idle':
                 return this.renderLoading();
             case 'fail':
                 return this.renderLoadFail();
             case 'sucess':
-                return null;
+                return (
+                    <rx.View style={styles.continer}>
+                        {this.props.children}
+                    </rx.View>
+                );
         }
     }
     private renderLoading = () => {

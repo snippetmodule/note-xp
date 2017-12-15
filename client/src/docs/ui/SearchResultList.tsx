@@ -7,6 +7,7 @@ import { DocsModelEntriyType, DocsModelTypeType, IDocInfo, ISearchItem } from '.
 const styles = {
     listView: rx.Styles.createViewStyle({
         flex: 1,
+        alignSelf: 'stretch',
         paddingTop: 5,
         paddingLeft: 5,
         paddingRight: 5,
@@ -27,26 +28,26 @@ export interface ISearchViewItem extends VirtualListViewItemInfo {
 export class SearchResultList extends rx.Component<IProps, {}> {
 
     render() {
-        if (this.props.searchResult == null || this.props.searchResult.length === 0) {
-            return null;
-        }
         return (
             <VirtualListView style={styles.listView}
                 padding={5}
-                itemList={this.props.searchResult}
+                itemList={this.props.searchResult || []}
                 renderItem={this._renderItem}
+                onScroll={this._onScroll}
                 animateChanges={true}
-                logInfo={log => null}
                 skipRenderIfItemUnchanged={true}
             />
         );
     }
     private _renderItem = (item: ISearchViewItem, hasFocus?: boolean) => {
-        fm.utils.Log.i('_renderItem', item.template);
+        // fm.utils.Log.i('_renderItem', item.template + item.key);
         return (
             <rx.Text numberOfLines={1} ellipsizeMode="tail" style={styles.name}>
                 {item.data.name}
             </rx.Text>
         );
+    }
+    private _onScroll = (scrollTop: number, scrollLeft: number) => {
+
     }
 }

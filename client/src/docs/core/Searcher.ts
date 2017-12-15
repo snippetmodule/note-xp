@@ -1,5 +1,6 @@
 import Fuse = require('fuse.js');
-import {FuseOptions} from 'fuse.js';
+import { FuseOptions } from 'fuse.js';
+import { read } from 'fs';
 
 class Searcher<T> {
     private fuseOption: FuseOptions = {
@@ -24,12 +25,16 @@ class Searcher<T> {
         this.fuse = new Fuse(this.mList, this.fuseOption);
     }
     public search(input: string): T[] {
-        return this.fuse.search<T>(input).filter((item: T) => {
+        let time = new Date().getMilliseconds();
+        console.time('Search');
+        let lists = this.fuse.search<T>(input).filter((item: T) => {
             if (item) {
                 return true;
             }
             return false;
         });
+        console.timeEnd('Search');
+        return lists;
     }
 }
 export { Searcher };

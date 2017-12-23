@@ -56,16 +56,6 @@ export class DocDetail extends fm.component.ComponentBase<IDocPageProps, IState>
         super.componentDidUpdate(prevProps, prevState);
         if (onLoactionChangeCallback
             && this.props.pathname !== prevProps.pathname) {
-            for (const key in onLoactionChangeCallback) {
-                if (onLoactionChangeCallback[key]) {
-                    onLoactionChangeCallback[key](this.props.pathname);
-                }
-            }
-        }
-    }
-    componentWillReceiveProps(nextProps: IDocPageProps) {
-        super.componentWillReceiveProps(nextProps);
-        if (this.props.pathname !== nextProps.pathname) {
             this.mDetailStore.exePromise(this._fetchDetail());
         }
     }

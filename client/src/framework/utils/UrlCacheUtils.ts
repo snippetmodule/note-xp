@@ -9,8 +9,11 @@ const mUrlCacheDao = new UrlCacheDao();
 function getMd5(url: string, method = 'GET', body = ''): string {
     return DeviceUtils.isDebug ? `${url}_${method}_${body}` : MD5Utils.hash(`${url}_${method}_${body}`);
 }
-export function save(url: string, response: string, method = 'GET', body = ''): SyncTasks.Promise<void> {
+export function save<T>(url: string, response: T, method = 'GET', body = ''): SyncTasks.Promise<void> {
     // let md5 = MD5Utils.hash(`{$url}_{$method}_{$body}`);
+    if (!response) {
+        return del(url, method, body);
+    }
     return mUrlCacheDao.put({
         id: getMd5(url, method, body),
         createTime: new Date().getTime(),
@@ -29,7 +32,7 @@ export function get(url: string, expiredTime = 0, method = 'GET', body = ''): Sy
             return cache;
         } else {
             del(url, method, body);
-            return SyncTasks.Rejected(`{$url} expired time`);
+            return SyncTasks.Rejected(`${url} expired time`);
         }
     });
 }

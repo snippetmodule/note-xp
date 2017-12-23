@@ -11,7 +11,7 @@ export interface INoteItem extends IBaseDBModel {
 export interface IUrlCache extends IBaseDBModel {
     // url 做为主键
     createTime: number;
-    response: string;
+    response: any;
 }
 
 export interface IKeyValueCache extends IBaseDBModel {

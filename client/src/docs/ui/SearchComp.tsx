@@ -51,10 +51,10 @@ export class SearchComp extends rx.Component<IProp, IState> {
     }
     _fetchDetailInfo = async (pathname: string): Promise<IDetailInfo> => {
         let _clickExpendedItem: ICanExpendedItem = this.mDocList._getItemByPathName(pathname);
-        let htmlResponse: string = await this.props.docs.fetchDetail(pathname, _clickExpendedItem.data.docInfo);
         if (_clickExpendedItem && _clickExpendedItem.data.docType && !_clickExpendedItem.data.docEntry) {
             return { pathname: pathname, htmlResponse: null, clickExpendedItem: _clickExpendedItem };
         }
+        let htmlResponse: string = await this.props.docs.fetchDetail(pathname, _clickExpendedItem.data.docInfo);
         return { pathname: pathname, clickExpendedItem: _clickExpendedItem, htmlResponse: htmlResponse };
     }
     render() {

@@ -110,7 +110,20 @@ function sortTyps(types: DocsModelTypeType[]): DocsModelTypeType[] {
     }
     return [...(result[0]), ...result[1]];
 }
-
+async function load<T>(url: string) {
+    let result = await fm.utils.RestUtils.fetch<T>({
+        url: url,
+        expiredTime: Number.MAX_VALUE,
+        headers: {
+            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+            'Accept-Encoding': 'gzip, deflate',
+            'Referer': 'https://devdocs.io/',
+            'Origin': 'https://devdocs.io',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
+        },
+    });
+    return result;
+}
 class Docs {
     private isAutoUpdate: boolean;
 
@@ -160,22 +173,18 @@ class Docs {
     }
     public async fetchDetail(pathname: string, docInfo: IDocInfo): Promise<string> {
         if (!docInfo) { return null; }
+        if (pathname === `/docs/${docInfo.slug}/`) {
+            return load<string>(`${config.docs_host}/${docInfo.slug}/index.html`);
+        }
+        if (pathname.includes('#')) {
+            pathname = pathname.substr(0, pathname.indexOf('#'));
+        }
         const cache: string = await fm.utils.CachesUtil.get<string>(pathname, null, 'docsDbCache');
         if (cache) { return cache; }
-        const dbJson: { [key: string]: string } = await fm.utils.RestUtils.fetch<{ [key: string]: string }>({
-            url: `${config.docs_host}/${docInfo.slug}/db.json`,
-            expiredTime: Number.MAX_VALUE,
-            headers: {
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-                'Accept-Encoding': 'gzip, deflate',
-                'Referer': 'https://devdocs.io/',
-                'Origin': 'https://devdocs.io',
-                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
-            },
-        });
+        const dbJson: { [key: string]: string } = await load<{ [key: string]: string }>(`${config.docs_host}/${docInfo.slug}/db.json`);
         for (let key in dbJson) {
             if (dbJson.hasOwnProperty(key)) {
-                await fm.utils.CachesUtil.save<string>(key, dbJson[key], 'docsDbCache');
+                await fm.utils.CachesUtil.save<string>(`/docs/${docInfo.slug}/${key}`, dbJson[key], 'docsDbCache');
             }
         }
         return fm.utils.CachesUtil.get<string>(pathname, null, 'docsDbCache');

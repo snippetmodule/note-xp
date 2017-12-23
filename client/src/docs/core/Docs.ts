@@ -5,6 +5,20 @@ import fm = require('../../framework');
 import _ = require('lodash');
 import { CachesUtil } from '../../framework/utils/index';
 
+const config = {
+    default_docs: ['css', 'dom', 'dom_events', 'html', 'http', 'javascript'],
+    docs_host: 'http://docs.devdocs.io',
+    docs_host_link: 'http://docs.devdocs.io',
+    env: 'development',
+    history_cache_size: 10,
+    index_path: '',
+    max_results: 50,
+    production_host: 'http://docs.devdocs.io',
+    search_param: 'q',
+    sentry_dsn: '',
+    version: '1450281649',
+};
+
 // 根据docsInfoArrays 初始化 mSearcher
 function initSearcher(docsInfoArrays: IDocInfo[]): Searcher<ISearchItem> {
     let searchItems: ISearchItem[] = [];
@@ -58,6 +72,12 @@ async function downloadDoc(docInfo: IDocInfo) {
     }>({
         url: config.docs_host + '/' + docInfo.slug + '/index.json',
         expiredTime: Number.MAX_VALUE,
+        headers: {
+            'Accept': 'application/json',
+            'Referer': 'https://devdocs.io/',
+            'Origin': 'https://devdocs.io',
+            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
+        },
     }).then(res => {
         // const responseString = await res.text();
         docInfo.storeValue = res;
@@ -90,19 +110,6 @@ function sortTyps(types: DocsModelTypeType[]): DocsModelTypeType[] {
     }
     return [...(result[0]), ...result[1]];
 }
-const config = {
-    default_docs: ['css', 'dom', 'dom_events', 'html', 'http', 'javascript'],
-    docs_host: 'http://docs.devdocs.io',
-    docs_host_link: 'http://docs.devdocs.io',
-    env: 'development',
-    history_cache_size: 10,
-    index_path: '',
-    max_results: 50,
-    production_host: 'http://docs.devdocs.io',
-    search_param: 'q',
-    sentry_dsn: '',
-    version: '1450281649',
-};
 
 class Docs {
     private isAutoUpdate: boolean;
@@ -158,7 +165,13 @@ class Docs {
         const dbJson: { [key: string]: string } = await fm.utils.RestUtils.fetch<{ [key: string]: string }>({
             url: `${config.docs_host}/${docInfo.slug}/db.json`,
             expiredTime: Number.MAX_VALUE,
-            isJsonp: true,
+            headers: {
+                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+                'Accept-Encoding': 'gzip, deflate',
+                'Referer': 'https://devdocs.io/',
+                'Origin': 'https://devdocs.io',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
+            },
         });
         for (let key in dbJson) {
             if (dbJson.hasOwnProperty(key)) {

@@ -10,8 +10,9 @@ class Searcher<T> {
         tokenize: false,
         threshold: 0.6,
         location: 0,
-        distance: 99,
+        distance: 100,
         maxPatternLength: 32,
+        minMatchCharLength: 1,
         keys: [''],
         // keys: ['name', 'author.firstName'],
     };
@@ -26,14 +27,12 @@ class Searcher<T> {
     }
     public search(input: string): T[] {
         let time = new Date().getMilliseconds();
-        console.time('Search');
         let lists = this.fuse.search<T>(input).filter((item: T) => {
             if (item) {
                 return true;
             }
             return false;
         });
-        console.timeEnd('Search');
         return lists;
     }
 }

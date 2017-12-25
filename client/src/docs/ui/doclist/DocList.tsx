@@ -11,7 +11,6 @@ import { DocItem } from './DocItem';
 const styles = {
     root: rx.Styles.createViewStyle({
         flex: 1,
-        backgroundColor: '#fff',
     }),
     name: rx.Styles.createTextStyle({
         color: '#2b2b2b',

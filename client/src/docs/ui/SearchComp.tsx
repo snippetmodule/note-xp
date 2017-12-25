@@ -20,6 +20,7 @@ const styles = {
         maxWidth: 300,
         justifyContent: 'flex-start',
         flexDirection: 'column',
+        backgroundColor: '#f9f9f9',
         alignSelf: 'stretch',
     }),
 };

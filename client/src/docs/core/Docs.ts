@@ -66,6 +66,7 @@ async function initDocsArray(docsInfoArrays: IDocInfo[], downloadDocs: string[])
     }
 }
 async function downloadDoc(docInfo: IDocInfo) {
+    console.time(`downloadDoc-${docInfo.slug}`);
     return fm.utils.RestUtils.fetch<{
         entries: DocsModelEntriyType[],
         types: DocsModelTypeType[],
@@ -80,6 +81,7 @@ async function downloadDoc(docInfo: IDocInfo) {
         },
     }).then(res => {
         // const responseString = await res.text();
+        console.timeEnd(`downloadDoc-${docInfo.slug}`);
         docInfo.storeValue = res;
         docInfo.storeValue.types = sortTyps(docInfo.storeValue.types);
         docInfo.storeValue.entries.forEach((item) => item.pathname = docInfo.pathname + item.path);
@@ -197,8 +199,17 @@ class Docs {
         fm.utils.CachesUtil.save('Docs_default_docs', this.localDocs);
     }
     public search(input: string): Promise<ISearchItem[]> {
-        return new Promise((resolve, reject) => {
+        console.time(`search key:${input} time:`);
+        return new Promise<ISearchItem[]>((resolve, reject) => {
             resolve(this.mSearcher.search(input));
+
+        }).then(r => {
+            console.timeEnd(`search key:${input} time:`);
+            return r;
+        }).catch(e => {
+            console.error(e);
+            console.timeEnd(`search key:${input} time:`);
+            return e;
         });
     }
 }

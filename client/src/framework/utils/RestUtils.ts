@@ -91,7 +91,7 @@ function requestImpl<T>(params: HttpParams): SyncTasks.Promise<T> {
         .then((response: string) => {
             // Log.i('RestUtils', `request url:${params.url} \n \t\t result:${JSON.stringify(response)}`);
             if ((params.expiredTime > 0 || params.emptyUseCache)) {
-                UrlCacheUtils.save(params.url, responseTo<T>(response), params.method, params.body);
+                UrlCacheUtils.save(params.url, responseTo(response), params.method, params.body);
             }
             return responseTo<T>(response);
         })

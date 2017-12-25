@@ -9,7 +9,7 @@ const mUrlCacheDao = new UrlCacheDao();
 function getMd5(url: string, method = 'GET', body = ''): string {
     return DeviceUtils.isDebug ? `${url}_${method}_${body}` : MD5Utils.hash(`${url}_${method}_${body}`);
 }
-export function save<T>(url: string, response: T, method = 'GET', body = ''): SyncTasks.Promise<void> {
+export function save(url: string, response: string, method = 'GET', body = ''): SyncTasks.Promise<void> {
     // let md5 = MD5Utils.hash(`{$url}_{$method}_{$body}`);
     if (!response) {
         return del(url, method, body);

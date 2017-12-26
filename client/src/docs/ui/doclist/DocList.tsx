@@ -20,8 +20,8 @@ const styles = {
 };
 interface IProp {
     docs: Docs;
-    enableDoc: (selectedPath: string, docInfo: IDocInfo) => void;
-    disableDoc: (docInfo: IDocInfo) => void;
+    enableDoc: (selectedPath: string, docslug: string) => void;
+    disableDoc: (docslug: string) => void;
     gotoSelectedPath: (pathname: string) => void;
 }
 interface IState {
@@ -97,8 +97,8 @@ export class DocList extends rx.Component<IProp, IState> {
             stateItem: _stateItem,
             _isSelected: this.state.slectedIndex === index,
             onClickItem: () => { event.preventDefault(); event.stopPropagation(); this.onClickItem(index, _stateItem); },
-            enableDoc: () => { event.preventDefault(); event.stopPropagation(); this.props.enableDoc('', _stateItem.data.docInfo); },
-            disableDoc: () => { event.preventDefault(); event.stopPropagation(); this.props.disableDoc(_stateItem.data.docInfo); },
+            enableDoc: () => { event.preventDefault(); event.stopPropagation(); this.props.enableDoc('', _stateItem.data.docInfo.slug); },
+            disableDoc: () => { event.preventDefault(); event.stopPropagation(); this.props.disableDoc(_stateItem.data.docInfo.slug); },
         };
         return (<DocItem key={item.key} {...itemProps} />);
     }

@@ -32,7 +32,7 @@ export interface IDocInfo {
 
 export interface ISearchItem {
     name: string;
-    doc: IDocInfo;
     pathname: string;
     slug: string;
+    isEnable: boolean;
 }

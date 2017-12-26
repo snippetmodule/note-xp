@@ -1,4 +1,6 @@
-export = [{
+import { IDocInfo } from './model';
+
+const DocsList = [{
     name: 'Angular',
     slug: 'angular',
     type: 'angular',
@@ -2791,3 +2793,5 @@ export = [{
     mtime: 1498404499,
     db_size: 13150704,
 }];
+
+export = DocsList as IDocInfo[];

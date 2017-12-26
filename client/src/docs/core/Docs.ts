@@ -4,6 +4,7 @@ import DocsList = require('./DocsList');
 import fm = require('../../framework');
 import _ = require('lodash');
 import { CachesUtil } from '../../framework/utils/index';
+import { DocList } from '../ui/doclist/DocList';
 
 const config = {
     default_docs: ['css', 'dom', 'dom_events', 'html', 'http', 'javascript'],
@@ -30,10 +31,10 @@ function initSearcher(docsInfoArrays: IDocInfo[]): Searcher<ISearchItem> {
             let _entries: ISearchItem[];
             let _types: ISearchItem[];
             _entries = docsItem.storeValue.entries.map((item: DocsModelEntriyType) => {
-                return { name: item.name, pathname: item.pathname, slug: docsItem.slug, doc: docsItem };
+                return { name: item.name, pathname: item.pathname, slug: docsItem.slug, isEnable: true };
             });
             _types = docsItem.storeValue.types.map((item: DocsModelTypeType) => {
-                return { name: item.name, pathname: item.pathname, slug: docsItem.slug, doc: docsItem };
+                return { name: item.name, pathname: item.pathname, slug: docsItem.slug, isEnable: true };
             });
             return { entries: _entries, types: _types };
         }).map((item: { entries: ISearchItem[], types: ISearchItem[] }) => {
@@ -48,7 +49,7 @@ function initSearcher(docsInfoArrays: IDocInfo[]): Searcher<ISearchItem> {
         }
         return true;
     }).map((item) => {
-        return { name: item.slug, pathname: item.pathname, slug: item.slug, doc: item };
+        return { name: item.slug, pathname: item.pathname, slug: item.slug, isEnable: false };
     }));
     return new Searcher(searchItems, ['name']);
 }
@@ -62,11 +63,13 @@ async function initDocsArray(docsInfoArrays: IDocInfo[], downloadDocs: string[])
         return null;
     });
     for (const _downloadDocInfo of downloadInfos) {
-        await downloadDoc(_downloadDocInfo);
+        await downloadDoc(_downloadDocInfo.slug);
     }
 }
-async function downloadDoc(docInfo: IDocInfo) {
-    console.time(`downloadDoc-${docInfo.slug}`);
+async function downloadDoc(docslug: string) {
+    console.time(`downloadDoc-${docslug}`);
+    let docInfo: IDocInfo = DocsList.find((doc, index) => doc.slug === docslug);
+
     return fm.utils.RestUtils.fetch<{
         entries: DocsModelEntriyType[],
         types: DocsModelTypeType[],
@@ -81,7 +84,7 @@ async function downloadDoc(docInfo: IDocInfo) {
         },
     }).then(res => {
         // const responseString = await res.text();
-        console.timeEnd(`downloadDoc-${docInfo.slug}`);
+        console.timeEnd(`downloadDoc-${docslug}`);
         docInfo.storeValue = res;
         docInfo.storeValue.types = sortTyps(docInfo.storeValue.types);
         docInfo.storeValue.entries.forEach((item) => item.pathname = docInfo.pathname + item.path);
@@ -130,46 +133,38 @@ class Docs {
     private isAutoUpdate: boolean;
 
     private localDocs: string[];
-    private docsInfoArrays: IDocInfo[];
     private mSearcher: Searcher<ISearchItem>;
 
     public async init(searchFilter: string = '') {
-        if (this.docsInfoArrays == null || this.docsInfoArrays.length === 0) {
-            this.docsInfoArrays = DocsList as IDocInfo[];
-        }
         this.localDocs = await fm.utils.CachesUtil.get<string[]>('Docs_default_docs', config.default_docs);
-        this.docsInfoArrays.forEach((item) => item.pathname = '/docs/' + item.slug + '/');
-        await initDocsArray(this.docsInfoArrays, this.localDocs);
-        this.mSearcher = initSearcher(searchFilter ? this.docsInfoArrays.filter((item) => {
+        DocsList.forEach((item) => item.pathname = '/docs/' + item.slug + '/');
+        await initDocsArray(DocsList, this.localDocs);
+        this.mSearcher = initSearcher(searchFilter ? DocsList.filter((item) => {
             if (item.slug === searchFilter) {
                 return true;
             }
             return false;
-        }) : this.docsInfoArrays);
-        if (this.docsInfoArrays.length === 0) {
-            throw new Error('docsArrays is empty');
-        }
+        }) : DocsList);
         this.save();
     }
-    public get getDocsInfoArrays() {
-        return this.docsInfoArrays;
+    public get DocsList(): IDocInfo[] {
+        return DocsList;
     }
-
-    public async addDoc(docInfo: IDocInfo): Promise<any> {
-        if (!docInfo || _.includes(this.localDocs, docInfo.slug)) {
+    public async addDoc(docslug: string): Promise<any> {
+        if (!docslug || _.includes(this.localDocs, docslug)) {
             return null;
         }
-        await downloadDoc(docInfo);
-        this.localDocs.push(docInfo.slug);
+        await downloadDoc(docslug);
+        this.localDocs.push(docslug);
         this.save();
         await this.init();
     }
 
-    public async removeDoc(docInfo: IDocInfo) {
-        if (!docInfo) {
+    public async removeDoc(docslug: string) {
+        if (!docslug) {
             return;
         }
-        await fm.utils.UrlCacheUtils.del(config.docs_host + docInfo.slug + '/index.json');
+        await fm.utils.UrlCacheUtils.del(config.docs_host + docslug + '/index.json');
         this.save();
         await this.init();
     }

@@ -4,8 +4,8 @@ import { ISearchItem, IDocInfo } from '../../core/model';
 export interface ISearchItemProp {
     data: ISearchItem;
     onClick: () => void;
-    enableDoc: (selectedPath: string, docInfo: IDocInfo) => void;
-    disableDoc: (docInfo: IDocInfo) => void;
+    enableDoc: (selectedPath: string, docslug: string) => void;
+    disableDoc: (docslug: string) => void;
     gotoSelectedPath: (pathname: string) => void;
     isSelected: boolean;
 }
@@ -53,7 +53,7 @@ export class SearchItem extends rx.Component<ISearchItemProp, any> {
     _enableDoc = () => {
         event.preventDefault();
         event.stopPropagation();
-        this.props.enableDoc(this.props.data.pathname, this.props.data.doc);
+        this.props.enableDoc(this.props.data.pathname, this.props.data.slug);
     }
     _goSelectedPath = () => {
         event.preventDefault();
@@ -61,7 +61,7 @@ export class SearchItem extends rx.Component<ISearchItemProp, any> {
         this.props.gotoSelectedPath(this.props.data.pathname);
     }
     render() {
-        let isEnable = this.props.data.doc.storeValue && true;
+        let isEnable = this.props.data.isEnable;
         let enableView = isEnable ? null : (
             <rx.Text onPress={this._enableDoc}
                 style={[styles.rightText, this._getSelectStyle(styles.rightTextSelected)]}>

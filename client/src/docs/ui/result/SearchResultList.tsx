@@ -18,8 +18,8 @@ const styles = {
     }),
 };
 interface IProps {
-    enableDoc: (selectedPath: string, docInfo: IDocInfo) => void;
-    disableDoc: (docInfo: IDocInfo) => void;
+    enableDoc: (selectedPath: string, docslug: string) => void;
+    disableDoc: (docslug: string) => void;
     gotoSelectedPath: (pathname: string) => void;
     searchResult: ISearchItem[];
 }
@@ -74,16 +74,16 @@ export class SearchResultList extends rx.Component<IProps, IState> {
 
     private _renderItem = (item: ISearchViewItem, hasFocus?: boolean) => {
         // fm.utils.Log.i('_renderItem', item.template + item.key);
-        let prop = {
+        let itemProp = {
             data: item.data,
-            isSelected: item.isSelected,
             onClick: () => { this._onClick(item); },
+            enableDoc: this.props.enableDoc,
+            disableDoc: this.props.disableDoc,
+            gotoSelectedPath: this.props.gotoSelectedPath,
+            isSelected: item.isSelected,
         };
         return (
-            <SearchItem {...prop}
-                enableDoc={this.props.enableDoc}
-                disableDoc={this.props.disableDoc}
-                gotoSelectedPath={this.props.gotoSelectedPath} />
+            <SearchItem {...itemProp} />
         );
     }
 }

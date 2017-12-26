@@ -35,17 +35,17 @@ export class SearchComp extends rx.Component<IProp, IState> {
     private mSearchInput: SearchInput;
     private mDocList: DocList;
 
-    _enableDoc = (selectedPath: string, docInfo: IDocInfo) => {
+    _enableDoc = (selectedPath: string, docslug: string) => {
         this.mSearchInput.setState({ searchKey: null });
-        this.props.docs.addDoc(docInfo).then((res) => {
+        this.props.docs.addDoc(docslug).then((res) => {
             this.setState({ searchResult: null });
             this.mDocList.componentDidMount();
-        }).catch((err) => console.log('enableDoc err:' + docInfo.slug + err.stack));
+        }).catch((err) => console.log('enableDoc err:' + docslug + err.stack));
     }
-    _disableDoc = (docInfo: IDocInfo) => {
-        this.props.docs.removeDoc(docInfo).then((res) => {
+    _disableDoc = (docslug: string) => {
+        this.props.docs.removeDoc(docslug).then((res) => {
             this.setState({ ...this.state });
-        }).catch((err) => console.log('disableDoc err:' + docInfo.slug + err.stack));
+        }).catch((err) => console.log('disableDoc err:' + docslug + err.stack));
     }
     _gotoSelectedPath = (pathname: string) => {
         this.setState({ detailPathname: pathname });

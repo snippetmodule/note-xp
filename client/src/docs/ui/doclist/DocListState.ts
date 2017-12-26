@@ -4,12 +4,14 @@ import { DocsModelEntriyType, DocsModelTypeType, IDocInfo } from '../../core/mod
 import { Docs } from '../../core/Docs';
 
 import uuid = require('uuid');
+import { fail } from 'assert';
 
 export interface ICanExpendedItem {
     isExpended: boolean; // 是否已经展开
     child: ICanExpendedItem[];
     deep: number; // 此节点在整个树中的的深度
     parent: ICanExpendedItem; // 父节点
+    isEnable: boolean; // 是否已经开启此文档搜索
     data: { docInfo: IDocInfo, docType: DocsModelTypeType, docEntry: DocsModelEntriyType, pathname: string, name: string };
 }
 
@@ -67,18 +69,21 @@ export class DocListState implements ICanExpendedState {
             isExpended: true,
             deep: 0,
             child: [],
+            isEnable: false,
             data: { name: 'Disable', pathname: 'disable', docInfo: null, docType: null, docEntry: null },
             parent: null,
         };
-        for (const docItem of docs.getDocsInfoArrays) {
+        for (const docItem of docs.DocsList) {
             if (docItem.storeValue) {
                 const parentItem: ICanExpendedItem = {
                     isExpended: false, deep: 0, child: [], parent: null,
+                    isEnable: true,
                     data: { name: docItem.name, docInfo: docItem, docType: null, docEntry: null, pathname: docItem.pathname },
                 };
                 parentItem.child = docItem.storeValue.types.map((item: DocsModelTypeType) => {
                     const parentTypes: ICanExpendedItem = {
                         isExpended: false, deep: 0, child: [], parent: parentItem,
+                        isEnable: true,
                         data: { name: item.name, docInfo: docItem, docType: item, docEntry: null, pathname: item.pathname },
                     };
                     item.childs = docItem.storeValue.entries.filter((entry) => {
@@ -89,7 +94,8 @@ export class DocListState implements ICanExpendedState {
                     });
                     parentTypes.child = item.childs.map((entry: DocsModelEntriyType) => {
                         return {
-                            isExpended: false, deep: 0, child: [], parent: parentTypes, isEnable: true,
+                            isExpended: false, deep: 0, child: [], parent: parentTypes,
+                            isEnable: true,
                             data: { name: entry.name, docInfo: docItem, docType: item, docEntry: entry, pathname: entry.pathname },
                         };
                     });
@@ -100,6 +106,7 @@ export class DocListState implements ICanExpendedState {
                 if (docItem.slug.indexOf('~') === -1) {
                     disableDocs.child.push({
                         isExpended: false, deep: 1, child: [], parent: disableDocs,
+                        isEnable: false,
                         data: { name: docItem.name, docInfo: docItem, docType: null, docEntry: null, pathname: docItem.pathname },
                     });
                 } else {
@@ -112,16 +119,15 @@ export class DocListState implements ICanExpendedState {
                     }
                     if (!_parent) {
                         _parent = {
-                            isExpended: false,
-                            deep: 1,
-                            child: [],
-                            parent: disableDocs,
+                            isExpended: false, deep: 1, child: [], parent: disableDocs,
+                            isEnable: false,
                             data: { name: docItem.name, docInfo: null, docType: null, docEntry: null, pathname: null },
                         };
                         disableDocs.child.push(_parent);
                     }
                     _parent.child.push({
                         isExpended: false, deep: 1, child: [], parent: _parent,
+                        isEnable: false,
                         data: { name: docItem.name + ' ' + docItem.version, docInfo: docItem, docType: null, docEntry: null, pathname: docItem.pathname },
                     });
                 }
@@ -162,7 +168,7 @@ export class DocListState implements ICanExpendedState {
         // }
         this.listItems.some((value, index) => {
             if (value.data.pathname === locationUrl) {
-                this.selectedIndex = index​​;
+                this.selectedIndex = index;
                 return true;
             }
             return false;

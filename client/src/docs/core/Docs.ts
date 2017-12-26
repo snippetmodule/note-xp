@@ -116,6 +116,7 @@ function sortTyps(types: DocsModelTypeType[]): DocsModelTypeType[] {
     return [...(result[0]), ...result[1]];
 }
 async function load<T>(url: string) {
+    console.time(`load-${url}`);
     let result = await fm.utils.RestUtils.fetch<T>({
         url: url,
         expiredTime: Number.MAX_VALUE,
@@ -127,6 +128,7 @@ async function load<T>(url: string) {
             'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_13_2) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/63.0.3239.84 Safari/537.36',
         },
     });
+    console.timeEnd(`load-${url}`);
     return result;
 }
 class Docs {

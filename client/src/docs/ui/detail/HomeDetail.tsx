@@ -24,7 +24,7 @@ const styles = {
     }),
 };
 
-export class Home extends rx.Component<any, any> {
+export class HomeDetail extends rx.Component<any, any> {
     public render() {
         return (
             <rx.View style={styles.root}>

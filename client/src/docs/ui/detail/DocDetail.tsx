@@ -4,7 +4,7 @@ import fm = require('../../../framework');
 import { ICanExpendedItem } from '../doclist/DocListState';
 import { DocContent } from './DocContent';
 import { BottomMark } from './BottomMark';
-import { Home } from './Home';
+import { HomeDetail } from './HomeDetail';
 
 const styles = {
     root: rx.Styles.createViewStyle({
@@ -63,7 +63,7 @@ export class DocDetail extends fm.component.ComponentBase<IDocPageProps, IState>
     render() {
         if (!this.props.pathname) {
             return (
-                <Home />
+                <HomeDetail />
             );
         }
         return (

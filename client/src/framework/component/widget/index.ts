@@ -4,6 +4,7 @@ import { ToastView } from './ToastView';
 import { DrawerControl } from './DrawerControl';
 import { DrawerLayout } from './DrawerLayout';
 import HtmlView from './html/HtmlView';
+import { Link } from './Link';
 
 export let ProgressIndicator = require('./ProgressIndicator');
 export let ToggleSwitch = require('./ToggleSwitch');
@@ -15,4 +16,5 @@ export {
     DrawerControl,
     DrawerLayout,
     HtmlView,
+    Link,
 };

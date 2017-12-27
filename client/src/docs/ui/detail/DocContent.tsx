@@ -7,6 +7,41 @@ import { BottomMark } from './BottomMark';
 const styles = {
     root: rx.Styles.createViewStyle({
         flex: 1,
+        paddingTop: 18,
+        paddingLeft: 24,
+        alignItems: 'stretch',
+        justifyContent: 'flex-start',
+        flexDirection: 'column',
+    }),
+    entryLayout: rx.Styles.createViewStyle({
+        flexDirection: 'row',
+        alignItems: 'center',
+    }),
+    entryName: rx.Styles.createTextStyle({
+        fontSize: 24,
+        color: '#333',
+        marginRight: 16,
+    }),
+    entryAfter: rx.Styles.createViewStyle({
+        height: 1,
+        flex: 1,
+        backgroundColor: '#e5e5e5',
+    }),
+    typeList: rx.Styles.createViewStyle({
+        flex: 1,
+        flexDirection: 'column',
+        marginVertical: 21,
+        paddingLeft: 14,
+    }),
+    typeName: rx.Styles.createLinkStyle({
+        color: '#3377c0',
+        fontSize: 14,
+        paddingVertical: 3,
+        marginTop: 3.5,
+        textDecorationLine: 'none',
+    }),
+    typeNameFocus: rx.Styles.createLinkStyle({
+        textDecorationLine: 'underline',
     }),
 };
 interface IDocContentProp {
@@ -30,29 +65,38 @@ export class DocContent extends rx.Component<IDocContentProp, any> {
             }
             if (clickExpendedItem.data.docType && !clickExpendedItem.data.docEntry) {
                 return (
-                    <rx.View style={styles.root}>
-                        <rx.Text>
-                            {clickExpendedItem.data.name + ' / ' + clickExpendedItem.parent.data.name}
-                        </rx.Text>
-                        <rx.View>
+                    <rx.ScrollView style={styles.root}>
+                        <rx.View style={styles.entryLayout}>
+                            <rx.Text style={styles.entryName}>
+                                {clickExpendedItem.parent.data.name + ' / ' + clickExpendedItem.data.name}
+                            </rx.Text>
+                            <rx.View style={styles.entryAfter} />
+                        </rx.View>
+
+                        <rx.View style={styles.typeList}>
                             {clickExpendedItem.child.map((item, index) => {
                                 return (
-                                    <rx.Text key={index}
-                                        onPress={this.props.gotoSelectedPath.bind(null, item.data.pathname)} >
-                                        {item.data.name}
-                                    </rx.Text>
+                                    <fm.component.widget.Link
+                                        url={item.data.name}
+                                        key={index + item.data.name}
+                                        style={styles.typeName}
+                                        focusStyle={styles.typeNameFocus}
+                                        name={item.data.name}
+                                        onClick={this.props.gotoSelectedPath.bind(null, item.data.pathname)} />
                                 );
                             })}
                         </rx.View>
-                    </rx.View>
+                    </rx.ScrollView>
                 );
             }
         }
 
         return (
-            <fm.component.widget.HtmlView
-                htmlContent={htmlContent}
-                className={'_page ' + iconCss} />
+            <rx.ScrollView style={styles.root}>
+                <fm.component.widget.HtmlView
+                    htmlContent={htmlContent}
+                    className={'_page ' + iconCss} />
+            </rx.ScrollView>
         );
     }
 }

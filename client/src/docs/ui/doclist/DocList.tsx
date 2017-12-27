@@ -39,6 +39,8 @@ export interface IDocItem extends VirtualListViewItemInfo {
     data: ICanExpendedItem;
 }
 export class DocList extends rx.Component<IProp, IState> {
+    private mDocListState: DocListState;
+
     componentDidMount() {
         this.generalList(true);
     }
@@ -57,9 +59,9 @@ export class DocList extends rx.Component<IProp, IState> {
     }
     private generalList = (force: boolean, clickIndex: number = this.state ? this.state.slectedIndex : -1) => {
         if (!this.props.docs) { return; }
-        const list = new DocListState(this.props.docs, force, clickIndex);
+        this.mDocListState = new DocListState(this.props.docs, force, clickIndex);
         this.setState({
-            listItems: list.listItems.map((item, index) => {
+            listItems: this.mDocListState.listItems.map((item, index) => {
                 return {
                     key: uuid.v4() + item.data.pathname + '__' + index,
                     height: 30,
@@ -68,16 +70,29 @@ export class DocList extends rx.Component<IProp, IState> {
                     data: item,
                 };
             }),
-            slectedIndex: list.selectedIndex,
+            slectedIndex: this.mDocListState.selectedIndex,
         });
     }
     _getItemByPathName = (pathname: string): ICanExpendedItem => {
-        for (let item of this.state.listItems) {
-            if (item.data.data.pathname === pathname) {
-                return item.data;
-            }
+        const selectedItem = this.state.listItems.find(v => v.data.data.pathname === pathname);
+        if (selectedItem) { return selectedItem.data; }
+        if (!this.mDocListState) { return null; }
+
+        if (this.mDocListState.setSelectedIndexByUrlPath(pathname)) {
+            this.setState({
+                listItems: this.mDocListState.listItems.map((item, index) => {
+                    return {
+                        key: uuid.v4() + item.data.pathname + '__' + index,
+                        height: 30,
+                        measureHeight: false,
+                        template: 'simple',
+                        data: item,
+                    };
+                }),
+                slectedIndex: this.mDocListState.selectedIndex,
+            });
         }
-        return null;
+        return this.mDocListState.listItems.find(v => v.data.pathname === pathname);
     }
     render() {
         return (

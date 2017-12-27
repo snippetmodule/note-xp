@@ -73,6 +73,7 @@ export class DocDetail extends fm.component.ComponentBase<IDocPageProps, IState>
                     return (
                         <rx.View style={styles.root}>
                             <DocContent
+                                pathname={this.props.pathname}
                                 htmlResponse={this.state.detailResponse.result.htmlResponse}
                                 clickExpendedItem={clickItem}
                                 gotoSelectedPath={this.props.gotoSelectedPath} />

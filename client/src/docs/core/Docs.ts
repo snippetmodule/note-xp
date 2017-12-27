@@ -6,10 +6,10 @@ import _ = require('lodash');
 import { CachesUtil } from '../../framework/utils/index';
 import { DocList } from '../ui/doclist/DocList';
 
-const config = {
+export const config = {
     default_docs: ['css', 'dom', 'dom_events', 'html', 'http', 'javascript'],
     docs_host: 'http://docs.devdocs.io',
-    docs_host_link: 'http://docs.devdocs.io',
+    docs_host_link: 'localhost:8080',
     env: 'development',
     history_cache_size: 10,
     index_path: '',

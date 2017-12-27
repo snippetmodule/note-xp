@@ -166,9 +166,9 @@ export class DocListState implements ICanExpendedState {
         //         return false;  // 不用更新，selectedIndex 未变
         //     }
         // }
-        this.listItems.some((value, index) => {
-            if (value.data.pathname === locationUrl) {
-                this.selectedIndex = index;
+        this.listItems.find((v, i) => {
+            if (v.data.pathname === locationUrl) {
+                this.selectedIndex = i;
                 return true;
             }
             return false;

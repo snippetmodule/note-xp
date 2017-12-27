@@ -3,6 +3,7 @@ import rx = require('reactxp');
 import fm = require('../../../framework');
 import { ICanExpendedItem } from '../doclist/DocListState';
 import { BottomMark } from './BottomMark';
+import { config } from '../../core/Docs';
 
 const styles = {
     root: rx.Styles.createViewStyle({
@@ -45,6 +46,7 @@ const styles = {
     }),
 };
 interface IDocContentProp {
+    pathname: string;
     htmlResponse?: string;
     clickExpendedItem?: ICanExpendedItem;
     gotoSelectedPath: (pathname: string) => void;
@@ -94,7 +96,10 @@ export class DocContent extends rx.Component<IDocContentProp, any> {
         return (
             <rx.ScrollView style={styles.root}>
                 <fm.component.widget.HtmlView
+                    pathname={this.props.pathname}
                     htmlContent={htmlContent}
+                    filterLink={host => host === config.docs_host_link}
+                    onClick={this.props.gotoSelectedPath}
                     className={'_page ' + iconCss} />
             </rx.ScrollView>
         );

@@ -17,11 +17,13 @@ const styles = {
         alignSelf: 'stretch',
     }),
     left: rx.Styles.createViewStyle({
-        maxWidth: 300,
+        maxWidth: 320,
         justifyContent: 'flex-start',
         flexDirection: 'column',
         backgroundColor: '#f9f9f9',
         alignSelf: 'stretch',
+        borderRightWidth: 1,
+        borderColor: '#e1e1e1',
     }),
 };
 interface IProp {

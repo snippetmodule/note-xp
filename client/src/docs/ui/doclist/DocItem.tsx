@@ -21,7 +21,7 @@ const styles = {
     expendIcon: rx.Styles.createViewStyle({
         alignItems: 'center',
         width: 31,
-        height: 15,
+        height: 20,
     }),
     icon: rx.Styles.createImageStyle({
         width: 15,

@@ -52,7 +52,7 @@ export class BottomMark extends rx.Component<IBottomMarkProps, any> {
         }
         return (
             <ExpandIcon style={styles.expendIcon}
-                size={20}
+                size={15}
                 isExpend={false}
                 fillColor="#333"
                 focsusColor="#000" />

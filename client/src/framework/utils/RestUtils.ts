@@ -1,5 +1,4 @@
 import SyncTasks = require('synctasks');
-import fetchJsonp = require('fetch-jsonp');
 // import { GenericRestClient, ApiCallOptions, HttpAction, WebResponse } from 'simplerestclients';
 import UrlCacheUtils = require('./UrlCacheUtils');
 import DeviceUtils = require('./DeviceUtils');

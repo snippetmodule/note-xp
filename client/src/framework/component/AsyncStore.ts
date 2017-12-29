@@ -16,17 +16,23 @@ export type AsyncResponse<T> = {
 @AutoSubscribeStore
 export class AsyncStore<T> extends StoreBase {
     private response: AsyncResponse<T> = { state: 'idle' };
+    private promise: SyncTasks.Promise<any>;
 
     @autoSubscribe
     getResonse() {
         return { ...this.response };
     }
-
+    private cancelPromise() {
+        if (this.promise != null) {
+            this.promise.cancel();
+        }
+    }
     exeHttp(params: HttpParams) {
+        this.cancelPromise();
         this.response.state = 'loading';
         this.response.startTime = new Date().getTime();
         this.trigger();
-        RestUtils.request(params)
+        this.promise = RestUtils.request(params)
             .then((result) => {
                 this.response.state = 'sucess';
                 this.response.endTime = new Date().getTime();
@@ -41,10 +47,11 @@ export class AsyncStore<T> extends StoreBase {
     }
 
     exeAsync(task: SyncTasks.Promise<T>) {
+        this.cancelPromise();
         this.response.state = 'loading';
         this.response.startTime = new Date().getTime();
         this.trigger();
-        task.then((result) => {
+        this.promise = task.then((result) => {
             this.response.state = 'sucess';
             this.response.endTime = new Date().getTime();
             this.response.result = result;
@@ -58,15 +65,22 @@ export class AsyncStore<T> extends StoreBase {
     }
 
     exePromise(task: Promise<T>) {
+        this.cancelPromise();
         this.response.state = 'loading';
         this.response.startTime = new Date().getTime();
         this.trigger();
-        task.then((result) => {
+        let defer = SyncTasks.Defer<T>();
+        task.then((v) => {
+            defer.resolve(v);
+        }).catch((err) => {
+            defer.reject(err);
+        });
+        this.promise = defer.promise().then(v => {
             this.response.state = 'sucess';
             this.response.endTime = new Date().getTime();
-            this.response.result = result;
+            this.response.result = v;
             this.trigger();
-        }).catch((err) => {
+        }).catch(err => {
             this.response.state = 'fail';
             this.response.endTime = new Date().getTime();
             this.response.result = err.name;

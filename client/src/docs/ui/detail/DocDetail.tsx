@@ -15,25 +15,18 @@ const styles = {
         alignItems: 'stretch',
     }),
 };
-const onLoactionChangeCallback: {
-    [key: string]: (path: string) => void,
-} = {};
-export function onDocsPageLoactionChangeCallback(key: string, callback: (path: string) => void) {
-    onLoactionChangeCallback[key] = callback;
-}
-
-interface IDocPageProps extends React.Props<any> {
-    pathname: string;
-    gotoSelectedPath: (pathname: string) => void;
-    fetchDetailInfo: (pathname: string) => Promise<IDetailInfo>;
-}
-interface IState {
-    detailResponse: fm.component.AsyncStore.AsyncResponse<IDetailInfo>;
-}
 export interface IDetailInfo {
     pathname: string;
     htmlResponse: string;
     clickExpendedItem: ICanExpendedItem;
+}
+interface IDocPageProps extends React.Props<any> {
+    gotoSelectedPath: (pathname: string) => void;
+    fetchDetailInfo: (pathname: string) => Promise<IDetailInfo>;
+}
+interface IState {
+    pathname: string;
+    detailResponse: fm.component.AsyncStore.AsyncResponse<IDetailInfo>;
 }
 export class DocDetail extends fm.component.ComponentBase<IDocPageProps, IState> {
     private mDetailStore: fm.component.AsyncStore.AsyncStore<IDetailInfo>;
@@ -41,27 +34,27 @@ export class DocDetail extends fm.component.ComponentBase<IDocPageProps, IState>
     protected _buildState(props: IDocPageProps, initialBuild: boolean): IState {
         if (this.mDetailStore == null) {
             this.mDetailStore = new fm.component.AsyncStore.AsyncStore();
-            window.setTimeout(() => this.mDetailStore.exePromise(this._fetchDetail()));
         }
         let response = this.mDetailStore.getResonse();
         if (!response.result) {
             response.state = 'fail';
         }
-        return { detailResponse: response };
+        return { ...this.state, detailResponse: response };
     }
-    private _fetchDetail = async () => {
-        const detail = await this.props.fetchDetailInfo(this.props.pathname);
+    private _fetchDetail = async (pathname: string) => {
+        const detail = await this.props.fetchDetailInfo(pathname);
         return detail;
     }
-    componentDidUpdate(prevProps: IDocPageProps, prevState: IState) {
-        super.componentDidUpdate(prevProps, prevState);
-        if (onLoactionChangeCallback
-            && this.props.pathname !== prevProps.pathname) {
-            this.mDetailStore.exePromise(this._fetchDetail());
+    shouldComponentUpdate(nextProps: IDocPageProps, nextState: IState) {
+        if (this.state.pathname !== nextState.pathname) {
+            window.setTimeout(() => {
+                this.mDetailStore.exePromise(this._fetchDetail(nextState.pathname));
+            });
         }
+        return super.shouldComponentUpdate(nextProps, nextState);
     }
     render() {
-        if (!this.props.pathname) {
+        if (!this.state.pathname || this.state.pathname === 'disable') {
             return (
                 <HomeDetail />
             );
@@ -73,7 +66,7 @@ export class DocDetail extends fm.component.ComponentBase<IDocPageProps, IState>
                     return (
                         <rx.View style={styles.root}>
                             <DocContent
-                                pathname={this.props.pathname}
+                                pathname={this.state.pathname}
                                 htmlResponse={this.state.detailResponse.result.htmlResponse}
                                 clickExpendedItem={clickItem}
                                 gotoSelectedPath={this.props.gotoSelectedPath} />

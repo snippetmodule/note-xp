@@ -6,7 +6,7 @@ export interface ISearchItemProp {
     onClick: () => void;
     enableDoc: (selectedPath: string, docslug: string) => void;
     disableDoc: (docslug: string) => void;
-    gotoSelectedPath: (pathname: string) => void;
+    gotoDocList: () => void;
     isSelected: boolean;
 }
 const styles = {
@@ -51,14 +51,7 @@ export class SearchItem extends rx.Component<ISearchItemProp, any> {
         return this.props.isSelected ? style : styles.empty;
     }
     _enableDoc = () => {
-        event.preventDefault();
-        event.stopPropagation();
         this.props.enableDoc(this.props.data.pathname, this.props.data.slug);
-    }
-    _goSelectedPath = () => {
-        event.preventDefault();
-        event.stopPropagation();
-        this.props.gotoSelectedPath(this.props.data.pathname);
     }
     render() {
         let isEnable = this.props.data.isEnable;
@@ -69,7 +62,7 @@ export class SearchItem extends rx.Component<ISearchItemProp, any> {
             </rx.Text >
         );
         let goSelectView = isEnable ? (
-            <rx.View onPress={this._goSelectedPath}>
+            <rx.View onPress={this.props.gotoDocList}>
                 <rx.Image style={styles.icon}
                     source={require('../../../../asserts/login/logo.png')} />
             </rx.View>

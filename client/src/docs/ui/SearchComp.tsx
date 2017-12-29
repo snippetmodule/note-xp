@@ -30,11 +30,11 @@ interface IProp {
     docs: Docs;
 }
 interface IState {
-    detailPathname?: string;
     searchResult?: ISearchItem[];
 }
 export class SearchComp extends rx.Component<IProp, IState> {
     private mSearchInput: SearchInput;
+    private mDocDetail: DocDetail;
     private mDocList: DocList;
 
     _enableDoc = (selectedPath: string, docslug: string) => {
@@ -50,15 +50,19 @@ export class SearchComp extends rx.Component<IProp, IState> {
         }).catch((err) => console.log('disableDoc err:' + docslug + err.stack));
     }
     _gotoSelectedPath = (pathname: string) => {
-        this.setState({ detailPathname: pathname });
+        this.mSearchInput.setState({ searchKey: '', isFocus: false });
+        this.mDocDetail.setState({ pathname: pathname });
     }
     _fetchDetailInfo = async (pathname: string): Promise<IDetailInfo> => {
-        let _clickExpendedItem: ICanExpendedItem = this.mDocList._getItemByPathName(pathname);
+        let _clickExpendedItem: ICanExpendedItem = this.mDocList ? this.mDocList._getItemByPathName(pathname) : null;
         if (_clickExpendedItem && _clickExpendedItem.data.docType && !_clickExpendedItem.data.docEntry) {
             return { pathname: pathname, htmlResponse: null, clickExpendedItem: _clickExpendedItem };
         }
-        let htmlResponse: string = await this.props.docs.fetchDetail(pathname, _clickExpendedItem.data.docInfo);
+        let htmlResponse: string = await this.props.docs.fetchDetail(pathname);
         return { pathname: pathname, clickExpendedItem: _clickExpendedItem, htmlResponse: htmlResponse };
+    }
+    _refreshDetail = (pathname: string) => {
+        this.mDocDetail.setState({ pathname: pathname });
     }
     render() {
         return (
@@ -70,7 +74,8 @@ export class SearchComp extends rx.Component<IProp, IState> {
                             ? <SearchResultList
                                 enableDoc={this._enableDoc}
                                 disableDoc={this._disableDoc}
-                                gotoSelectedPath={this._gotoSelectedPath}
+                                gotoDocList={this._gotoSelectedPath}
+                                refreshDetail={this._refreshDetail}
                                 searchResult={this.state.searchResult} />
                             : <DocList
                                 ref={ref => this.mDocList = ref}
@@ -82,7 +87,7 @@ export class SearchComp extends rx.Component<IProp, IState> {
                     }
                 </rx.View>
                 <DocDetail
-                    pathname={this.state ? this.state.detailPathname : ''}
+                    ref={(ref: DocDetail) => this.mDocDetail = ref}
                     gotoSelectedPath={this._gotoSelectedPath}
                     fetchDetailInfo={this._fetchDetailInfo} />
             </rx.View>

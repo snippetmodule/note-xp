@@ -20,7 +20,8 @@ const styles = {
 interface IProps {
     enableDoc: (selectedPath: string, docslug: string) => void;
     disableDoc: (docslug: string) => void;
-    gotoSelectedPath: (pathname: string) => void;
+    refreshDetail: (pathname: string) => void;
+    gotoDocList: (pathname: string) => void;
     searchResult: ISearchItem[];
 }
 interface IState {
@@ -70,6 +71,7 @@ export class SearchResultList extends rx.Component<IProps, IState> {
                 return { ...v, isSelected: v.key === item.key };
             }),
         });
+        this.props.refreshDetail(item.data.pathname);
     }
 
     private _renderItem = (item: ISearchViewItem, hasFocus?: boolean) => {
@@ -79,7 +81,7 @@ export class SearchResultList extends rx.Component<IProps, IState> {
             onClick: () => { this._onClick(item); },
             enableDoc: this.props.enableDoc,
             disableDoc: this.props.disableDoc,
-            gotoSelectedPath: this.props.gotoSelectedPath,
+            gotoDocList: this.props.gotoDocList.bind(null, item.data.pathname),
             isSelected: item.isSelected,
         };
         return (

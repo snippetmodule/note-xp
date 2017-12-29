@@ -170,20 +170,21 @@ class Docs {
         this.save();
         await this.init();
     }
-    public async fetchDetail(pathname: string, docInfo: IDocInfo): Promise<string> {
-        if (!docInfo) { return null; }
-        if (pathname === `/docs/${docInfo.slug}/`) {
-            return load<string>(`${config.docs_host}/${docInfo.slug}/index.html`);
+    public async fetchDetail(pathname: string): Promise<string> {
+        if (!pathname) { return null; }
+        let slug = pathname.split('/')[2];
+        if (pathname === `/docs/${slug}/`) {
+            return load<string>(`${config.docs_host}/${slug}/index.html`);
         }
         if (pathname.includes('#')) {
             pathname = pathname.substr(0, pathname.indexOf('#'));
         }
         const cache: string = await fm.utils.CachesUtil.get<string>(pathname, null, 'docsDbCache');
         if (cache) { return cache; }
-        const dbJson: { [key: string]: string } = await load<{ [key: string]: string }>(`${config.docs_host}/${docInfo.slug}/db.json`);
+        const dbJson: { [key: string]: string } = await load<{ [key: string]: string }>(`${config.docs_host}/${slug}/db.json`);
         for (let key in dbJson) {
             if (dbJson.hasOwnProperty(key)) {
-                await fm.utils.CachesUtil.save<string>(`/docs/${docInfo.slug}/${key}`, dbJson[key], 'docsDbCache');
+                await fm.utils.CachesUtil.save<string>(`/docs/${slug}/${key}`, dbJson[key], 'docsDbCache');
             }
         }
         return fm.utils.CachesUtil.get<string>(pathname, null, 'docsDbCache');

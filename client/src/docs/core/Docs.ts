@@ -23,8 +23,11 @@ export const config = {
 // 根据docsInfoArrays 初始化 mSearcher
 function initSearcher(docsInfoArrays: IDocInfo[]): Searcher<ISearchItem> {
     let searchItems: ISearchItem[] = [];
-    docsInfoArrays.map<{ entries: ISearchItem[], types: ISearchItem[] }>(
+    docsInfoArrays.map<{ entries: ISearchItem[] }>(
         (docsItem: IDocInfo) => {
+            if (docsItem.slug === 'kotlin') {
+                console.log('kotlin');
+            }
             if (!docsItem.storeValue) {
                 return { entries: [], types: [] };
             }
@@ -33,12 +36,12 @@ function initSearcher(docsInfoArrays: IDocInfo[]): Searcher<ISearchItem> {
             _entries = docsItem.storeValue.entries.map((item: DocsModelEntriyType) => {
                 return { name: item.name, pathname: item.pathname, slug: docsItem.slug, isEnable: true };
             });
-            _types = docsItem.storeValue.types.map((item: DocsModelTypeType) => {
-                return { name: item.name, pathname: item.pathname, slug: docsItem.slug, isEnable: true };
-            });
-            return { entries: _entries, types: _types };
-        }).map((item: { entries: ISearchItem[], types: ISearchItem[] }) => {
-            return [...item.entries, ...item.types];
+            // _types = docsItem.storeValue.types.map((item: DocsModelTypeType) => {
+            //     return { name: item.name, pathname: item.pathname, slug: docsItem.slug, isEnable: true };
+            // });
+            return { entries: _entries };
+        }).map((item: { entries: ISearchItem[] }) => {
+            return [...item.entries];
         }).forEach((item) => {
             searchItems = searchItems.concat(item);
         });

@@ -1,95 +1,128 @@
+import react = require('react');
+import { htmlToElement, IHtmlElement } from './htmlToElement';
 import rx = require('reactxp');
 import { DeviceUtils } from '../../../utils/index';
-import { ICanExpendedItem } from '../../../../docs/ui/doclist/DocListState';
-import { CSSProperties } from 'react';
 
-const rootStyle: CSSProperties = {
-    flex: 1,
-    paddingTop: 18,
-    paddingLeft: 24,
-    overflowX: 'hidden',
-    overflowY: 'auto',
-    alignItems: 'stretch',
-    justifyContent: 'flex-start',
-    flexDirection: 'column',
+const boldStyle = rx.Styles.createTextStyle({ fontWeight: '500' });
+const italicStyle = rx.Styles.createTextStyle({ fontStyle: 'italic' });
+const underlineStyle = rx.Styles.createTextStyle({ textDecorationLine: 'underline' });
+const codeStyle = { fontFamily: DeviceUtils.isIos ? 'Menlo' : 'monospace' };
+
+const baseStyles = {
+    b: boldStyle,
+    strong: boldStyle,
+    i: italicStyle,
+    em: italicStyle,
+    u: underlineStyle,
+    pre: codeStyle,
+    code: codeStyle,
+    a: rx.Styles.createLinkStyle({
+        fontWeight: '500',
+        color: '#007AFF',
+    }),
+    h1: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 36,
+    }),
+    h2: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 30,
+    }),
+    h3: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 24,
+    }),
+    h4: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 18,
+    }),
+    h5: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 14,
+    }),
+    h6: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 12,
+    }),
 };
-interface IDocContentProp {
-    pathname: string;
-    htmlResponse?: string;
-    clickExpendedItem?: ICanExpendedItem;
-    gotoSelectedPath: (pathname: string) => void;
-}
 
-interface IProp {
-    pathname: string;
-    htmlContent: string;
-    cssStyle?: any;
-    className?: string;
-    onClick: (path: string) => void;
-    filterLink: (host: string) => boolean;
-}
-class HtmlView extends rx.Component<IProp, {}> {
-    private rootElem: HTMLElement;
+export class HtmlView extends rx.Component<IProp, IState> {
+    public static defaultProps: IProp = {
+        addLineBreaks: true,
+        onLinkPress: (url) => { },
+        onLinkLongPress: null,
+        onError: console.error.bind(console),
+        RootComponent: rx.View,
+        value: null,
+    };
+    private mounted = false;
+
+    constructor(prop: IProp) {
+        super(prop);
+        this.state = {
+            element: null,
+        };
+    }
+
     componentDidMount() {
-        this._setOnClick();
+        this.mounted = true;
+        this.startHtmlRender(this.props.value);
     }
-    componentDidUpdate(prevProps: IProp, prevState: {}, prevContext: any) {
-        this._setOnClick();
-    }
-    _setOnClick = () => {
-        if (!this.rootElem || !this.rootElem.getElementsByTagName) {
-            return;
-        }
-        let nextScroolToElement: string = null;
-        const links = this.rootElem.getElementsByTagName('a');
-        // tslint:disable-next-line:prefer-for-of
-        for (let i = 0; i < links.length; i++) {
-            const link = links[i];
-            link.onclick = (event: MouseEvent) => {
-                event.preventDefault();
-                event.stopPropagation();
-                if (this.props.filterLink(link.host)) {
-                    let split = this.props.pathname.split('/');
-                    this.props.onClick(`/${split[1]}/${split[2]}${link.pathname}${link.hash}`);
-                } else {
-                    window.open(link.href);
-                }
-            };
-        }
-        nextScroolToElement = this.props.pathname.split('#')[1];
-        if (nextScroolToElement) {
-            const element = document.getElementById(nextScroolToElement);
-            if (element) {
-                this.rootElem.scrollTop = element.offsetTop;
-            }
-        } else {
-            this.rootElem.scrollTop = 0;
-        }
-    }
-    render() {
-        let isWeb = DeviceUtils.isWeb;
-        if (DeviceUtils.isWeb) {
-            return (
-                <div style={rootStyle}>
-                    <div ref={ref => this.rootElem = ref}>
-                        {
-                            this.props.cssStyle ?
-                                (
-                                    <style scoped={true}>
-                                        {this.props.cssStyle}
-                                    </style>
-                                )
-                                : null
-                        }
-                        <div
-                            dangerouslySetInnerHTML={{ __html: this.props.htmlContent }} />
-                    </div >
-                </div>
 
-            );
+    componentWillReceiveProps(nextProps: IProp) {
+        if (this.props.value !== nextProps.value) {
+            this.startHtmlRender(nextProps.value);
         }
-        return null;
+    }
+
+    componentWillUnmount() {
+        this.mounted = false;
+    }
+
+    startHtmlRender(value: string, style?: rx.Types.ViewStyle) {
+        const { addLineBreaks, onLinkPress, onLinkLongPress, renderNode, onError } = this.props;
+        if (!value) {
+            this.setState({ element: null });
+        }
+        const opts = {
+            ...this.props,
+            styles: { ...baseStyles, ...style },
+            customRenderer: renderNode,
+        };
+        htmlToElement(value, opts, (err: Error, element: JSX.Element[]) => {
+            if (err) {
+                onError(err);
+            }
+            if (this.mounted) {
+                this.setState({ element });
+            }
+        });
+    }
+
+    render() {
+        const { RootComponent, style } = this.props;
+        const { element } = this.state;
+        return (
+            <RootComponent
+                {...this.props.rootComponentProps}
+                style={style}>
+                {element}
+            </RootComponent>
+        );
     }
 }
-
-export default HtmlView;
+interface IState {
+    element: JSX.Element[];
+}
+interface IProp {
+    addLineBreaks?: boolean;
+    bullet?: string;
+    lineBreak?: string;
+    NodeComponent?: typeof rx.View;
+    nodeComponentProps?: rx.Types.ViewProps;
+    onError?: (err: Error) => any;
+    onLinkPress?: (url: string) => void;
+    onLinkLongPress?: (url: string) => void;
+    paragraphBreak?: string;
+    renderNode?: (node: IHtmlElement, index: number, list: IHtmlElement[], parent: IHtmlElement, domToElement?: (dom: IHtmlElement[], parent: IHtmlElement) => JSX.Element[]) => any;
+    RootComponent?: typeof rx.View;
+    rootComponentProps?: rx.Types.ViewProps;
+    style?: rx.Types.ViewStyle;
+    TextComponent?: typeof rx.Text;
+    textComponentProps?: rx.Types.TextProps;
+    value: string;
+}

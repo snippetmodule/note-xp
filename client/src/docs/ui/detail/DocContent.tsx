@@ -53,6 +53,14 @@ interface IDocContentProp {
 }
 
 export class DocContent extends rx.Component<IDocContentProp, any> {
+    _onLinkPress = (url: string) => {
+        if (url === config.docs_host_link) {
+            let split = this.props.pathname.split('/');
+            this.props.gotoSelectedPath(`/${split[1]}/${split[2]}${url}`);
+        } else {
+            window.open(url);
+        }
+    }
     render() {
         const clickExpendedItem = this.props.clickExpendedItem;
         let htmlContent = this.props.htmlResponse;
@@ -94,12 +102,11 @@ export class DocContent extends rx.Component<IDocContentProp, any> {
         }
 
         return (
-            <fm.component.widget.HtmlView
-                pathname={this.props.pathname}
-                htmlContent={htmlContent}
-                filterLink={host => host === config.docs_host_link}
-                onClick={this.props.gotoSelectedPath}
-                className={`_${this.props.pathname.split('/')[2]}`} />
+            <rx.ScrollView style={styles.root}>
+                <fm.component.widget.HtmlView
+                    value={htmlContent}
+                    onLinkPress={this._onLinkPress} />
+            </rx.ScrollView>
         );
     }
 }

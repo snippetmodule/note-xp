@@ -11,7 +11,6 @@ import ToastUtils = require('./ToastUtils');
 
 import * as PopupUtils from './PopupUtils';
 
-window.log = Log;
 export {
     Log,
     Md5Utils,

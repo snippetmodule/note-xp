@@ -17,7 +17,7 @@ const styles = {
         alignSelf: 'stretch',
     }),
     left: rx.Styles.createViewStyle({
-        maxWidth: 320,
+        width: 280,
         justifyContent: 'flex-start',
         flexDirection: 'column',
         backgroundColor: '#f9f9f9',

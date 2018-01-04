@@ -1,14 +1,34 @@
 import rx = require('reactxp');
 import { DeviceUtils } from '../../../utils/index';
+import { ICanExpendedItem } from '../../../../docs/ui/doclist/DocListState';
+import { CSSProperties } from 'react';
+
+const rootStyle: CSSProperties = {
+    flex: 1,
+    paddingTop: 18,
+    paddingLeft: 24,
+    overflowX: 'hidden',
+    overflowY: 'auto',
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
+    flexDirection: 'column',
+};
+interface IDocContentProp {
+    pathname: string;
+    htmlResponse?: string;
+    clickExpendedItem?: ICanExpendedItem;
+    gotoSelectedPath: (pathname: string) => void;
+}
+
 interface IProp {
     pathname: string;
     htmlContent: string;
-    className: string;
+    cssStyle?: any;
+    className?: string;
     onClick: (path: string) => void;
     filterLink: (host: string) => boolean;
 }
 class HtmlView extends rx.Component<IProp, {}> {
-
     private rootElem: HTMLElement;
     componentDidMount() {
         this._setOnClick();
@@ -50,9 +70,22 @@ class HtmlView extends rx.Component<IProp, {}> {
         let isWeb = DeviceUtils.isWeb;
         if (DeviceUtils.isWeb) {
             return (
-                <div ref={ref => this.rootElem = ref}
-                    dangerouslySetInnerHTML={{ __html: this.props.htmlContent }}
-                    className={this.props.className} />
+                <div style={rootStyle}>
+                    <div ref={ref => this.rootElem = ref}>
+                        {
+                            this.props.cssStyle ?
+                                (
+                                    <style scoped={true}>
+                                        {this.props.cssStyle}
+                                    </style>
+                                )
+                                : null
+                        }
+                        <div
+                            dangerouslySetInnerHTML={{ __html: this.props.htmlContent }} />
+                    </div >
+                </div>
+
             );
         }
         return null;

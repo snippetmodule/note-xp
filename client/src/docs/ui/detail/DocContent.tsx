@@ -94,14 +94,12 @@ export class DocContent extends rx.Component<IDocContentProp, any> {
         }
 
         return (
-            <rx.ScrollView style={styles.root}>
-                <fm.component.widget.HtmlView
-                    pathname={this.props.pathname}
-                    htmlContent={htmlContent}
-                    filterLink={host => host === config.docs_host_link}
-                    onClick={this.props.gotoSelectedPath}
-                    className={'_page ' + iconCss} />
-            </rx.ScrollView>
+            <fm.component.widget.HtmlView
+                pathname={this.props.pathname}
+                htmlContent={htmlContent}
+                filterLink={host => host === config.docs_host_link}
+                onClick={this.props.gotoSelectedPath}
+                className={`_${this.props.pathname.split('/')[2]}`} />
         );
     }
 }

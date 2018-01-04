@@ -25,9 +25,6 @@ function initSearcher(docsInfoArrays: IDocInfo[]): Searcher<ISearchItem> {
     let searchItems: ISearchItem[] = [];
     docsInfoArrays.map<{ entries: ISearchItem[] }>(
         (docsItem: IDocInfo) => {
-            if (docsItem.slug === 'kotlin') {
-                console.log('kotlin');
-            }
             if (!docsItem.storeValue) {
                 return { entries: [], types: [] };
             }
@@ -36,24 +33,16 @@ function initSearcher(docsInfoArrays: IDocInfo[]): Searcher<ISearchItem> {
             _entries = docsItem.storeValue.entries.map((item: DocsModelEntriyType) => {
                 return { name: item.name, pathname: item.pathname, slug: docsItem.slug, isEnable: true };
             });
-            // _types = docsItem.storeValue.types.map((item: DocsModelTypeType) => {
-            //     return { name: item.name, pathname: item.pathname, slug: docsItem.slug, isEnable: true };
-            // });
             return { entries: _entries };
         }).map((item: { entries: ISearchItem[] }) => {
             return [...item.entries];
         }).forEach((item) => {
             searchItems = searchItems.concat(item);
         });
-
-    searchItems.push(...docsInfoArrays.filter((item) => {
-        if (item.storeValue) {
-            return false;
-        }
-        return true;
-    }).map((item) => {
-        return { name: item.slug, pathname: item.pathname, slug: item.slug, isEnable: false };
-    }));
+    searchItems.push(...docsInfoArrays.filter((item) => !item.storeValue)
+        .map((item) => {
+            return { name: item.slug, pathname: item.pathname, slug: item.slug, isEnable: false };
+        }));
     return new Searcher(searchItems, ['name']);
 }
 async function initDocsArray(docsInfoArrays: IDocInfo[], downloadDocs: string[]) {

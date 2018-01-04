@@ -5,6 +5,7 @@ import { ICanExpendedItem } from '../doclist/DocListState';
 import { DocContent } from './DocContent';
 import { BottomMark } from './BottomMark';
 import { HomeDetail } from './HomeDetail';
+import { DeviceUtils } from '../../../framework/utils/index';
 
 const styles = {
     root: rx.Styles.createViewStyle({
@@ -36,9 +37,6 @@ export class DocDetail extends fm.component.ComponentBase<IDocPageProps, IState>
             this.mDetailStore = new fm.component.AsyncStore.AsyncStore();
         }
         let response = this.mDetailStore.getResonse();
-        if (!response.result) {
-            response.state = 'fail';
-        }
         return { ...this.state, detailResponse: response };
     }
     private _fetchDetail = async (pathname: string) => {

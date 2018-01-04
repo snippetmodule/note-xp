@@ -8,6 +8,7 @@ import { DocList } from './doclist/DocList';
 import { SearchInput } from './SearchInput';
 import { DocDetail, IDetailInfo } from './detail/DocDetail';
 import { ICanExpendedItem } from './doclist/DocListState';
+import { DeviceUtils } from '../../framework/utils/index';
 
 const styles = {
     root: rx.Styles.createViewStyle({
@@ -52,6 +53,16 @@ export class SearchComp extends rx.Component<IProp, IState> {
     _gotoSelectedPath = (pathname: string) => {
         this.mSearchInput.setState({ searchKey: '', isFocus: false });
         this.mDocDetail.setState({ pathname: pathname });
+        if (DeviceUtils.isWeb) {
+            if (!pathname || pathname === 'disable') {
+                document.title = 'Home';
+            } else {
+                let split = pathname.split('/');
+                let slug = split[2] || '';
+                let docInfo = this.props.docs.DocsList.find(v => v.slug === slug);
+                document.title = docInfo.name + (split[3] ? ' / ' + split[3] : '');
+            }
+        }
     }
     _fetchDetailInfo = async (pathname: string): Promise<IDetailInfo> => {
         let _clickExpendedItem: ICanExpendedItem = this.mDocList ? this.mDocList._getItemByPathName(pathname) : null;
@@ -65,6 +76,9 @@ export class SearchComp extends rx.Component<IProp, IState> {
         this.mDocDetail.setState({ pathname: pathname });
     }
     render() {
+        if (DeviceUtils.isWeb) {
+            document.title = 'Home';
+        }
         return (
             <rx.View style={styles.root}>
                 <rx.View style={styles.left}>

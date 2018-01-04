@@ -1,5 +1,4 @@
 import * as react from 'react';
-import * as entities from 'entities';
 import * as htmlparser from 'htmlparser2';
 import rx = require('reactxp');
 
@@ -82,7 +81,7 @@ export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, 
                         key={index}
                         style={[defaultStyle, customStyle]}
                     >
-                        {entities.decodeHTML(node.data)}
+                        {node.data}
                     </TextComponent>
                 );
             }
@@ -95,9 +94,9 @@ export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, 
                 let linkPressHandler = null;
                 let linkLongPressHandler = null;
                 if (node.name === 'a' && node.attribs && node.attribs.href) {
-                    linkPressHandler = () => opts.onLinkPress(entities.decodeHTML(node.attribs.href));
+                    linkPressHandler = () => opts.onLinkPress(node.attribs.href);
                     if (opts.onLinkLongPress) {
-                        linkLongPressHandler = () => opts.onLinkLongPress(entities.decodeHTML(node.attribs.href));
+                        linkLongPressHandler = () => opts.onLinkLongPress(node.attribs.href);
                     }
                 }
 

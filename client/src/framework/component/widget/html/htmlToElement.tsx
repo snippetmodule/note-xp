@@ -3,25 +3,54 @@ import * as htmlparser from 'htmlparser2';
 import rx = require('reactxp');
 
 import { FitImage } from '../FitImage';
+import { DeviceUtils } from '../../../utils/index';
 
+const boldStyle = rx.Styles.createTextStyle({ fontWeight: '500' });
+const italicStyle = rx.Styles.createTextStyle({ fontStyle: 'italic' });
+const underlineStyle = rx.Styles.createTextStyle({ textDecorationLine: 'underline' });
+const codeStyle = { fontFamily: DeviceUtils.isIos ? 'Menlo' : 'monospace' };
+
+const baseStyles: { [key: string]: any } = {
+    b: boldStyle,
+    strong: boldStyle,
+    i: italicStyle,
+    em: italicStyle,
+    u: underlineStyle,
+    pre: codeStyle,
+    code: codeStyle,
+    a: rx.Styles.createLinkStyle({
+        fontWeight: '500',
+        color: '#007AFF',
+    }),
+    h1: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 36,
+    }),
+    h2: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 30,
+    }),
+    h3: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 24,
+    }),
+    h4: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 18,
+    }),
+    h5: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 14,
+    }),
+    h6: rx.Styles.createTextStyle({
+        fontWeight: '500', fontSize: 12,
+    }),
+};
 interface IProp {
     lineBreak?: string;
     paragraphBreak?: string;
     bullet?: string;
-    renderNode?: (node: IHtmlElement,
-                  index: number,
-                  list: IHtmlElement[],
-                  parent: IHtmlElement,
-                  domToElement?: (dom: IHtmlElement[], parent: IHtmlElement) => JSX.Element[]) => any;
+    renderNode?: (node: IHtmlElement, index: number, list: IHtmlElement[], parent: IHtmlElement, domToElement?: (dom: IHtmlElement[], parent: IHtmlElement) => JSX.Element[]) => any;
     TextComponent?: typeof rx.Text;
     textComponentProps?: rx.Types.TextProps;
-    NodeComponent?: typeof rx.View;
-    nodeComponentProps?: rx.Types.ViewProps;
-    styles?: {
-        [key: string]: any;
-    };
+    NodeComponent?: typeof rx.Text;
+    nodeComponentProps?: rx.Types.TextProps;
     onLinkPress?: (url: string) => any;
-    onLinkLongPress?: (url: string) => any;
     addLineBreaks?: boolean;
 }
 
@@ -31,7 +60,7 @@ const defaultOpts: IProp = {
     bullet: '\u2022 ',
     onLinkPress: (url) => { },
     TextComponent: rx.Text,
-    NodeComponent: rx.View,
+    NodeComponent: rx.Text,
 };
 typeof rx.Text;
 const Img = (props: { key: number, attribs: any }) => {
@@ -56,7 +85,7 @@ export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, 
 
     function inheritedStyle(parent: IHtmlElement): rx.Types.ViewStyle {
         if (!parent) { return null; }
-        const style = opts.styles[parent.name] || {};
+        const style = baseStyles[parent.name] || {};
         const parentStyle = inheritedStyle(parent.parent) || {};
         return { ...parentStyle, ...style };
     }
@@ -95,9 +124,6 @@ export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, 
                 let linkLongPressHandler = null;
                 if (node.name === 'a' && node.attribs && node.attribs.href) {
                     linkPressHandler = () => opts.onLinkPress(node.attribs.href);
-                    if (opts.onLinkLongPress) {
-                        linkLongPressHandler = () => opts.onLinkLongPress(node.attribs.href);
-                    }
                 }
 
                 let linebreakBefore = null;
@@ -146,14 +172,13 @@ export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, 
                     }
                 }
 
-                const { NodeComponent, styles } = opts;
+                const { NodeComponent } = opts;
                 return (
                     <NodeComponent
                         {...opts.nodeComponentProps}
                         key={index}
                         onPress={linkPressHandler}
-                        style={!node.parent ? styles[node.name] : null}
-                        onLongPress={linkLongPressHandler}
+                        style={!node.parent ? baseStyles[node.name] : null}
                     >
                         {linebreakBefore}
                         {listItemPrefix}

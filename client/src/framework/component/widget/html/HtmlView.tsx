@@ -3,50 +3,12 @@ import { htmlToElement, IHtmlElement } from './htmlToElement';
 import rx = require('reactxp');
 import { DeviceUtils } from '../../../utils/index';
 
-const boldStyle = rx.Styles.createTextStyle({ fontWeight: '500' });
-const italicStyle = rx.Styles.createTextStyle({ fontStyle: 'italic' });
-const underlineStyle = rx.Styles.createTextStyle({ textDecorationLine: 'underline' });
-const codeStyle = { fontFamily: DeviceUtils.isIos ? 'Menlo' : 'monospace' };
-
-const baseStyles = {
-    b: boldStyle,
-    strong: boldStyle,
-    i: italicStyle,
-    em: italicStyle,
-    u: underlineStyle,
-    pre: codeStyle,
-    code: codeStyle,
-    a: rx.Styles.createLinkStyle({
-        fontWeight: '500',
-        color: '#007AFF',
-    }),
-    h1: rx.Styles.createTextStyle({
-        fontWeight: '500', fontSize: 36,
-    }),
-    h2: rx.Styles.createTextStyle({
-        fontWeight: '500', fontSize: 30,
-    }),
-    h3: rx.Styles.createTextStyle({
-        fontWeight: '500', fontSize: 24,
-    }),
-    h4: rx.Styles.createTextStyle({
-        fontWeight: '500', fontSize: 18,
-    }),
-    h5: rx.Styles.createTextStyle({
-        fontWeight: '500', fontSize: 14,
-    }),
-    h6: rx.Styles.createTextStyle({
-        fontWeight: '500', fontSize: 12,
-    }),
-};
-
 export class HtmlView extends rx.Component<IProp, IState> {
     public static defaultProps: IProp = {
         addLineBreaks: true,
         onLinkPress: (url) => { },
-        onLinkLongPress: null,
         onError: console.error.bind(console),
-        RootComponent: rx.View,
+        RootComponent: rx.Text,
         value: null,
     };
     private mounted = false;
@@ -73,14 +35,13 @@ export class HtmlView extends rx.Component<IProp, IState> {
         this.mounted = false;
     }
 
-    startHtmlRender(value: string, style?: rx.Types.ViewStyle) {
-        const { addLineBreaks, onLinkPress, onLinkLongPress, renderNode, onError } = this.props;
+    startHtmlRender(value: string) {
+        const { addLineBreaks, onLinkPress, renderNode, onError } = this.props;
         if (!value) {
             this.setState({ element: null });
         }
         const opts = {
             ...this.props,
-            styles: { ...baseStyles, ...style },
             customRenderer: renderNode,
         };
         htmlToElement(value, opts, (err: Error, element: JSX.Element[]) => {
@@ -112,15 +73,14 @@ interface IProp {
     addLineBreaks?: boolean;
     bullet?: string;
     lineBreak?: string;
-    NodeComponent?: typeof rx.View;
-    nodeComponentProps?: rx.Types.ViewProps;
+    NodeComponent?: typeof rx.Text;
+    nodeComponentProps?: rx.Types.TextProps;
     onError?: (err: Error) => any;
     onLinkPress?: (url: string) => void;
-    onLinkLongPress?: (url: string) => void;
     paragraphBreak?: string;
     renderNode?: (node: IHtmlElement, index: number, list: IHtmlElement[], parent: IHtmlElement, domToElement?: (dom: IHtmlElement[], parent: IHtmlElement) => JSX.Element[]) => any;
-    RootComponent?: typeof rx.View;
-    rootComponentProps?: rx.Types.ViewProps;
+    RootComponent?: typeof rx.Text;
+    rootComponentProps?: rx.Types.TextProps;
     style?: rx.Types.ViewStyle;
     TextComponent?: typeof rx.Text;
     textComponentProps?: rx.Types.TextProps;

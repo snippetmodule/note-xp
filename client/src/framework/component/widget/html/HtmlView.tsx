@@ -1,14 +1,13 @@
 import react = require('react');
-import { htmlToElement, IHtmlElement } from './htmlToElement';
+import { htmlToElement } from './htmlToElement';
 import rx = require('reactxp');
 import { DeviceUtils } from '../../../utils/index';
+import { Link } from '../index';
 
 export class HtmlView extends rx.Component<IProp, IState> {
     public static defaultProps: IProp = {
         addLineBreaks: true,
-        onLinkPress: (url) => { },
         onError: console.error.bind(console),
-        RootComponent: rx.Text,
         value: null,
     };
     private mounted = false;
@@ -36,7 +35,7 @@ export class HtmlView extends rx.Component<IProp, IState> {
     }
 
     startHtmlRender(value: string) {
-        const { addLineBreaks, onLinkPress, renderNode, onError } = this.props;
+        const { addLineBreaks, renderNode, onError } = this.props;
         if (!value) {
             this.setState({ element: null });
         }
@@ -55,14 +54,13 @@ export class HtmlView extends rx.Component<IProp, IState> {
     }
 
     render() {
-        const { RootComponent, style } = this.props;
+        const { style } = this.props;
         const { element } = this.state;
         return (
-            <RootComponent
-                {...this.props.rootComponentProps}
+            <rx.View
                 style={style}>
                 {element}
-            </RootComponent>
+            </rx.View>
         );
     }
 }
@@ -73,16 +71,36 @@ interface IProp {
     addLineBreaks?: boolean;
     bullet?: string;
     lineBreak?: string;
-    NodeComponent?: typeof rx.Text;
-    nodeComponentProps?: rx.Types.TextProps;
     onError?: (err: Error) => any;
-    onLinkPress?: (url: string) => void;
     paragraphBreak?: string;
-    renderNode?: (node: IHtmlElement, index: number, list: IHtmlElement[], parent: IHtmlElement, domToElement?: (dom: IHtmlElement[], parent: IHtmlElement) => JSX.Element[]) => any;
-    RootComponent?: typeof rx.Text;
-    rootComponentProps?: rx.Types.TextProps;
-    style?: rx.Types.ViewStyle;
-    TextComponent?: typeof rx.Text;
-    textComponentProps?: rx.Types.TextProps;
+    renderNode?: (params: IRenderNodeParams) => react.ReactNode;
+    getNodeProp?: (params: IRenderNodeParams) => INodeProp;
+    style?: rx.Types.ViewStyleRuleSet;
     value: string;
+}
+export interface IHtmlElement {
+    data?: string;
+    type: string;
+    name?: string;
+    attribs?: {
+        [key: string]: any,
+    };
+    parent?: IHtmlElement;
+    children?: IHtmlElement[];
+}
+export type INodeProp = {
+    key?: string;
+    style: rx.Types.ViewStyleRuleSet | rx.Types.TextStyleRuleSet;
+    childView?: react.ReactNode;
+    onClick?: () => any;
+} | null;
+export interface IRenderNodeParams {
+    node: IHtmlElement;
+    index: number;
+    list: IHtmlElement[];
+    parent: IHtmlElement;
+    domToElement?: (
+        dom: IHtmlElement[],
+        parent?: IHtmlElement,
+        parentStyle?: rx.Types.TextStyleRuleSet) => react.ReactNode;
 }

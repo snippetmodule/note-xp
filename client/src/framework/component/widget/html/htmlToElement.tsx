@@ -4,6 +4,8 @@ import rx = require('reactxp');
 
 import { FitImage } from '../FitImage';
 import { DeviceUtils } from '../../../utils/index';
+import { IHtmlElement, INodeProp, IRenderNodeParams } from './HtmlView';
+import { Link } from '../Link';
 
 const boldStyle = rx.Styles.createTextStyle({ fontWeight: '500' });
 const italicStyle = rx.Styles.createTextStyle({ fontStyle: 'italic' });
@@ -45,12 +47,8 @@ interface IProp {
     lineBreak?: string;
     paragraphBreak?: string;
     bullet?: string;
-    renderNode?: (node: IHtmlElement, index: number, list: IHtmlElement[], parent: IHtmlElement, domToElement?: (dom: IHtmlElement[], parent: IHtmlElement) => JSX.Element[]) => any;
-    TextComponent?: typeof rx.Text;
-    textComponentProps?: rx.Types.TextProps;
-    NodeComponent?: typeof rx.Text;
-    nodeComponentProps?: rx.Types.TextProps;
-    onLinkPress?: (url: string) => any;
+    renderNode?: (params: IRenderNodeParams) => react.ReactNode;
+    getNodeProp?: (params: IRenderNodeParams) => INodeProp;
     addLineBreaks?: boolean;
 }
 
@@ -58,9 +56,6 @@ const defaultOpts: IProp = {
     lineBreak: '\n',
     paragraphBreak: '\n\n',
     bullet: '\u2022 ',
-    onLinkPress: (url) => { },
-    TextComponent: rx.Text,
-    NodeComponent: rx.Text,
 };
 typeof rx.Text;
 const Img = (props: { key: number, attribs: any }) => {
@@ -76,8 +71,35 @@ const Img = (props: { key: number, attribs: any }) => {
     };
     return <FitImage source={props.attribs.src} style={imgStyle} />;
 };
-
-export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, done: (err: Error, components: JSX.Element[]) => any) {
+class HTMLComponent extends rx.Component<INodeProp & IRenderNodeParams, {}> {
+    componentDidCatch(error: Error, errorInfo: react.ErrorInfo) {
+        console.log(`${error.message},${errorInfo.componentStack}`);
+    }
+    render() {
+        switch (this.props.node.name) {
+            case 'img':
+                return <Img key={this.props.index} attribs={this.props.node.attribs} />;
+            case 'a':
+                return (
+                    <Link url={this.props.node.attribs.href}
+                        {...this.props}
+                        key={`${this.props.node.name} _${this.props.node.children.length} _${this.props.index}`}
+                        focusStyle={{ textDecorationLine: 'underline' }} >
+                        {this.props.domToElement(this.props.node.children, this.props.node, this.props.style)}
+                        {this.props.childView}
+                    </ Link>
+                );
+            default:
+                return (
+                    <rx.Text style={this.props.style}>
+                        {this.props.domToElement(this.props.node.children, this.props.node, this.props.style)}
+                        {this.props.childView}
+                    </rx.Text>
+                );
+        }
+    }
+}
+export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, done: (err: Error, components: react.ReactNode) => any) {
     const opts = {
         ...defaultOpts,
         ...customOpts,
@@ -90,103 +112,37 @@ export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, 
         return { ...parentStyle, ...style };
     }
 
-    function domToElement(dom: IHtmlElement[], parent: IHtmlElement = null): JSX.Element[] {
+    function domToElement(
+        dom: IHtmlElement[],
+        parent: IHtmlElement = null,
+        parentStyle: rx.Types.TextStyleRuleSet = null): react.ReactNode {
         if (!dom) { return null; }
-
         const renderNode = opts.renderNode;
         let orderedListCounter = 1;
         return dom.map((node, index, list) => {
+            let params: IRenderNodeParams = { node, index, list, parent, domToElement };
             if (renderNode) {
-                const rendered = renderNode(node, index, list, parent, domToElement);
+                const rendered = renderNode(params);
                 if (rendered) { return rendered; }
             }
-            const { TextComponent } = opts;
             if (node.type === 'text') {
-                const defaultStyle = opts.textComponentProps ? opts.textComponentProps.style : null;
-                const customStyle = inheritedStyle(parent);
-                return (
-                    <TextComponent
-                        {...opts.textComponentProps}
-                        key={index}
-                        style={[defaultStyle, customStyle]}
-                    >
-                        {node.data}
-                    </TextComponent>
-                );
+                if (node.data === ' ' || node.data === '\n') { return null; }
+                return node.data;
             }
-
-            if (node.type === 'tag') {
-                if (node.name === 'img') {
-                    return <Img key={index} attribs={node.attribs} />;
-                }
-
-                let linkPressHandler = null;
-                let linkLongPressHandler = null;
-                if (node.name === 'a' && node.attribs && node.attribs.href) {
-                    linkPressHandler = () => opts.onLinkPress(node.attribs.href);
-                }
-
-                let linebreakBefore = null;
-                let linebreakAfter = null;
-                if (opts.addLineBreaks) {
-                    switch (node.name) {
-                        case 'pre':
-                            linebreakBefore = opts.lineBreak;
-                            break;
-                        case 'p':
-                            if (index < list.length - 1) {
-                                linebreakAfter = opts.paragraphBreak;
-                            }
-                            break;
-                        case 'br':
-                        case 'h1':
-                        case 'h2':
-                        case 'h3':
-                        case 'h4':
-                        case 'h5':
-                            linebreakAfter = opts.lineBreak;
-                            break;
-                    }
-                }
-
-                let listItemPrefix = null;
-                if (node.name === 'li') {
-                    const defaultStyle = opts.textComponentProps ? opts.textComponentProps.style : null;
-                    const customStyle = inheritedStyle(parent);
-
-                    if (parent.name === 'ol') {
-                        listItemPrefix = (
-                            <TextComponent style={[defaultStyle, customStyle]}>
-                                {`${orderedListCounter++}. `}
-                            </TextComponent>
-                        );
-                    } else if (parent.name === 'ul') {
-                        listItemPrefix = (
-                            <TextComponent style={[defaultStyle, customStyle]}>
-                                {opts.bullet}
-                            </TextComponent>
-                        );
-                    }
-                    if (opts.addLineBreaks && index < list.length - 1) {
-                        linebreakAfter = opts.lineBreak;
-                    }
-                }
-
-                const { NodeComponent } = opts;
-                return (
-                    <NodeComponent
-                        {...opts.nodeComponentProps}
-                        key={index}
-                        onPress={linkPressHandler}
-                        style={!node.parent ? baseStyles[node.name] : null}
-                    >
-                        {linebreakBefore}
-                        {listItemPrefix}
-                        {domToElement(node.children, node)}
-                        {linebreakAfter}
-                    </NodeComponent>
-                );
-            }
+            let nodeProps: INodeProp = customOpts.getNodeProp && customOpts.getNodeProp(params);
+            const style: rx.Types.ViewStyle = !node.parent ? baseStyles[node.name] : null;
+            return (
+                <HTMLComponent
+                    {...nodeProps}
+                    key={`${node.name} _${node.children.length} _${index}`}
+                    node={node}
+                    parent={parent}
+                    index={index}
+                    list={list}
+                    style={[style, nodeProps ? nodeProps.style : null] as any}
+                    domToElement={domToElement}
+                />
+            );
         });
     }
     let handler = new (htmlparser as any).DomHandler((error: Error, dom: IHtmlElement[]) => {
@@ -196,15 +152,4 @@ export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, 
     let parser = new htmlparser.Parser(handler);
     parser.write(rawHtml);
     parser.end();
-}
-
-export interface IHtmlElement {
-    data?: string;
-    type: string;
-    name?: string;
-    attribs?: {
-        [key: string]: any,
-    };
-    parent?: IHtmlElement;
-    children?: IHtmlElement[];
 }

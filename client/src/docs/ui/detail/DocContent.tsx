@@ -4,12 +4,14 @@ import fm = require('../../../framework');
 import { ICanExpendedItem } from '../doclist/DocListState';
 import { BottomMark } from './BottomMark';
 import { config } from '../../core/Docs';
+import { renderNode, getNodeProp } from './render';
 
 const styles = {
     root: rx.Styles.createViewStyle({
         flex: 1,
         paddingTop: 18,
-        paddingLeft: 24,
+        paddingLeft: 20,
+        paddingRight: 24,
         alignItems: 'stretch',
         justifyContent: 'flex-start',
         flexDirection: 'column',
@@ -52,7 +54,7 @@ interface IDocContentProp {
     gotoSelectedPath: (pathname: string) => void;
 }
 
-export class DocContent extends rx.Component<IDocContentProp, any> {
+export class DocContent extends rx.Component<IDocContentProp, {}> {
     _onLinkPress = (url: string) => {
         if (url === config.docs_host_link) {
             let split = this.props.pathname.split('/');
@@ -102,10 +104,13 @@ export class DocContent extends rx.Component<IDocContentProp, any> {
         }
 
         return (
-            <rx.ScrollView style={styles.root}>
+            <rx.ScrollView>
                 <fm.component.widget.HtmlView
                     value={htmlContent}
-                    onLinkPress={this._onLinkPress} />
+                    renderNode={renderNode.bind(null, this.props.pathname.split('')[2], this._onLinkPress)}
+                    getNodeProp={getNodeProp.bind(null, this.props.pathname.split('')[2], this._onLinkPress)}
+                    bullet={''}
+                    style={styles.root} />
             </rx.ScrollView>
         );
     }

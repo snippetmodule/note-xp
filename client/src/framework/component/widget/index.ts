@@ -3,7 +3,7 @@ import { EmptyView } from './EmptyView';
 import { ToastView } from './ToastView';
 import { DrawerControl } from './DrawerControl';
 import { DrawerLayout } from './DrawerLayout';
-import { HtmlView } from './html/HtmlView';
+import { HtmlView, IHtmlElement } from './html/HtmlView';
 import { Link } from './Link';
 
 export let ProgressIndicator = require('./ProgressIndicator');
@@ -16,5 +16,6 @@ export {
     DrawerControl,
     DrawerLayout,
     HtmlView,
+    IHtmlElement,
     Link,
 };

@@ -26,7 +26,6 @@ export class Link extends rx.Component<ILinkProp, ILinkState> {
         let isFocus = this.state ? this.state.isFocus : false;
         return (
             <rx.Link
-                key={this.props.key}
                 style={[this.props.style, isFocus ? this.props.focusStyle : {}]}
                 url={this.props.url}
                 onHoverStart={this._onHoverStart}

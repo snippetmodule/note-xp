@@ -56,11 +56,11 @@ interface IDocContentProp {
 
 export class DocContent extends rx.Component<IDocContentProp, {}> {
     _onLinkPress = (url: string) => {
-        if (url === config.docs_host_link) {
-            let split = this.props.pathname.split('/');
-            this.props.gotoSelectedPath(`/${split[1]}/${split[2]}${url}`);
-        } else {
+        if (url.startsWith('http://') || url.startsWith('https://')) {
             window.open(url);
+        } else {
+            let split = this.props.pathname.split('/');
+            this.props.gotoSelectedPath(`/${split[1]}/${split[2]}/${url}`);
         }
     }
     render() {

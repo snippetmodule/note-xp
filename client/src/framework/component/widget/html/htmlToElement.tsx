@@ -89,6 +89,18 @@ class HTMLComponent extends rx.Component<INodeProp & IRenderNodeParams, {}> {
                         {this.props.childView}
                     </ Link>
                 );
+            case 'div':
+            case 'ul':
+            case 'table':
+            case 'tbody':
+            case 'tr':
+            case 'td':
+                return (
+                    <rx.View style={this.props.style}>
+                        {this.props.domToElement(this.props.node.children, this.props.node, this.props.style)}
+                        {this.props.childView}
+                    </rx.View>
+                );
             default:
                 return (
                     <rx.Text style={this.props.style}>

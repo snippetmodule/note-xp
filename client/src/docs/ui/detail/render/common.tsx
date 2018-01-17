@@ -4,11 +4,32 @@ import { IHtmlElement } from '../../../../framework/component/widget/index';
 import { INodeProp, IRenderNodeParams } from '../../../../framework/component/widget/html/HtmlView';
 
 const styles = {
+    h1Root: rx.Styles.createViewStyle({
+        flex: 1,
+        flexDirection: 'row',
+        marginBottom: 21,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        wordBreak: 'break-word',
+        overflow: 'hidden',
+    }),
+    h1Text: rx.Styles.createTextStyle({
+        fontSize: 21,
+        fontWeight: '600',
+        color: '#333',
+        lineHeight: 27,
+    }),
+    h1After: rx.Styles.createViewStyle({
+        backgroundColor: '#e5e5e5',
+        height: 1,
+        flex: 1,
+        marginLeft: 16,
+    }),
     p: rx.Styles.createTextStyle({
         flexDirection: 'row',
         flexWrap: 'wrap',
         alignItems: 'flex-start',
-        marginBottom: 14,
+        marginVertical: 3,
         color: '#333',
         lineHeight: 23,
         fontSize: 14,
@@ -55,6 +76,38 @@ const styles = {
         fontSize: 15,
         lineHeight: 19,
         fontWeight: '400',
+    }),
+    _links: rx.Styles.createTextStyle({
+        position: 'absolute',
+        backgroundColor: '#fff',
+        top: 18, right: 20,
+        textAlign: 'right',
+    }),
+    table: rx.Styles.createViewStyle({
+        borderRadius: 3,
+        borderColor: '#d8d8d8',
+        borderWidth: 1,
+        marginVertical: 21,
+
+    }),
+    tbody: rx.Styles.createViewStyle({
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+    }),
+    tr: rx.Styles.createViewStyle({
+        flex: 1,
+        flexDirection: 'row',
+    }),
+    td: rx.Styles.createViewStyle({
+        flex: 1,
+        paddingHorizontal: 10,
+        paddingVertical: 5,
+        borderColor: '#e5e5e5',
+        borderRightWidth: 1,
+        borderBottomWidth: 1,
+        alignItems: 'flex-start',
+        justifyContent: 'center',
     }),
 };
 export const commonStyles = {
@@ -110,18 +163,55 @@ export interface IRenderItemProp {
     list: IHtmlElement[];
     parent: IHtmlElement;
 }
+class H1 extends rx.Component<IRenderNodeParams & { onClick: (url: string) => any }, {}> {
+    render() {
+        return (
+            <rx.View style={styles.h1Root}>
+                <rx.Text style={styles.h1Text}>
+                    {this.props.domToElement(this.props.node.children, this.props.node, styles.h1Text)}
+                </rx.Text>
+                <rx.View style={styles.h1After} />
+            </rx.View>
+        );
+    }
+}
 export function renderNode(onClick: (url: string) => any, props: IRenderNodeParams): JSX.Element {
     if (props.node.type !== 'tag') { return null; }
     switch (props.node.name) {
-        // case 'a':
-        //     return (<A {...prop} />);
+        case 'h1':
+            return (<H1 {...props} onClick={onClick} key={`${props.node.name}_${props.node.children.length}_${props.index}`} />);
         default: return null;
     }
 }
 export function getNodeProp(onClick: (url: string) => any, props: IRenderNodeParams): INodeProp {
     if (props.node.type !== 'tag') { return null; }
     switch (props.node.name) {
+        case 'table':
+            return {
+                style: styles.table,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
+        case 'tbody':
+            return {
+                style: styles.tbody,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
+        case 'tr':
+            return {
+                style: styles.tr,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
+        case 'td':
+            return {
+                style: rx.Styles.combine(styles.td, { width: (props.index + 1) * 262 }) as rx.Types.ViewStyleRuleSet,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
         case 'p':
+            if (props.node.attribs.class === '_links') {
+                return {
+                    style: styles._links,
+                };
+            }
             return {
                 style: styles.p,
                 key: `${props.node.name}_${props.node.children.length}_${props.index}`,
@@ -151,6 +241,7 @@ export function getNodeProp(onClick: (url: string) => any, props: IRenderNodePar
                 return { style: style };
             }
             return { style: styles.code };
-        default: return null;
     }
+
+    return null;
 }

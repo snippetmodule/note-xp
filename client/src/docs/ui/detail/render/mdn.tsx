@@ -14,35 +14,14 @@ const styles = {
         fontSize: 16,
         lineHeight: 27,
         color: '#333',
-        width: 224,
         flex: 1,
     }),
     ul: rx.Styles.createViewStyle({
         marginBottom: 14,
-        width: 224,
         flexDirection: 'column',
     }),
     li: rx.Styles.createViewStyle({
         paddingLeft: 14,
-    }),
-    h1: rx.Styles.createTextStyle({
-        flex: 1,
-        flexDirection: 'row',
-        marginBottom: 21,
-        fontSize: 21,
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        fontWeight: '600',
-        color: '#333',
-        wordBreak: 'break-word',
-        overflow: 'hidden',
-        lineHeight: 27,
-    }),
-    h1After: rx.Styles.createViewStyle({
-        backgroundColor: '#e5e5e5',
-        height: 1,
-        flex: 1,
-        marginLeft: 16,
     }),
     h2: rx.Styles.createTextStyle({
         flex: 1,
@@ -94,6 +73,19 @@ const styles = {
         color: '#333',
         overflow: 'hidden',
         lineHeight: 18,
+        paddingVertical: 0,
+    }),
+    _attribution: rx.Styles.createTextStyle({
+        color: '#666',
+        fontSize: 12,
+        marginVertical: 0,
+        lineHeight: 0,
+        textAlign: 'center',
+    }),
+    _attributionP: rx.Styles.createTextStyle({
+        backgroundColor: '#f4f4f4',
+        borderRadius: 3,
+        paddingVertical: 4,
     }),
 };
 
@@ -104,16 +96,6 @@ export function renderNode(onClick: (url: string) => any, props: IRenderNodePara
 export function getNodeProp(onClick: (url: string) => any, props: IRenderNodeParams): INodeProp {
     if (props.node.type !== 'tag') { return null; }
     switch (props.node.name) {
-        case 'h1':
-            return {
-                style: styles.h1,
-                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
-                // childView: (
-                //     <rx.View
-                //         key={`${props.node.name}_${props.node.children.length}_${props.index}_child`}
-                //         style={styles.h1After} />
-                // ),
-            };
         case 'h2':
             return {
                 style: styles.h2,
@@ -136,6 +118,16 @@ export function getNodeProp(onClick: (url: string) => any, props: IRenderNodePar
                     key: `${props.node.name}_${props.node.children.length}_${props.index}`,
                 };
             }
+        case 'ul':
+            return {
+                style: styles.ul,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
+        case 'li':
+            return {
+                style: styles.li,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
     }
     switch (props.node.attribs.class) {
         case 'note':
@@ -148,34 +140,32 @@ export function getNodeProp(onClick: (url: string) => any, props: IRenderNodePar
                 style: commonStyles.note,
                 key: `${props.node.name}_${props.node.children.length}_${props.index}`,
             };
-        // case 'eval': // warning :first-of-type
-        //     const index = props.list.indexOf(props.node);
-        //     const isFirst = props.list.find((v, i) => {
-        //         if (i >= index) { return true; }
-        //         if (v.attribs.class === props.node.attribs.class) { return false; }
-        //         return false;
-        //     }) && true;
-        //     if (isFirst) {
-        //         return {
-        //             style: commonStyles.note,
-        //             key: `${props.node.name}_${props.node.children.length}_${props.index}`,
-        //         };
-        //     }
-        //     break;
-        // case 'index':
-        //     return {
-        //         style: styles.index,
-        //     };
-        // case 'ul':
-        //     return {
-        //         style: styles.ul,
-        //         key: `${props.node.name}_${props.node.children.length}_${props.index}`,
-        //     };
-        // case 'li':
-        //     return {
-        //         style: styles.li,
-        //         key: `${props.node.name}_${props.node.children.length}_${props.index}`,
-        //     };
+        case 'eval': // warning :first-of-type
+            const index = props.list.indexOf(props.node);
+            const isFirst = props.list.find((v, i) => {
+                if (i >= index) { return true; }
+                if (v.attribs.class === props.node.attribs.class) { return false; }
+                return false;
+            }) && true;
+            if (isFirst) {
+                return {
+                    style: commonStyles.note,
+                    key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+                };
+            }
+            break;
+        case 'index':
+            return {
+                style: styles.index,
+            };
+        case '_attribution':
+            return {
+                style: styles._attribution,
+            };
+        case '_attribution-p':
+            return {
+                style: styles._attributionP,
+            };
     }
     return null;
 }

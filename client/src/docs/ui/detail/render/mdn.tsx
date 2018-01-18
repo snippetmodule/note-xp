@@ -87,10 +87,24 @@ const styles = {
         borderRadius: 3,
         paddingVertical: 4,
     }),
+    _rfcPre: rx.Styles.createTextStyle({
+        flex: 1,
+        fontSize: 13,
+        fontWeight: '400',
+        lineHeight: 22,
+        color: '#333',
+    }),
 };
 
 export function renderNode(onClick: (url: string) => any, props: IRenderNodeParams): JSX.Element {
     if (props.node.type !== 'tag') { return null; }
+    if (props.node.name === 'div' && props.node.attribs.class === '_rfc-pre') {
+        return (
+            <rx.Text style={styles._rfcPre} key={`${props.node.name}_${props.node.children.length}_${props.index}`}>
+                {props.domToElement(props.node.children, props.node, styles._rfcPre)}
+            </rx.Text>
+        );
+    }
     return null;
 }
 export function getNodeProp(onClick: (url: string) => any, props: IRenderNodeParams): INodeProp {
@@ -112,7 +126,7 @@ export function getNodeProp(onClick: (url: string) => any, props: IRenderNodePar
                 key: `${props.node.name}_${props.node.children.length}_${props.index}`,
             };
         case 'span':
-            if (props.parent.attribs.class === 'index') {
+            if (props.parent && props.parent.attribs.class === 'index') {
                 return {
                     style: styles.spanOfIndex,
                     key: `${props.node.name}_${props.node.children.length}_${props.index}`,

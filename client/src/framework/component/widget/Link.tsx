@@ -13,11 +13,11 @@ interface ILinkState {
 export class Link extends rx.Component<ILinkProp, ILinkState> {
     _onHoverStart = (e: SyntheticEvent) => {
         this.setState({ isFocus: true });
-        this.props.onHoverStart && this.props.onHoverStart(e);
+        // this.props.onHoverStart && this.props.onHoverStart(e);
     }
     _onHoverEnd = (e: SyntheticEvent) => {
         this.setState({ isFocus: false });
-        this.props.onHoverEnd && this.props.onHoverEnd(e);
+        // this.props.onHoverEnd && this.props.onHoverEnd(e);
     }
     componentDidCatch(error: Error, errorInfo: ErrorInfo) {
         console.log(`${this.props} ${error.message}    ${errorInfo.componentStack}`);

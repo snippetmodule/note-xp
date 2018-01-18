@@ -1,3 +1,4 @@
+import * as react from 'react';
 import rx = require('reactxp');
 import fm = require('../../../../framework');
 import { IHtmlElement } from '../../../../framework/component/widget/index';
@@ -38,10 +39,10 @@ const styles = {
     link: rx.Styles.createLinkStyle({
         flexDirection: 'row',
         justifyContent: 'flex-start',
-        alignItems: 'center',
         fontSize: 14,
         color: '#3377c0',
         fontWeight: '400',
+        lineHeight: 23,
         textDecorationLine: 'none',
     }),
     linkFocus: rx.Styles.createLinkStyle({
@@ -55,6 +56,7 @@ const styles = {
     }),
     pre: rx.Styles.createTextStyle({
         flex: 1,
+        alignSelf: 'stretch',
         flexDirection: 'column',
         flexWrap: 'wrap',
         alignItems: 'flex-start',
@@ -84,16 +86,35 @@ const styles = {
         textAlign: 'right',
     }),
     table: rx.Styles.createViewStyle({
-        borderRadius: 3,
-        borderColor: '#d8d8d8',
-        borderWidth: 1,
         marginVertical: 21,
 
+    }),
+    captionOfTable: rx.Styles.createTextStyle({
+        flex: 1,
+        alignSelf: 'center',
+        fontWeight: '400',
+        paddingHorizontal: 10,
+        paddingBottom: 5,
+    }),
+    thead: rx.Styles.createViewStyle({
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        backgroundColor: '#f5f5f5',
+        borderColor: '#d8d8d8',
+        borderTopWidth: 1,
+        borderLeftWidth: 1,
+        borderRightWidth: 1,
+        borderTopLeftRadius: 3,
+        borderTopRightRadius: 3,
     }),
     tbody: rx.Styles.createViewStyle({
         flex: 1,
         flexDirection: 'column',
         alignItems: 'stretch',
+        borderRadius: 3,
+        borderColor: '#d8d8d8',
+        borderWidth: 1,
     }),
     tr: rx.Styles.createViewStyle({
         flex: 1,
@@ -108,6 +129,20 @@ const styles = {
         borderBottomWidth: 1,
         alignItems: 'flex-start',
         justifyContent: 'center',
+    }),
+    dl: rx.Styles.createViewStyle({
+        marginVertical: 5,
+    }),
+    dt: rx.Styles.createTextStyle({
+        fontWeight: '500',
+    }),
+    dd: rx.Styles.createTextStyle({
+        marginVertical: 5,
+        marginHorizontal: 5,
+        paddingLeft: 14,
+        fontSize: 14,
+        fontWeight: '400',
+        lineHeight: 23,
     }),
 };
 export const commonStyles = {
@@ -164,6 +199,9 @@ export interface IRenderItemProp {
     parent: IHtmlElement;
 }
 class H1 extends rx.Component<IRenderNodeParams & { onClick: (url: string) => any }, {}> {
+    componentDidCatch(error: Error, errorInfo: react.ErrorInfo) {
+        console.log(`${error.message},${errorInfo.componentStack}`);
+    }
     render() {
         return (
             <rx.View style={styles.h1Root}>
@@ -175,11 +213,40 @@ class H1 extends rx.Component<IRenderNodeParams & { onClick: (url: string) => an
         );
     }
 }
+class A extends rx.Component<IRenderNodeParams & { onClick: (url: string) => any }, {}> {
+    componentDidCatch(error: Error, errorInfo: react.ErrorInfo) {
+        console.log(`${error.message},${errorInfo.componentStack}`);
+    }
+    render() {
+        const href: string = this.props.node.attribs.href;
+        const isExternalLink = href && (href.startsWith('http:') || href.startsWith('https:'));
+        const isPLinks = this.props.parent && this.props.parent.name === 'p' && this.props.parent.attribs.class === '_links';
+
+        let childView: react.ReactNode = isPLinks ? '  ' : null;
+        if (childView == null && isExternalLink) {
+            childView = (
+                <rx.Image style={styles.linkExternal}
+                    source={require('../../../../../asserts/login/logo.png')} />
+            );
+        }
+        return (
+            <fm.component.widget.Link
+                url={this.props.node.attribs.href}
+                style={[styles.link, this.props.node.attribs.class === '_links-link' ? { paddingHorizontal: 16 } : null]}
+                focusStyle={styles.linkFocus} >
+                {this.props.domToElement(this.props.node.children, this.props.node, styles.link)}
+                {childView}
+            </fm.component.widget.Link>
+        );
+    }
+}
 export function renderNode(onClick: (url: string) => any, props: IRenderNodeParams): JSX.Element {
     if (props.node.type !== 'tag') { return null; }
     switch (props.node.name) {
         case 'h1':
             return (<H1 {...props} onClick={onClick} key={`${props.node.name}_${props.node.children.length}_${props.index}`} />);
+        case 'a':
+            return (<A {...props} onClick={onClick} key={`${props.node.name}_${props.node.children.length}_${props.index}`} />);
         default: return null;
     }
 }
@@ -189,6 +256,11 @@ export function getNodeProp(onClick: (url: string) => any, props: IRenderNodePar
         case 'table':
             return {
                 style: styles.table,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
+        case 'thead':
+            return {
+                style: styles.thead,
                 key: `${props.node.name}_${props.node.children.length}_${props.index}`,
             };
         case 'tbody':
@@ -201,9 +273,32 @@ export function getNodeProp(onClick: (url: string) => any, props: IRenderNodePar
                 style: styles.tr,
                 key: `${props.node.name}_${props.node.children.length}_${props.index}`,
             };
+        case 'th':
         case 'td':
             return {
                 style: rx.Styles.combine(styles.td, { width: (props.index + 1) * 262 }) as rx.Types.ViewStyleRuleSet,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
+        case 'caption':
+            if (props.parent && props.parent.name === 'table') {
+                return {
+                    style: styles.captionOfTable,
+                    key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+                };
+            }
+        case 'dl':
+            return {
+                style: styles.dl,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
+        case 'dt':
+            return {
+                style: styles.dt,
+                key: `${props.node.name}_${props.node.children.length}_${props.index}`,
+            };
+        case 'dd':
+            return {
+                style: styles.dd,
                 key: `${props.node.name}_${props.node.children.length}_${props.index}`,
             };
         case 'p':
@@ -215,20 +310,6 @@ export function getNodeProp(onClick: (url: string) => any, props: IRenderNodePar
             return {
                 style: styles.p,
                 key: `${props.node.name}_${props.node.children.length}_${props.index}`,
-            };
-        case 'a':
-            const href: string = props.node.attribs.href;
-            const isExternalLink = href.startsWith('http:') || href.startsWith('https:');
-            return {
-                key: href + props.index,
-                style: styles.link,
-                onClick: onClick.bind(null, href),
-                childView: isExternalLink ? (
-                    <rx.Image
-                        key={`${props.node.name}_${props.node.children.length}_${props.index}_child`}
-                        style={styles.linkExternal}
-                        source={require('../../../../../asserts/login/logo.png')} />
-                ) : null,
             };
         case 'pre':
             return {
@@ -242,6 +323,5 @@ export function getNodeProp(onClick: (url: string) => any, props: IRenderNodePar
             }
             return { style: styles.code };
     }
-
     return null;
 }

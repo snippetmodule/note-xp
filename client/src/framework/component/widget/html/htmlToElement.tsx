@@ -3,9 +3,9 @@ import * as htmlparser from 'htmlparser2';
 import rx = require('reactxp');
 
 import { FitImage } from '../FitImage';
-import { DeviceUtils } from '../../../utils/index';
+import { DeviceUtils, DimenUtils } from '../../../utils/index';
 import { IHtmlElement, INodeProp, IRenderNodeParams } from './HtmlView';
-import { Link } from '../Link';
+import * as entities from 'entities';
 
 const boldStyle = rx.Styles.createTextStyle({ fontWeight: '500' });
 const italicStyle = rx.Styles.createTextStyle({ fontStyle: 'italic' });
@@ -65,9 +65,12 @@ const Img = (props: { key: number, attribs: any }) => {
         parseInt(props.attribs['height'], 10) ||
         parseInt(props.attribs['data-height'], 10) ||
         0;
-    const imgStyle = {
+    const windowSize = DimenUtils.getWindowSize();
+    const imgStyle: rx.Types.ImageStyle = {
         width,
         height,
+        maxWidth: windowSize.width,
+        maxHeight: windowSize.height,
     };
     return <FitImage source={props.attribs.src} style={imgStyle} />;
 };
@@ -79,22 +82,21 @@ class HTMLComponent extends rx.Component<INodeProp & IRenderNodeParams, {}> {
         switch (this.props.node.name) {
             case 'img':
                 return <Img key={this.props.index} attribs={this.props.node.attribs} />;
-            case 'a':
+            case 'br':
                 return (
-                    <Link url={this.props.node.attribs.href}
-                        {...this.props}
-                        key={`${this.props.node.name} _${this.props.node.children.length} _${this.props.index}`}
-                        focusStyle={{ textDecorationLine: 'underline' }} >
-                        {this.props.domToElement(this.props.node.children, this.props.node, this.props.style)}
-                        {this.props.childView}
-                    </ Link>
+                    <rx.Text>
+                        {'\n'}
+                    </rx.Text>
                 );
             case 'div':
             case 'ul':
             case 'table':
             case 'tbody':
+            case 'thead':
             case 'tr':
+            case 'th':
             case 'td':
+            case 'dl':
                 return (
                     <rx.View style={this.props.style}>
                         {this.props.domToElement(this.props.node.children, this.props.node, this.props.style)}
@@ -139,14 +141,14 @@ export function htmlToElement(rawHtml: string, customOpts: IProp = defaultOpts, 
             }
             if (node.type === 'text') {
                 if (node.data === ' ' || node.data === '\n') { return null; }
-                return node.data;
+                return entities.decodeHTML(node.data);
             }
             let nodeProps: INodeProp = customOpts.getNodeProp && customOpts.getNodeProp(params);
             const style: rx.Types.ViewStyle = !node.parent ? baseStyles[node.name] : null;
             return (
                 <HTMLComponent
                     {...nodeProps}
-                    key={`${node.name} _${node.children.length} _${index}`}
+                    key={`${node.name}_${node.children.length}_${index}`}
                     node={node}
                     parent={parent}
                     index={index}

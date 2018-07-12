@@ -57,6 +57,12 @@ export class DocList extends rx.Component<IProp, IState> {
         //     history.push({ pathname: stateItem.data.pathname });
         // }
     }
+    onSelectedPath(pathname: string) {
+        if (this.state.listItems[this.state.slectedIndex].data.data.pathname === pathname) { return; }
+        if (this.mDocListState.setSelectedIndexByUrlPath(pathname)) {
+            this.generalList(false);
+        }
+    }
     private generalList = (force: boolean, clickIndex: number = this.state ? this.state.slectedIndex : -1) => {
         if (!this.props.docs) { return; }
         this.mDocListState = new DocListState(this.props.docs, force, clickIndex);

@@ -37,6 +37,7 @@ export class SearchComp extends rx.Component<IProp, IState> {
     private mSearchInput: SearchInput;
     private mDocDetail: DocDetail;
     private mDocList: DocList;
+    private mSearchResultList: SearchResultList;
 
     _enableDoc = (selectedPath: string, docslug: string) => {
         this.mSearchInput.setState({ searchKey: null });
@@ -53,6 +54,8 @@ export class SearchComp extends rx.Component<IProp, IState> {
     _gotoSelectedPath = (pathname: string) => {
         this.mSearchInput.setState({ searchKey: '', isFocus: false });
         this.mDocDetail.setState({ pathname: pathname });
+        this.mDocList && this.mDocList.onSelectedPath(pathname);
+        this.mSearchResultList && this.mSearchResultList.onSelectedPath(pathname);
         if (DeviceUtils.isWeb) {
             if (!pathname || pathname === 'disable') {
                 document.title = 'Home';
@@ -86,6 +89,7 @@ export class SearchComp extends rx.Component<IProp, IState> {
                     {
                         this.state && this.state.searchResult && this.state.searchResult.length > 0
                             ? <SearchResultList
+                                ref={ref => this.mSearchResultList = ref}
                                 enableDoc={this._enableDoc}
                                 disableDoc={this._disableDoc}
                                 gotoDocList={this._gotoSelectedPath}

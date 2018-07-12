@@ -52,6 +52,17 @@ export class SearchResultList extends rx.Component<IProps, IState> {
     componentWillReceiveProps(nextProps: IProps, nextContext: any) {
         this.setState({ result: this.generalList(nextProps.searchResult) });
     }
+    onSelectedPath(pathname: string) {
+        const list: ISearchViewItem[] = this.state.result;
+        list.forEach(v => {
+            if (v.data.pathname === pathname) {
+                v.isSelected = true;
+            } else {
+                v.isSelected = false;
+            }
+        });
+        this.setState({ result: [...list] });
+    }
     render() {
         return (
             <VirtualListView style={styles.root}

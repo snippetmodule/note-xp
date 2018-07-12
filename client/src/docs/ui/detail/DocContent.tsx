@@ -58,6 +58,8 @@ export class DocContent extends rx.Component<IDocContentProp, {}> {
     _onLinkPress = (url: string) => {
         if (url.startsWith('http://') || url.startsWith('https://')) {
             window.open(url);
+        } else if (this.props.pathname.endsWith('index')) {
+            this.props.gotoSelectedPath(this.props.pathname.replace(new RegExp('index' + '$'), url));
         } else {
             let split = this.props.pathname.split('/');
             this.props.gotoSelectedPath(`/${split[1]}/${split[2]}/${url}`);
@@ -107,8 +109,8 @@ export class DocContent extends rx.Component<IDocContentProp, {}> {
             <rx.ScrollView>
                 <fm.component.widget.HtmlView
                     value={htmlContent}
-                    renderNode={renderNode.bind(null, this.props.pathname.split('')[2], this._onLinkPress)}
-                    getNodeProp={getNodeProp.bind(null, this.props.pathname.split('')[2], this._onLinkPress)}
+                    renderNode={renderNode.bind(null, this.props.pathname.split('/')[2], this._onLinkPress)}
+                    getNodeProp={getNodeProp.bind(null, this.props.pathname.split('/')[2], this._onLinkPress)}
                     bullet={''}
                     style={styles.root} />
             </rx.ScrollView>

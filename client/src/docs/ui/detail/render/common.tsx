@@ -153,6 +153,7 @@ export const commonStyles = {
         backgroundColor: '#f8f8dd',
         borderRadius: 3,
         borderColor: '#d3d952',
+        flexDirection: 'row',
         borderWidth: 1,
     }),
     noteGreen: rx.Styles.createViewStyle({
@@ -233,7 +234,8 @@ class A extends rx.Component<IRenderNodeParams & { onClick: (url: string) => any
             <fm.component.widget.Link
                 url={this.props.node.attribs.href}
                 style={[styles.link, this.props.node.attribs.class === '_links-link' ? { paddingHorizontal: 16 } : null]}
-                focusStyle={styles.linkFocus} >
+                focusStyle={styles.linkFocus}
+                onClick={this.props.onClick.bind(null, href)}>
                 {this.props.domToElement(this.props.node.children, this.props.node, styles.link)}
                 {childView}
             </fm.component.widget.Link>

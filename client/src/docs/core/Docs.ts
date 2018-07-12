@@ -165,7 +165,7 @@ class Docs {
     public async fetchDetail(pathname: string): Promise<string> {
         if (!pathname) { return null; }
         let slug = pathname.split('/')[2];
-        if (pathname === `/docs/${slug}/`) {
+        if (pathname === `/docs/${slug}/` || pathname.replace(`/docs/${slug}/`, '').startsWith('#')) {
             return load<string>(`${config.docs_host}/${slug}/index.html`);
         }
         if (pathname.includes('#')) {

@@ -1,4 +1,4 @@
-package com.example.note
+package com.example.client
 
 import android.os.Bundle
 

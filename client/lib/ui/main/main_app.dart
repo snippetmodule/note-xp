@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:client/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:client/home/home.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:client/bloc/locale/bloc.dart';
+import 'package:client/config/application.dart';
 
 class MainApp extends StatelessWidget {
   @override
@@ -13,19 +13,18 @@ class MainApp extends StatelessWidget {
         builder: (BuildContext context, LocaleState state) {
           print("MainApp:${state.locale}");
           return MaterialApp(
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            localizationsDelegates: [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            localeListResolutionCallback:
-                S.delegate.listResolution(fallback: state.locale),
-            home: MyHomePage(),
-          );
+              theme: ThemeData(
+                primarySwatch: Colors.blue,
+              ),
+              onGenerateRoute: Application.router.generator,
+              localizationsDelegates: [
+                S.delegate,
+                GlobalMaterialLocalizations.delegate,
+                GlobalWidgetsLocalizations.delegate,
+              ],
+              supportedLocales: S.delegate.supportedLocales,
+              localeListResolutionCallback:
+                  S.delegate.listResolution(fallback: state.locale));
         });
   }
 }

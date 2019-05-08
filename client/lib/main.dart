@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:client/main/main_app.dart';
+import 'package:client/ui/main/main_app.dart';
 import 'package:client/bloc/delegate.dart';
 import 'package:client/bloc/locale/bloc.dart';
+import 'package:client/config/application.dart';
 
 void main() {
   BlocSupervisor().delegate = AppBlocDelegate();
@@ -11,7 +12,9 @@ void main() {
 }
 
 class App extends StatelessWidget {
-  const App({Key key}) : super(key: key);
+  App() : super() {
+    Application.init();
+  }
 
   @override
   Widget build(BuildContext context) {

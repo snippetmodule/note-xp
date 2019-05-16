@@ -11,20 +11,24 @@ class MainApp extends StatelessWidget {
     return BlocBuilder<LocaleEvent, LocaleState>(
         bloc: BlocProvider.of<LocaleBloc>(context),
         builder: (BuildContext context, LocaleState state) {
-          print("MainApp:${state.locale}");
+          if (state is InitialLocaleState) {
+            return Container();
+          }
           return MaterialApp(
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-              ),
-              onGenerateRoute: Application.router.generator,
-              localizationsDelegates: [
-                S.delegate,
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-              ],
-              supportedLocales: S.delegate.supportedLocales,
-              localeListResolutionCallback:
-                  S.delegate.listResolution(fallback: state.locale));
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            onGenerateRoute: Application.router.generator,
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            localeListResolutionCallback:
+                S.delegate.listResolution(fallback: state.locale),
+            locale: state.locale,
+          );
         });
   }
 }

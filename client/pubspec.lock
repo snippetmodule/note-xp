@@ -50,6 +50,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.3"
+  fimber:
+    dependency: "direct main"
+    description:
+      name: fimber
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   fluro:
     dependency: "direct main"
     description:
@@ -69,6 +76,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.11.1"
+  flutter_fimber:
+    dependency: "direct main"
+    description:
+      name: flutter_fimber
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.2.0"
   flutter_localizations:
     dependency: "direct main"
     description: flutter
@@ -80,7 +94,7 @@ packages:
     source: sdk
     version: "0.0.0"
   intl:
-    dependency: transitive
+    dependency: "direct main"
     description:
       name: intl
       url: "https://pub.flutter-io.cn"

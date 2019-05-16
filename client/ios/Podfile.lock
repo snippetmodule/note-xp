@@ -1,5 +1,7 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_fimber (0.0.1):
+    - Flutter
   - MMKV (1.0.18)
   - mmkv_flutter (0.0.1):
     - Flutter
@@ -7,6 +9,7 @@ PODS:
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
+  - flutter_fimber (from `.symlinks/plugins/flutter_fimber/ios`)
   - mmkv_flutter (from `.symlinks/plugins/mmkv_flutter/ios`)
 
 SPEC REPOS:
@@ -16,11 +19,14 @@ SPEC REPOS:
 EXTERNAL SOURCES:
   Flutter:
     :path: ".symlinks/flutter/ios"
+  flutter_fimber:
+    :path: ".symlinks/plugins/flutter_fimber/ios"
   mmkv_flutter:
     :path: ".symlinks/plugins/mmkv_flutter/ios"
 
 SPEC CHECKSUMS:
   Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  flutter_fimber: 4a6b342666fecb329fca23143f4b72c46cdd8022
   MMKV: 2dc8974641213da7ab069f9e94caa0fba7241f14
   mmkv_flutter: 511886651aef2c8e65402030d6517602776e8681
 

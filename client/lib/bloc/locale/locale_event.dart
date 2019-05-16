@@ -7,6 +7,8 @@ abstract class LocaleEvent extends Equatable {
   LocaleEvent([List props = const []]) : super(props);
 }
 
+class InitLocaleEvent extends LocaleEvent {}
+
 class ChangeLocaleEvent extends LocaleEvent {
   final Locale locale;
 

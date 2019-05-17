@@ -6,7 +6,7 @@ class Mmkv {
     var mmkv = await MmkvFlutter.getInstance();
     var config = await mmkv.getString("locale");
     if (config.isEmpty) {
-      return Locale("en", "");
+      return Locale("zh", "CN");
     }
     var splits = config.split("_");
     return Locale(splits[0], splits[1]);

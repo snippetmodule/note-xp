@@ -1,6 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
-import 'package:client/ui/home/home.dart';
+import 'package:client/ui/main/main_screen.dart';
 
 class Routes {
   static String root = "/";
@@ -17,7 +17,7 @@ class Routes {
 
     router.define(root, handler: Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return MyHomePage();
+      return MainScreen();
     }));
 //    router.define(demoSimple, handler: demoRouteHandler);
 //    router.define(demoSimpleFixedTrans,

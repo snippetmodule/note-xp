@@ -1,3 +1,7 @@
 {
-  "appName": "Note"
+  "appName": "Note",
+  "main_tab_home": "Home",
+  "main_tab_list": "List",
+  "main_tab_personal": "Personal",
+  "main_tab_more": "More"
 }

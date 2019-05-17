@@ -20,36 +20,37 @@ class _App extends StatelessWidget {
   _App() : super() {
     Application.init();
     localBloc.dispatch(InitLocaleEvent());
-    
+
     _logger.d("Application init");
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocProviderTree(
-      blocProviders: [BlocProvider<LocaleBloc>(bloc: localBloc)],
-      child: BlocBuilder<LocaleEvent, LocaleState>(
-        bloc: localBloc,
-        builder: (BuildContext context, LocaleState state) {
-          if (state is InitialLocaleState) {
-            return Container();
-          }
-          return MaterialApp(
-            theme: ThemeData(
-              primarySwatch: Colors.blue,
-            ),
-            onGenerateRoute: Application.router.generator,
-            localizationsDelegates: [
-              S.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-            ],
-            supportedLocales: S.delegate.supportedLocales,
-            localeListResolutionCallback:
-                S.delegate.listResolution(fallback: state.locale),
-            locale: state.locale,
-          );
-        })
-    );
+        blocProviders: [BlocProvider<LocaleBloc>(bloc: localBloc)],
+        child: BlocBuilder<LocaleEvent, LocaleState>(
+            bloc: localBloc,
+            builder: (BuildContext context, LocaleState state) {
+              if (state is InitLocaleState) {
+                return Container();
+              }
+              if (state is ChangedLocaleState) {
+                return MaterialApp(
+                  theme: ThemeData(
+                    primarySwatch: Colors.orange,
+                  ),
+                  onGenerateRoute: Application.router.generator,
+                  localizationsDelegates: [
+                    S.delegate,
+                    GlobalMaterialLocalizations.delegate,
+                    GlobalWidgetsLocalizations.delegate,
+                  ],
+                  supportedLocales: S.delegate.supportedLocales,
+                  localeListResolutionCallback:
+                      S.delegate.listResolution(fallback: state.locale),
+                  locale: state.locale,
+                );
+              }
+            }));
   }
 }

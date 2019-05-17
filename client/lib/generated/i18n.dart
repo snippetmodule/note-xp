@@ -20,6 +20,10 @@ class S implements WidgetsLocalizations {
   TextDirection get textDirection => TextDirection.ltr;
 
   String get appName => "Note";
+  String get main_tab_home => "Home";
+  String get main_tab_list => "List";
+  String get main_tab_more => "More";
+  String get main_tab_personal => "Personal";
 }
 
 class $zh_HK extends S {
@@ -44,6 +48,14 @@ class $zh_CN extends S {
 
   @override
   String get appName => "笔记";
+  @override
+  String get main_tab_personal => "个人中心";
+  @override
+  String get main_tab_list => "拍卖大厅";
+  @override
+  String get main_tab_home => "首页";
+  @override
+  String get main_tab_more => "更多";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {

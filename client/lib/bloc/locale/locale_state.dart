@@ -3,12 +3,15 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 @immutable
-class LocaleState extends Equatable {
+abstract class LocaleState extends Equatable {
+  LocaleState([List props = const []]) : super(props);
+}
+
+@immutable
+class ChangedLocaleState extends LocaleState {
   final Locale locale;
 
-  LocaleState({this.locale}) : super([locale]);
+  ChangedLocaleState({this.locale}) : super([locale]);
 }
 
-class InitialLocaleState extends LocaleState {
-  InitialLocaleState() : super(locale: Locale("en", ""));
-}
+class InitLocaleState extends LocaleState {}

@@ -6,19 +6,19 @@ import 'package:flutter/material.dart';
 
 class LocaleBloc extends Bloc<LocaleEvent, LocaleState> {
   @override
-  LocaleState get initialState => InitialLocaleState();
+  LocaleState get initialState => InitLocaleState();
 
   @override
   Stream<LocaleState> mapEventToState(LocaleEvent event) async* {
     if (event is InitLocaleEvent) {
       Locale locale = await Mmkv.getLocale();
-      yield LocaleState(locale: locale);
+      yield ChangedLocaleState(locale: locale);
       return;
     }
     if (event is ChangeLocaleEvent) {
       Mmkv.setLocale(event.locale);
       Locale locale = await Mmkv.getLocale();
-      yield LocaleState(locale: locale);
+      yield ChangedLocaleState(locale: locale);
       return;
     }
   }

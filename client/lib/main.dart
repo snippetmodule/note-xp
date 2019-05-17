@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:client/ui/main/main_app.dart';
 import 'package:client/bloc/delegate.dart';
 import 'package:client/bloc/locale/bloc.dart';
 import 'package:client/config/application.dart';
 import 'package:client/utils/log.dart';
+import 'package:client/generated/i18n.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
   BlocSupervisor().delegate = AppBlocDelegate();
@@ -13,8 +14,9 @@ void main() {
 }
 
 class _App extends StatelessWidget {
-  Logger _logger = Logger("App");
-  var localBloc = LocaleBloc();
+  final Logger _logger = Logger("App");
+  final localBloc = LocaleBloc();
+
   _App() : super() {
     Application.init();
     localBloc.dispatch(InitLocaleEvent());
@@ -26,7 +28,28 @@ class _App extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocProviderTree(
       blocProviders: [BlocProvider<LocaleBloc>(bloc: localBloc)],
-      child: MainApp(),
+      child: BlocBuilder<LocaleEvent, LocaleState>(
+        bloc: localBloc,
+        builder: (BuildContext context, LocaleState state) {
+          if (state is InitialLocaleState) {
+            return Container();
+          }
+          return MaterialApp(
+            theme: ThemeData(
+              primarySwatch: Colors.blue,
+            ),
+            onGenerateRoute: Application.router.generator,
+            localizationsDelegates: [
+              S.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+            ],
+            supportedLocales: S.delegate.supportedLocales,
+            localeListResolutionCallback:
+                S.delegate.listResolution(fallback: state.locale),
+            locale: state.locale,
+          );
+        })
     );
   }
 }

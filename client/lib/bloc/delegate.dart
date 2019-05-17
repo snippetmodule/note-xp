@@ -2,12 +2,12 @@ import 'package:bloc/bloc.dart';
 import 'package:client/utils/log.dart';
 
 class AppBlocDelegate extends BlocDelegate {
-  Logger _logger = Logger("AppBlocDelegate");
+  final Logger _logger = Logger("AppBlocDelegate");
 
   @override
   void onTransition(Transition transition) {
     super.onTransition(transition);
-    _logger.d("onTransition ${transition.currentState.runtimeType}:${transition.currentState} ${transition.event.runtimeType}:${transition.event} ${transition.nextState.runtimeType}:${transition.nextState}");
+    _logger.d("onTransition ${transition.runtimeType}\n\t${transition.currentState.runtimeType}:${transition.currentState}\t${transition.event.runtimeType}:${transition.event}\t${transition.nextState.runtimeType}:${transition.nextState}");
   }
 
   @override

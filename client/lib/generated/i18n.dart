@@ -24,6 +24,12 @@ class S implements WidgetsLocalizations {
   String get main_tab_list => "List";
   String get main_tab_more => "More";
   String get main_tab_personal => "Personal";
+  String get more_menu_abort => "About";
+  String get more_menu_help => "Help";
+  String get more_menu_help_call => "Help call";
+  String get more_menu_logout => "Logout";
+  String get more_menu_member_notice => "Member notice";
+  String get more_menu_modify_pass => "Modify password";
 }
 
 class $zh_HK extends S {
@@ -47,15 +53,27 @@ class $zh_CN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
+  String get more_menu_logout => "退出登录";
+  @override
+  String get more_menu_help_call => "拨打客服电话";
+  @override
   String get appName => "笔记";
   @override
   String get main_tab_personal => "个人中心";
+  @override
+  String get more_menu_help => "使用帮助";
   @override
   String get main_tab_list => "拍卖大厅";
   @override
   String get main_tab_home => "首页";
   @override
   String get main_tab_more => "更多";
+  @override
+  String get more_menu_member_notice => "会员须知";
+  @override
+  String get more_menu_abort => "关于我们";
+  @override
+  String get more_menu_modify_pass => "修改密码";
 }
 
 class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {

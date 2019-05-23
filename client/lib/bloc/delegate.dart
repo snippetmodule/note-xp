@@ -7,7 +7,7 @@ class AppBlocDelegate extends BlocDelegate {
   @override
   void onTransition(Transition transition) {
     super.onTransition(transition);
-    _logger.d("onTransition ${transition.runtimeType}\n\t${transition.currentState.runtimeType}:${transition.currentState}\t${transition.event.runtimeType}:${transition.event}\t${transition.nextState.runtimeType}:${transition.nextState}");
+    _logger.d("onTransition ${transition.runtimeType}\n\tcurrentState:${transition.currentState}\tevent:${transition.event}\tnextState:${transition.nextState}");
   }
 
   @override

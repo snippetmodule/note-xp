@@ -1,3 +1,5 @@
+import 'package:client/bloc/auth/auth_bloc.dart';
+import 'package:client/bloc/auth/auth_event.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -15,11 +17,14 @@ void main() {
 
 class _App extends StatelessWidget {
   final Logger _logger = Logger("App");
+
   final localBloc = LocaleBloc();
+  final authBloc = AuthBloc();
 
   _App() : super() {
     Application.init();
     localBloc.dispatch(InitLocaleEvent());
+    authBloc.dispatch(InitAuthEvent());
 
     _logger.d("Application init");
   }
@@ -27,7 +32,10 @@ class _App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProviderTree(
-        blocProviders: [BlocProvider<LocaleBloc>(bloc: localBloc)],
+        blocProviders: [
+          BlocProvider<LocaleBloc>(bloc: localBloc),
+          BlocProvider<AuthBloc>(bloc: authBloc)
+        ],
         child: BlocBuilder<LocaleEvent, LocaleState>(
             bloc: localBloc,
             builder: (BuildContext context, LocaleState state) {

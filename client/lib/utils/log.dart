@@ -70,7 +70,7 @@ class Logger {
 }
 
 class Log extends Logger {
-  static Logger _instance = Log._();
+  static Log _instance = Log._();
 
   Log._() : super._("Log");
 

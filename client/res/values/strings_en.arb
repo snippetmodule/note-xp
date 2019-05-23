@@ -3,5 +3,11 @@
   "main_tab_home": "Home",
   "main_tab_list": "List",
   "main_tab_personal": "Personal",
-  "main_tab_more": "More"
+  "main_tab_more": "More",
+  "more_menu_abort": "About",
+  "more_menu_logout": "Logout",
+  "more_menu_modify_pass": "Modify password",
+  "more_menu_member_notice": "Member notice",
+  "more_menu_help": "Help",
+  "more_menu_help_call": "Help call"
 }

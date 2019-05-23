@@ -162,6 +162,13 @@ packages:
       url: "https://pub.flutter-io.cn"
     source: hosted
     version: "0.2.0"
+  firebase_crashlytics:
+    dependency: "direct main"
+    description:
+      name: firebase_crashlytics
+      url: "https://pub.flutter-io.cn"
+    source: hosted
+    version: "0.0.4+3"
   fixnum:
     dependency: transitive
     description:

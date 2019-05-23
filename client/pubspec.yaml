@@ -19,6 +19,9 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+
+  firebase_crashlytics: ^0.0.4+3
+
   flutter_localizations:
     sdk: flutter
 

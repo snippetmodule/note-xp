@@ -9,9 +9,17 @@ import 'package:client/config/application.dart';
 import 'package:client/utils/log.dart';
 import 'package:client/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:client/utils/build_mode.dart';
 
 void main() {
   BlocSupervisor().delegate = AppBlocDelegate();
+
+  // firebase_crashlytics init
+  Crashlytics.instance.enableInDevMode = false; //isDebug;
+  FlutterError.onError = (FlutterErrorDetails details) {
+    Crashlytics.instance.onError(details);
+  };
   runApp(_App());
 }
 

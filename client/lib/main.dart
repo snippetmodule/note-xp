@@ -10,7 +10,7 @@ import 'package:client/utils/log.dart';
 import 'package:client/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:client/utils/build_mode.dart';
+import 'package:client/utils/event_log.dart';
 
 void main() {
   BlocSupervisor().delegate = AppBlocDelegate();
@@ -20,6 +20,9 @@ void main() {
   FlutterError.onError = (FlutterErrorDetails details) {
     Crashlytics.instance.onError(details);
   };
+  // Analytics
+  EventLog.init();
+
   runApp(_App());
 }
 
@@ -65,6 +68,7 @@ class _App extends StatelessWidget {
                   localeListResolutionCallback:
                       S.delegate.listResolution(fallback: state.locale),
                   locale: state.locale,
+                  navigatorObservers: [EventLog.analyticsObserver],
                 );
               }
             }));

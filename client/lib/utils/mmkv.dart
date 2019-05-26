@@ -2,9 +2,25 @@ import 'package:client/model/auth/account.dart';
 import 'package:mmkv_flutter/mmkv_flutter.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
+import 'dart:core';
 
 class Mmkv {
   Mmkv._();
+
+  static int _firstLaunchTime = 0;
+
+  static Future<int> getInstallTime() async {
+    var mmkv = await MmkvFlutter.getInstance();
+    var now = DateTime.now().millisecondsSinceEpoch;
+    if (_firstLaunchTime == 0) {
+      _firstLaunchTime = await mmkv.getLong("firstLaunchDate");
+    }
+    if (_firstLaunchTime.isNaN) {
+      _firstLaunchTime = now;
+      await mmkv.setLong("firstLaunchDate", _firstLaunchTime);
+    }
+    return ((now - _firstLaunchTime) / 1000).abs().toInt();
+  }
 
   static Future<Locale> getLocale() async {
     var mmkv = await MmkvFlutter.getInstance();

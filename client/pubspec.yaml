@@ -19,8 +19,12 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
+  # Firebase Core
+  firebase_core: ^0.2.5
+  # fabric
   firebase_crashlytics: ^0.0.4+3
+  # analytics
+  firebase_analytics: ^3.0.1
 
   flutter_localizations:
     sdk: flutter
@@ -33,8 +37,8 @@ dependencies:
   mmkv_flutter: 1.0.10
 
   # Log
-  fimber: 0.2.0
-  flutter_fimber: 0.2.0
+  fimber: ^0.2.0
+  flutter_fimber: ^0.2.0
   #json
   json_annotation: ^2.4.0
   # 日期格式化

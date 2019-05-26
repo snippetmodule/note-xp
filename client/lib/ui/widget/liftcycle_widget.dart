@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:client/utils/log.dart';
 
 class LifecycleWidget extends StatefulWidget {
-  final _logger = Logger("LifecycleAppPage");
+  final Logger logger;
 
   final Widget child;
-  final WidgetsBindingObserver liftCycleObserver;
+  final LiftCycleObserver liftCycleObserver;
 
-  LifecycleWidget({@required this.child, this.liftCycleObserver});
+  LifecycleWidget({@required this.child, this.liftCycleObserver, this.logger});
 
   @override
   State<StatefulWidget> createState() {
@@ -21,61 +21,55 @@ class _LifecycleWidgetState extends State<LifecycleWidget>
 
   @override
   void initState() {
-    widget._logger.d("initState");
+    widget.logger?.d("initState");
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     WidgetsBinding.instance.addObserver(widget.liftCycleObserver);
+    widget.liftCycleObserver.didInitState();
   }
 
   @override
   void didChangeDependencies() {
-    widget._logger.d('didChangeDependencies');
+    widget.logger?.d('didChangeDependencies');
     super.didChangeDependencies();
   }
 
   @override
   void didUpdateWidget(LifecycleWidget oldWidget) {
-    widget._logger.d('didUpdateWidget');
+    widget.logger?.d('didUpdateWidget');
     super.didUpdateWidget(oldWidget);
   }
 
   @override
   void deactivate() {
-    widget._logger.d('deactivate');
+    widget.logger?.d('deactivate');
+    widget.liftCycleObserver.didDeactivate();
     super.deactivate();
   }
 
   @override
   void dispose() {
-    widget._logger.d('dispose');
+    widget.logger?.d('dispose');
     WidgetsBinding.instance.removeObserver(this);
     WidgetsBinding.instance.removeObserver(widget.liftCycleObserver);
+    widget.liftCycleObserver.didDispose();
     super.dispose();
   }
 
   @override
   void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.inactive:
-        widget._logger.d('AppLifecycleState.inactive');
-        break;
-      case AppLifecycleState.paused:
-        widget._logger.d('AppLifecycleState.paused');
-        break;
-      case AppLifecycleState.resumed:
-        widget._logger.d('AppLifecycleState.resumed');
-        break;
-      case AppLifecycleState.suspending:
-        widget._logger.d('AppLifecycleState.suspending');
-        break;
-    }
-
+    widget.logger?.d('didChangeAppLifecycleState state：$state');
     super.didChangeAppLifecycleState(state);
   }
 
   @override
   Widget build(BuildContext context) {
-    widget._logger.d('build');
+    widget.logger?.d('build');
     return widget.child;
   }
+}
+class LiftCycleObserver extends WidgetsBindingObserver {
+  void didInitState() { }
+  void didDeactivate() { }
+  void didDispose() { }
 }

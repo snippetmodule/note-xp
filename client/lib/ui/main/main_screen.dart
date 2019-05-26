@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:client/ui/home/home.dart';
+import 'package:client/ui/widget/event_log_widget.dart';
+import 'package:client/utils/event_log.dart';
 
 class MainScreen extends StatelessWidget {
   final MainTabBloc _tabBloc = MainTabBloc();
@@ -30,8 +32,8 @@ class MainScreen extends StatelessWidget {
     _tabBloc.dispatch(MainTabEvent(tab: tabType));
   }
 
-  BottomNavigationBarItem _buildItem(IconData icon, String text,
-      bool isSelected) {
+  BottomNavigationBarItem _buildItem(
+      IconData icon, String text, bool isSelected) {
     return BottomNavigationBarItem(
       icon: Icon(
         icon,
@@ -60,26 +62,18 @@ class MainScreen extends StatelessWidget {
     return null;
   }
 
-  Widget _buildBottomNavigationBar(BuildContext context,
-      TabItemType selectedTab) {
+  Widget _buildBottomNavigationBar(
+      BuildContext context, TabItemType selectedTab) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: [
-        _buildItem(Icons.drive_eta, S
-            .of(context)
-            .main_tab_home,
+        _buildItem(Icons.drive_eta, S.of(context).main_tab_home,
             selectedTab == TabItemType.home),
-        _buildItem(Icons.list, S
-            .of(context)
-            .main_tab_list,
+        _buildItem(Icons.list, S.of(context).main_tab_list,
             selectedTab == TabItemType.list),
-        _buildItem(Icons.account_circle, S
-            .of(context)
-            .main_tab_personal,
+        _buildItem(Icons.account_circle, S.of(context).main_tab_personal,
             selectedTab == TabItemType.personal),
-        _buildItem(Icons.dashboard, S
-            .of(context)
-            .main_tab_more,
+        _buildItem(Icons.dashboard, S.of(context).main_tab_more,
             selectedTab == TabItemType.more),
       ],
       onTap: _onSelectTab,
@@ -88,14 +82,17 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MainTabEvent, MainTabState>(
-      bloc: _tabBloc,
-      builder: (BuildContext context, MainTabState state) {
-        return Scaffold(
-          body: _buildBody(state.tab),
-          bottomNavigationBar: _buildBottomNavigationBar(context, state.tab),
-        );
-      },
+    return EventLogWidget(
+      screenName: EventConstants.EVENT_TAB,
+      child: BlocBuilder<MainTabEvent, MainTabState>(
+          bloc: _tabBloc,
+          builder: (BuildContext context, MainTabState state) {
+            return Scaffold(
+              body: _buildBody(state.tab),
+              bottomNavigationBar:
+                  _buildBottomNavigationBar(context, state.tab),
+            );
+          }),
     );
   }
 }

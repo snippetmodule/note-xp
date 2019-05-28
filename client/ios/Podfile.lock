@@ -73,6 +73,12 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - share (0.5.2):
+    - Flutter
+  - url_launcher (0.0.1):
+    - Flutter
+  - webview_flutter (0.0.1):
+    - Flutter
 
 DEPENDENCIES:
   - Crashlytics
@@ -84,6 +90,9 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_fimber (from `.symlinks/plugins/flutter_fimber/ios`)
   - mmkv_flutter (from `.symlinks/plugins/mmkv_flutter/ios`)
+  - share (from `.symlinks/plugins/share/ios`)
+  - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
+  - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
@@ -111,6 +120,12 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_fimber/ios"
   mmkv_flutter:
     :path: ".symlinks/plugins/mmkv_flutter/ios"
+  share:
+    :path: ".symlinks/plugins/share/ios"
+  url_launcher:
+    :path: ".symlinks/plugins/url_launcher/ios"
+  webview_flutter:
+    :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
   Crashlytics: 5aa8e90dcbf2f34898b4f5a0037787531246cca0
@@ -129,7 +144,10 @@ SPEC CHECKSUMS:
   MMKV: d362c29ab6ad839a16fcdf9e5b454944ecce588b
   mmkv_flutter: 511886651aef2c8e65402030d6517602776e8681
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  share: 7d22fe8baedfe93aefd864bf0b73f29711fbb0a3
+  url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
+  webview_flutter: 1aa7604e6cdb451a9b7ed2c37d5454c0b440246b
 
-PODFILE CHECKSUM: 560529fdf60ef3d2f6c5d67e3ae9275a594c11d8
+PODFILE CHECKSUM: 65d7c3523366748df880566d718202532a1491a9
 
 COCOAPODS: 1.6.1

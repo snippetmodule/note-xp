@@ -5,57 +5,56 @@ import 'package:intl/intl.dart';
 import 'package:flutter/foundation.dart';
 
 class Logger {
-  bool _isDebug = Build.isDebug;
-
-  String tag;
+  final bool isEnable;
+  final String tag;
 
   static Map<String, Logger> _cache = Map<String, Logger>();
 
-  Logger._(this.tag);
+  Logger._(this.tag, {this.isEnable = true});
 
-  factory Logger(String tag) {
+  factory Logger(String tag, {isEnable = true}) {
     if (_cache.isEmpty) {
       Fimber.plantTree(DebugTimeBufferTree());
     }
     if (_cache.containsKey(tag)) {
       return _cache[tag];
     } else {
-      final instance = Logger._(tag);
+      final instance = Logger._(tag, isEnable: isEnable as bool);
       _cache[tag] = instance;
       return instance;
     }
   }
 
   v(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!_isDebug) {
+    if (!isEnable) {
       return;
     }
     _log("V", tag, msg, ex: ex, stacktrace: stacktrace);
   }
 
   d(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!_isDebug) {
+    if (!isEnable) {
       return;
     }
     _log("D", tag, msg, ex: ex, stacktrace: stacktrace);
   }
 
   i(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!_isDebug) {
+    if (!isEnable) {
       return;
     }
     _log("I", tag, msg, ex: ex, stacktrace: stacktrace);
   }
 
   w(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!_isDebug) {
+    if (!isEnable) {
       return;
     }
     _log("W", tag, msg, ex: ex, stacktrace: stacktrace);
   }
 
   e(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!_isDebug) {
+    if (!isEnable) {
       return;
     }
     _log("E", tag, msg, ex: ex, stacktrace: stacktrace);
@@ -74,7 +73,7 @@ class Log extends Logger {
 
   Log._() : super._("Log");
 
-  factory Log() {
+  factory Log.instance() {
     return _instance;
   }
 }

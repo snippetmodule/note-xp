@@ -35,9 +35,6 @@ class LoginedWidget extends StatelessWidget {
     ];
 
     return ListView(
-        children: divideTiles(
-        context: context,
-        tiles: list,
-      ).toList());
+        children: divideTiles(context: context, tiles: list).toList());
   }
 }

@@ -9,5 +9,10 @@
   "more_menu_modify_pass": "修改密码",
   "more_menu_member_notice": "会员须知",
   "more_menu_help": "使用帮助",
-  "more_menu_help_call": "拨打客服电话"
+  "more_menu_help_call": "拨打客服电话",
+  "web_menu_open_by_browser": "Open in Browser",
+  "reload": "刷新",
+  "share": "分享",
+  "copy": "复制链接",
+  "copy_success": "已复制到剪贴板"
 }

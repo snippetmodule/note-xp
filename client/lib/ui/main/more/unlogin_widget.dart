@@ -1,17 +1,20 @@
-import 'package:client/ui/widget/custom_app_bar.dart';
-import 'package:flutter/material.dart';
 import 'package:client/generated/i18n.dart';
 import 'package:client/ui/widget/listview_extension.dart';
+import 'package:client/utils/router_center.dart';
+import 'package:flutter/material.dart';
 
 class UnloginWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Widget> list = [
       ListTile(
-        leading: Icon(Icons.help),
-        title: Text(S.of(context).more_menu_help),
-        trailing: Icon(Icons.arrow_forward_ios),
-      ),
+          leading: Icon(Icons.help),
+          title: Text(S.of(context).more_menu_help),
+          trailing: Icon(Icons.arrow_forward_ios),
+          onTap: () {
+            RouterCenter.openWebView(context, 'https://www.google.com/',
+                title: S.of(context).more_menu_help);
+          }),
       ListTile(
         leading: Icon(Icons.help),
         title: Text(S.of(context).more_menu_help_call),
@@ -24,10 +27,7 @@ class UnloginWidget extends StatelessWidget {
       )
     ];
 
-    return  ListView(
-        children: divideTiles(
-        context: context,
-        tiles: list,
-      ).toList());
+    return ListView(
+        children: divideTiles(context: context, tiles: list).toList());
   }
 }

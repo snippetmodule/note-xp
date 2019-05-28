@@ -5,39 +5,40 @@ import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:client/bloc/delegate.dart';
 import 'package:client/bloc/locale/bloc.dart';
-import 'package:client/config/application.dart';
 import 'package:client/utils/log.dart';
 import 'package:client/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
 import 'package:client/utils/event_log.dart';
+import 'package:client/utils/router_center.dart';
 
 void main() {
-  BlocSupervisor().delegate = AppBlocDelegate();
+  final Logger _logger = Logger("application");
 
+  BlocSupervisor().delegate = AppBlocDelegate();
   // firebase_crashlytics init
   Crashlytics.instance.enableInDevMode = false; //isDebug;
   FlutterError.onError = (FlutterErrorDetails details) {
+    _logger.e("FlutterError", ex: details.exception, stacktrace: details.stack);
     Crashlytics.instance.onError(details);
   };
   // Analytics
   EventLog.init();
 
   runApp(_App());
+
+  _logger.d("init");
 }
 
 class _App extends StatelessWidget {
-  final Logger _logger = Logger("App");
+  final routeFactory = RouterCenter.init();
 
   final localBloc = LocaleBloc();
   final authBloc = AuthBloc();
 
   _App() : super() {
-    Application.init();
     localBloc.dispatch(InitLocaleEvent());
     authBloc.dispatch(InitAuthEvent());
-
-    _logger.d("Application init");
   }
 
   @override
@@ -56,9 +57,13 @@ class _App extends StatelessWidget {
               if (state is ChangedLocaleState) {
                 return MaterialApp(
                   theme: ThemeData(
-                    primarySwatch: Colors.orange,
-                  ),
-                  onGenerateRoute: Application.router.generator,
+                      primarySwatch: Colors.orange,
+                      pageTransitionsTheme: PageTransitionsTheme(builders: {
+                        TargetPlatform.android:
+                            CupertinoPageTransitionsBuilder(),
+                        TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+                      })),
+                  onGenerateRoute: routeFactory,
                   localizationsDelegates: [
                     S.delegate,
                     GlobalMaterialLocalizations.delegate,

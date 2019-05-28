@@ -9,5 +9,10 @@
   "more_menu_modify_pass": "Modify password",
   "more_menu_member_notice": "Member notice",
   "more_menu_help": "Help",
-  "more_menu_help_call": "Help call"
+  "more_menu_help_call": "Help call",
+  "web_menu_open_by_browser": "Open in Browser",
+  "reload": "reload",
+  "share": "Share",
+  "copy": "Copy",
+  "copy_success": "Copied to clipboard"
 }

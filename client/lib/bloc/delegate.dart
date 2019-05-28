@@ -2,7 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:client/utils/log.dart';
 
 class AppBlocDelegate extends BlocDelegate {
-  final Logger _logger = Logger("AppBlocDelegate");
+  final Logger _logger = Logger("BlocDelegate");
 
   @override
   void onTransition(Transition transition) {

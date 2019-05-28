@@ -20,6 +20,8 @@ class S implements WidgetsLocalizations {
   TextDirection get textDirection => TextDirection.ltr;
 
   String get appName => "Note";
+  String get copy => "Copy";
+  String get copy_success => "Copied to clipboard";
   String get main_tab_home => "Home";
   String get main_tab_list => "List";
   String get main_tab_more => "More";
@@ -30,6 +32,9 @@ class S implements WidgetsLocalizations {
   String get more_menu_logout => "Logout";
   String get more_menu_member_notice => "Member notice";
   String get more_menu_modify_pass => "Modify password";
+  String get reload => "reload";
+  String get share => "Share";
+  String get web_menu_open_by_browser => "Open in Browser";
 }
 
 class $zh_HK extends S {
@@ -53,15 +58,13 @@ class $zh_CN extends S {
   TextDirection get textDirection => TextDirection.ltr;
 
   @override
-  String get more_menu_logout => "退出登录";
-  @override
-  String get more_menu_help_call => "拨打客服电话";
+  String get copy_success => "已复制到剪贴板";
   @override
   String get appName => "笔记";
   @override
   String get main_tab_personal => "个人中心";
   @override
-  String get more_menu_help => "使用帮助";
+  String get web_menu_open_by_browser => "Open in Browser";
   @override
   String get main_tab_list => "拍卖大厅";
   @override
@@ -70,6 +73,18 @@ class $zh_CN extends S {
   String get main_tab_more => "更多";
   @override
   String get more_menu_member_notice => "会员须知";
+  @override
+  String get more_menu_logout => "退出登录";
+  @override
+  String get reload => "刷新";
+  @override
+  String get more_menu_help_call => "拨打客服电话";
+  @override
+  String get more_menu_help => "使用帮助";
+  @override
+  String get share => "分享";
+  @override
+  String get copy => "复制链接";
   @override
   String get more_menu_abort => "关于我们";
   @override

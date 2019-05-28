@@ -11,5 +11,5 @@ BuildMode buildMode = (() {
   }());
   return result;
 }());
-bool isStrictDebug = buildMode == BuildMode.debug;
-bool isDebug = buildMode == BuildMode.debug || buildMode == BuildMode.profile;
+final bool isStrictDebug = buildMode == BuildMode.debug;
+final bool isDebug = buildMode == BuildMode.debug || buildMode == BuildMode.profile;

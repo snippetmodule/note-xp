@@ -1,14 +1,11 @@
-import 'package:client/bloc/locale/bloc.dart';
 import 'package:client/bloc/main/main_tab/bloc.dart';
-import 'package:client/config/application.dart';
 import 'package:client/generated/i18n.dart';
-import 'package:client/ui/main/more/more_widget.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:client/ui/home/home.dart';
+import 'package:client/ui/main/more/more_widget.dart';
 import 'package:client/ui/widget/event_log_widget.dart';
 import 'package:client/utils/event_log.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MainScreen extends StatelessWidget {
   final MainTabBloc _tabBloc = MainTabBloc();

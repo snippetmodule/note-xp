@@ -20,7 +20,7 @@ class EventLogWidget extends StatelessWidget {
         child: child,
         liftCycleObserver: EventLogObserver(
             screenName: this.screenName, isReport: this.isReport),
-        logger: Logger(screenName));
+        logger: Logger(screenName,isEnable: false));
   }
 }
 

@@ -8,22 +8,23 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
 import 'package:client/utils/log.dart';
 
-class WebViewScreen extends StatefulWidget {
-  final _logger = Logger("WebViewScreen");
+class WebViewPage extends StatefulWidget {
+  final _logger = Logger("WebViewPage");
 
   final String url;
   final String title;
   final bool isShowMenu;
 
-  WebViewScreen(this.url, {this.title, this.isShowMenu = true});
+  WebViewPage(this.url, {this.title, this.isShowMenu = true});
 
   @override
-  _WebViewScreenState createState() => _WebViewScreenState();
+  _WebViewPageState createState() => _WebViewPageState();
 }
 
-class _WebViewScreenState extends State<WebViewScreen> {
+class _WebViewPageState extends State<WebViewPage> {
   final Completer<WebViewController> _controller =
       Completer<WebViewController>();
+  int _stackToView = 1;
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +43,7 @@ class _WebViewScreenState extends State<WebViewScreen> {
             ),
       // We're using a Builder here so we have a context that is below the Scaffold
       // to allow calling Scaffold.of(context) so we can show a snackbar.
-      body: Stack(children: <Widget>[
+      body: IndexedStack(index: _stackToView, children: [
         WebView(
           initialUrl: widget.url,
           javascriptMode: JavascriptMode.unrestricted,
@@ -54,28 +55,37 @@ class _WebViewScreenState extends State<WebViewScreen> {
           javascriptChannels: <JavascriptChannel>[
             _toasterJavascriptChannel(context),
           ].toSet(),
-//          navigationDelegate: (NavigationRequest request) {
+          navigationDelegate: (NavigationRequest request) {
 //            if (request.url.startsWith('https://www.youtube.com/')) {
 //              print('blocking navigation to $request}');
 //              return NavigationDecision.prevent;
 //            }
-//            print('allowing navigation to $request');
-//            return NavigationDecision.navigate;
-//          },
+            print('allowing navigation to $request');
+            widget._logger.d('allowing navigation to $request');
+//            if (request.isForMainFrame) {
+//              setState(() {
+//                _stackToView = 1;
+//              });
+//            } else {
+//              setState(() {
+//                _stackToView = 0;
+//              });
+//            }
+            return NavigationDecision.navigate;
+          },
           onPageFinished: (String url) {
             widget._logger.d('Page finished loading: $url');
+            setState(() {
+              _stackToView = 0;
+            });
           },
         ),
-        FutureBuilder<WebViewController>(
-          future: _controller.future,
-          builder: (BuildContext context,
-              AsyncSnapshot<WebViewController> snapshot) {
-            if (snapshot.connectionState == ConnectionState.done) {
-              return Container();
-            }
-            return Center(child: CircularProgressIndicator());
-          },
-        )
+        Container(
+          color: Colors.white,
+          child: Center(
+            child: CircularProgressIndicator(),
+          ),
+        ),
       ]),
     );
   }

@@ -33,7 +33,7 @@ class RouterCenter {
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       String url = params["url"]?.first;
       String title = params["title"]?.first;
-      return WebViewScreen(url, title: title);
+      return WebViewPage(url, title: title);
     }));
     _router.define(_about, handler: Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {

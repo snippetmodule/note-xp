@@ -67,6 +67,7 @@ class EventConstants {
 
   static final EVENT_TAB = "main_tab";
   static final EVENT_TAB_MORE = "main_tab_more";
+  static final EVENT_ABOUT = "about";
 }
 
 class CategoryConstants {

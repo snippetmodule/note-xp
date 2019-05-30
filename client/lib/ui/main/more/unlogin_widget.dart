@@ -2,6 +2,7 @@ import 'package:client/generated/i18n.dart';
 import 'package:client/ui/widget/listview_extension.dart';
 import 'package:client/utils/router_center.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class UnloginWidget extends StatelessWidget {
   @override
@@ -11,19 +12,29 @@ class UnloginWidget extends StatelessWidget {
           leading: Icon(Icons.help),
           title: Text(S.of(context).more_menu_help),
           trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () {
-            RouterCenter.openWebView(context, 'https://www.google.com/',
-                title: S.of(context).more_menu_help);
-          }),
+          onTap: () => RouterCenter.openWebViewScreen(
+              context, 'https://www.google.com/',
+              title: S.of(context).more_menu_help)),
       ListTile(
         leading: Icon(Icons.help),
-        title: Text(S.of(context).more_menu_help_call),
+        title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(S.of(context).more_menu_help_call),
+            Text(
+              "400-002-2820",
+              style: TextStyle(color: Colors.redAccent),
+            ),
+          ],
+        ),
         trailing: Icon(Icons.arrow_forward_ios),
+        onTap: () async => {await launch('tel:400-002-2820')},
       ),
       ListTile(
         leading: Icon(Icons.help),
         title: Text(S.of(context).more_menu_abort),
         trailing: Icon(Icons.arrow_forward_ios),
+        onTap: () => RouterCenter.openAboutScreen(context),
       )
     ];
 

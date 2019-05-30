@@ -1,6 +1,11 @@
 PODS:
+  - connectivity (0.0.1):
+    - Flutter
+    - Reachability
   - Crashlytics (3.13.1):
     - Fabric (~> 1.10.1)
+  - device_info (0.0.1):
+    - Flutter
   - Fabric (1.10.1)
   - Firebase/Analytics (6.1.0):
     - Firebase/Core
@@ -73,6 +78,9 @@ PODS:
     - nanopb/encode (= 0.3.901)
   - nanopb/decode (0.3.901)
   - nanopb/encode (0.3.901)
+  - package_info (0.0.1):
+    - Flutter
+  - Reachability (3.2)
   - share (0.5.2):
     - Flutter
   - url_launcher (0.0.1):
@@ -81,7 +89,9 @@ PODS:
     - Flutter
 
 DEPENDENCIES:
+  - connectivity (from `.symlinks/plugins/connectivity/ios`)
   - Crashlytics
+  - device_info (from `.symlinks/plugins/device_info/ios`)
   - Fabric
   - Firebase/Core
   - firebase_analytics (from `.symlinks/plugins/firebase_analytics/ios`)
@@ -90,6 +100,7 @@ DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
   - flutter_fimber (from `.symlinks/plugins/flutter_fimber/ios`)
   - mmkv_flutter (from `.symlinks/plugins/mmkv_flutter/ios`)
+  - package_info (from `.symlinks/plugins/package_info/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
@@ -106,8 +117,13 @@ SPEC REPOS:
     - GoogleUtilities
     - MMKV
     - nanopb
+    - Reachability
 
 EXTERNAL SOURCES:
+  connectivity:
+    :path: ".symlinks/plugins/connectivity/ios"
+  device_info:
+    :path: ".symlinks/plugins/device_info/ios"
   firebase_analytics:
     :path: ".symlinks/plugins/firebase_analytics/ios"
   firebase_core:
@@ -120,6 +136,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_fimber/ios"
   mmkv_flutter:
     :path: ".symlinks/plugins/mmkv_flutter/ios"
+  package_info:
+    :path: ".symlinks/plugins/package_info/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   url_launcher:
@@ -128,7 +146,9 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/webview_flutter/ios"
 
 SPEC CHECKSUMS:
+  connectivity: c72716e202a1225ec4810740d5cb56b8ae3bf4cc
   Crashlytics: 5aa8e90dcbf2f34898b4f5a0037787531246cca0
+  device_info: 3ebad48f726348f69abd802f3334a8d1ed795fbd
   Fabric: f6f21452846788bb44595d73e9909d79d328e617
   Firebase: 8d77bb33624ae9b62d745d82ec023de5f70f7e4f
   firebase_analytics: e5181dde3c26c83748ab07aca073139a572ede7e
@@ -144,6 +164,8 @@ SPEC CHECKSUMS:
   MMKV: d362c29ab6ad839a16fcdf9e5b454944ecce588b
   mmkv_flutter: 511886651aef2c8e65402030d6517602776e8681
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
+  package_info: 78cabb3c322943c55d39676f4a5bfc748c01d055
+  Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   share: 7d22fe8baedfe93aefd864bf0b73f29711fbb0a3
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298
   webview_flutter: 1aa7604e6cdb451a9b7ed2c37d5454c0b440246b

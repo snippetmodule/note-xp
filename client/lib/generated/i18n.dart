@@ -19,6 +19,7 @@ class S implements WidgetsLocalizations {
   @override
   TextDirection get textDirection => TextDirection.ltr;
 
+  String get appDesc => "This is Note";
   String get appName => "Note";
   String get copy => "Copy";
   String get copy_success => "Copied to clipboard";
@@ -79,6 +80,8 @@ class $zh_CN extends S {
   String get reload => "刷新";
   @override
   String get more_menu_help_call => "拨打客服电话";
+  @override
+  String get appDesc => "笔记";
   @override
   String get more_menu_help => "使用帮助";
   @override

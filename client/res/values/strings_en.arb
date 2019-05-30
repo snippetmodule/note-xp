@@ -1,5 +1,6 @@
 {
   "appName": "Note",
+  "appDesc": "This is Note",
   "main_tab_home": "Home",
   "main_tab_list": "List",
   "main_tab_personal": "Personal",

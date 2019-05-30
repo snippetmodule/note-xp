@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:client/ui/main/main_screen.dart';
 import 'package:client/ui/webview/webview_screen.dart';
+import 'package:client/ui/main/more/about_screen.dart';
 
 class RouterCenter {
   RouterCenter._();
@@ -9,11 +10,12 @@ class RouterCenter {
   static final Router _router = Router();
 
   static final String _root = "/";
-  static final String _web = "/web";
-  static final String _demoSimple = "/demo";
-  static final String _demoSimpleFixedTrans = "/demo/fixedtrans";
-  static final String _demoFunc = "/demo/func";
-  static final String _deepLink = "/message";
+  static final String _web = "web";
+  static final String _demoSimple = "demo";
+  static final String _demoSimpleFixedTrans = "demo/fixedtrans";
+  static final String _demoFunc = "demo/func";
+  static final String _deepLink = "message";
+  static final String _about = "about";
 
   static RouteFactory init() {
     MainScreen mainScreen = MainScreen();
@@ -32,14 +34,22 @@ class RouterCenter {
       String title = params["title"]?.first;
       return WebViewScreen(url, title: title);
     }));
+    _router.define(_about, handler: Handler(
+        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+      return AboutScreen();
+    }));
     return _router.generator;
   }
 
-  static void openWebView(BuildContext context, String url,
+  static void openWebViewScreen(BuildContext context, String url,
       {String title = ""}) {
     _router.navigateTo(context,
         "$_web?url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(title)}",
         transition: TransitionType.inFromRight);
+  }
+
+  static void openAboutScreen(BuildContext context) {
+    _router.navigateTo(context, _about, transition: TransitionType.inFromRight);
   }
 }
 

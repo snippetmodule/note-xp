@@ -1,15 +1,17 @@
+import 'package:client/utils/log.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'package:client/ui/main/main_screen.dart';
-import 'package:client/ui/webview/webview_screen.dart';
-import 'package:client/ui/main/more/about_screen.dart';
+import 'package:client/ui/home/home_page.dart';
+import 'package:client/ui/webview/webview_page.dart';
+import 'package:client/ui/home/more/about_page.dart';
 
 class RouterCenter {
   RouterCenter._();
 
+  static final Logger _logger = Logger("RouterCenter");
   static final Router _router = Router();
 
-  static final String _root = "/";
+  static final String _home = "home";
   static final String _web = "web";
   static final String _demoSimple = "demo";
   static final String _demoSimpleFixedTrans = "demo/fixedtrans";
@@ -18,15 +20,14 @@ class RouterCenter {
   static final String _about = "about";
 
   static RouteFactory init() {
-    MainScreen mainScreen = MainScreen();
     _router.notFoundHandler = new Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      print("ROUTE WAS NOT FOUND !!!");
+          _logger.d("ROUTE WAS NOT FOUND !!!");
     });
 
-    _router.define(_root, handler: Handler(
+    _router.define(_home, handler: Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return mainScreen;
+      return HomePage();
     }));
     _router.define(_web, handler: Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
@@ -36,19 +37,19 @@ class RouterCenter {
     }));
     _router.define(_about, handler: Handler(
         handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return AboutScreen();
+      return AboutPage();
     }));
     return _router.generator;
   }
 
-  static void openWebViewScreen(BuildContext context, String url,
+  static void openWebViewPage(BuildContext context, String url,
       {String title = ""}) {
     _router.navigateTo(context,
         "$_web?url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(title)}",
         transition: TransitionType.inFromRight);
   }
 
-  static void openAboutScreen(BuildContext context) {
+  static void openAboutPage(BuildContext context) {
     _router.navigateTo(context, _about, transition: TransitionType.inFromRight);
   }
 }

@@ -32,7 +32,7 @@ class LoginedWidget extends StatelessWidget {
         leading: Icon(Icons.help),
         title: Text(S.of(context).more_menu_logout),
         trailing: Icon(Icons.arrow_forward_ios),
-        onTap: () => RouterCenter.openAboutScreen(context),
+        onTap: () => RouterCenter.openAboutPage(context),
       ),
     ];
 

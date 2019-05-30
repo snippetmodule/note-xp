@@ -1,14 +1,14 @@
-import 'package:client/bloc/main/main_tab/bloc.dart';
+import 'package:client/bloc/home//home_tab/bloc.dart';
 import 'package:client/generated/i18n.dart';
-import 'package:client/ui/home/home.dart';
-import 'package:client/ui/main/more/more_widget.dart';
+import 'package:client/ui/home//home.dart';
+import 'package:client/ui/home/more/more_widget.dart';
 import 'package:client/ui/widget/event_log_widget.dart';
 import 'package:client/utils/event_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MainScreen extends StatelessWidget {
-  final MainTabBloc _tabBloc = MainTabBloc();
+class HomePage extends StatelessWidget {
+  final HomeTabBloc _tabBloc = HomeTabBloc();
 
   void _onSelectTab(int index) {
     TabItemType tabType = TabItemType.home;
@@ -26,7 +26,7 @@ class MainScreen extends StatelessWidget {
         tabType = TabItemType.more;
         break;
     }
-    _tabBloc.dispatch(MainTabEvent(tab: tabType));
+    _tabBloc.dispatch(HomeTabEvent(tab: tabType));
   }
 
   BottomNavigationBarItem _buildItem(
@@ -81,9 +81,9 @@ class MainScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return EventLogWidget(
       screenName: EventConstants.EVENT_TAB,
-      child: BlocBuilder<MainTabEvent, MainTabState>(
+      child: BlocBuilder<HomeTabEvent, HomeTabState>(
           bloc: _tabBloc,
-          builder: (BuildContext context, MainTabState state) {
+          builder: (BuildContext context, HomeTabState state) {
             return Scaffold(
               body: _buildBody(state.tab),
               bottomNavigationBar:

@@ -1,5 +1,6 @@
 import 'package:client/bloc/auth/auth_bloc.dart';
 import 'package:client/bloc/auth/auth_event.dart';
+import 'package:client/ui/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -51,9 +52,6 @@ class _App extends StatelessWidget {
         child: BlocBuilder<LocaleEvent, LocaleState>(
             bloc: localBloc,
             builder: (BuildContext context, LocaleState state) {
-              if (state is InitLocaleState) {
-                return Container();
-              }
               if (state is ChangedLocaleState) {
                 return MaterialApp(
                   theme: ThemeData(
@@ -63,7 +61,6 @@ class _App extends StatelessWidget {
                             CupertinoPageTransitionsBuilder(),
                         TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
                       })),
-                  onGenerateRoute: routeFactory,
                   localizationsDelegates: [
                     S.delegate,
                     GlobalMaterialLocalizations.delegate,
@@ -74,8 +71,11 @@ class _App extends StatelessWidget {
                       S.delegate.listResolution(fallback: state.locale),
                   locale: state.locale,
                   navigatorObservers: [EventLog.analyticsObserver],
+                  home: HomePage(),
+                  onGenerateRoute: routeFactory,
                 );
               }
+              return Container();
             }));
   }
 }

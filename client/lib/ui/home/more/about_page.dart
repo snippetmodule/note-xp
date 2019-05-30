@@ -12,7 +12,7 @@ import 'package:client/ui/widget/async_widget.dart';
 import 'package:package_info/package_info.dart';
 import 'package:client/utils/build_mode.dart' as BuildMode;
 
-class AboutScreen extends StatelessWidget {
+class AboutPage extends StatelessWidget {
 //  PackageInfo _packageInfo;
 //  String _deviceInfo;
   Widget _body(

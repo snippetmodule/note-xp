@@ -19,51 +19,52 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  # plugins start -- https://github.com/flutter/plugins
-  # firebase core
-  firebase_core: ^0.2.5
-  # fabric
-  firebase_crashlytics: ^0.0.4+3
-  # analytics
-  firebase_analytics: ^3.0.1
-  # WebView
-  webview_flutter: ^0.3.7+1
-  # url_launcher
-  url_launcher: ^5.0.2
-  # 分享
-  share: ^0.6.1+1
-  package_info: ^0.4.0+3
-  device_info: ^0.4.0+1
-  connectivity: ^0.4.3+1
-  # plugins end -- https://github.com/flutter/plugins
-
   flutter_localizations:
     sdk: flutter
 
-  flutter_bloc: ^0.11.0
-  equatable: ^0.2.0
+  # plugins start -- https://github.com/flutter/plugins
+  # firebase core
+  firebase_core: 0.2.5
+  # fabric
+  firebase_crashlytics: 0.0.4+3
+  # analytics
+  firebase_analytics: 3.0.1
+  # WebView
+  webview_flutter: 0.3.7+1
+  # url_launcher
+  url_launcher: 5.0.2
+  # 分享
+  share: 0.6.1+1
+  package_info: 0.4.0+3
+  device_info: 0.4.0+1
+  connectivity: 0.4.3+1
+  # plugins end -- https://github.com/flutter/plugins
 
-  fluro: ^1.4.0
+
+  flutter_bloc: 0.11.0
+  equatable: 0.2.0
+
+  fluro: 1.4.0
 
   mmkv_flutter: 1.0.10
 
   # Log
-  fimber: ^0.2.0
-  flutter_fimber: ^0.2.0
+  fimber: 0.2.0
+  flutter_fimber: 0.2.0
   #json
-  json_annotation: ^2.4.0
+  json_annotation: 2.4.0
   # 日期格式化
-  intl: ^0.15.7
+  intl: 0.15.8
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^0.1.2
+  cupertino_icons: 0.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  build_runner: ^1.0.0
-  json_serializable: ^3.0.0
+  build_runner: 1.0.0
+  json_serializable: 3.0.0
 
 
 # For information on the generic Dart part of this file, see the

@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:client/bloc/async/bloc.dart';
+import 'package:client/core/bloc/async/bloc.dart';
 
 class AsyncBloc extends Bloc<AsyncEvent, AsyncState> {
   @override

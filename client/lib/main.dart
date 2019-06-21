@@ -1,17 +1,17 @@
-import 'package:client/bloc/auth/auth_bloc.dart';
-import 'package:client/bloc/auth/auth_event.dart';
+import 'package:client/core/bloc/auth/auth_bloc.dart';
+import 'package:client/core/bloc/auth/auth_event.dart';
 import 'package:client/ui/home/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:client/bloc/delegate.dart';
-import 'package:client/bloc/locale/bloc.dart';
-import 'package:client/utils/log.dart';
+import 'package:client/core/bloc/delegate.dart';
+import 'package:client/core/bloc/locale/bloc.dart';
+import 'package:client/core/utils/log.dart';
 import 'package:client/generated/i18n.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:firebase_crashlytics/firebase_crashlytics.dart';
-import 'package:client/utils/event_log.dart';
-import 'package:client/utils/router_center.dart';
+import 'package:client/core/utils/event_log.dart';
+import 'package:client/core/utils/router_center.dart';
 
 void main() {
   final Logger _logger = Logger("application");

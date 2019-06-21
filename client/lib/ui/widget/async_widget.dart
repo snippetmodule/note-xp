@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:client/bloc/async/bloc.dart';
+import 'package:client/core/bloc/async/bloc.dart';
 
 typedef ExecAsyncFunc = Future<dynamic> Function();
 

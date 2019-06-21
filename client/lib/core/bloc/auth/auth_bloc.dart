@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:client/model/auth/account.dart';
+import 'package:client/core/model/auth/account.dart';
 import './bloc.dart';
-import 'package:client/utils/mmkv.dart';
+import 'package:client/core/utils/mmkv.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
@@ -12,9 +12,9 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is InitAuthEvent) {
       Account account = await Mmkv.getAccount();
-      if(account == null){
+      if (account == null) {
         yield UnLoginAuthState();
-      }else{
+      } else {
         yield LoginedAuthState(account);
       }
       return;

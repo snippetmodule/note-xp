@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:client/utils/log.dart';
+import 'package:client/core/utils/log.dart';
 import './liftcycle_widget.dart';
-import 'package:client/utils/event_log.dart';
+import 'package:client/core/utils/event_log.dart';
 
 class EventLogWidget extends StatelessWidget {
   final String screenName;

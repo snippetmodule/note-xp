@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:client/utils/log.dart';
+import 'package:client/core/utils/log.dart';
 
 class LifecycleWidget extends StatefulWidget {
   final Logger logger;

@@ -1,4 +1,4 @@
-import 'package:client/utils/log.dart';
+import 'package:client/core/utils/log.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
 import 'package:client/ui/home/home_page.dart';

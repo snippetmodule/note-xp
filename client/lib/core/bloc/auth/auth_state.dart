@@ -1,4 +1,4 @@
-import 'package:client/model/auth/account.dart';
+import 'package:client/core/model/auth/account.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 

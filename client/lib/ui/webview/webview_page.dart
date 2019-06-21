@@ -6,7 +6,7 @@ import 'package:flutter/services.dart';
 import 'package:client/generated/i18n.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share/share.dart';
-import 'package:client/utils/log.dart';
+import 'package:client/core/utils/log.dart';
 
 class WebViewPage extends StatefulWidget {
   final _logger = Logger("WebViewPage");

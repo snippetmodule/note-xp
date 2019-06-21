@@ -1,4 +1,4 @@
-import 'package:client/model/auth/account.dart';
+import 'package:client/core/model/auth/account.dart';
 import 'package:mmkv_flutter/mmkv_flutter.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';

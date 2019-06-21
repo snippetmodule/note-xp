@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:client/generated/i18n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:client/bloc/locale/bloc.dart';
+import 'package:client/core/bloc/locale/bloc.dart';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);

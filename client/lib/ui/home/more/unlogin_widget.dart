@@ -1,6 +1,6 @@
 import 'package:client/generated/i18n.dart';
 import 'package:client/ui/widget/listview_extension.dart';
-import 'package:client/utils/router_center.dart';
+import 'package:client/core/utils/router_center.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
 

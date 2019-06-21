@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
 import './bloc.dart';
-import 'package:client/utils/mmkv.dart';
+import 'package:client/core/utils/mmkv.dart';
 import 'package:flutter/material.dart';
 
 class LocaleBloc extends Bloc<LocaleEvent, LocaleState> {

@@ -2,15 +2,15 @@ import 'package:client/ui/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:client/generated/i18n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:client/bloc/auth/bloc.dart';
+import 'package:client/core/bloc/auth/bloc.dart';
 import './logined_widget.dart';
 import './unlogin_widget.dart';
 import 'package:client/ui/widget/event_log_widget.dart';
-import 'package:client/utils/event_log.dart';
-import 'package:client/utils/app_utils.dart';
+import 'package:client/core/utils/event_log.dart';
+import 'package:client/core/utils/app_utils.dart';
 import 'package:client/ui/widget/async_widget.dart';
 import 'package:package_info/package_info.dart';
-import 'package:client/utils/build_mode.dart' as BuildMode;
+import 'package:client/core/utils/build_mode.dart' as BuildMode;
 
 class AboutPage extends StatelessWidget {
 //  PackageInfo _packageInfo;

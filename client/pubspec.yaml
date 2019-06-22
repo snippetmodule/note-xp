@@ -38,16 +38,14 @@ dependencies:
   package_info: 0.4.0+3
   device_info: 0.4.0+1
   connectivity: 0.4.3+1
+  path_provider: 1.1.0
   # plugins end -- https://github.com/flutter/plugins
-
 
   flutter_bloc: 0.11.0
   equatable: 0.2.0
-
   fluro: 1.4.0
-
   mmkv_flutter: 1.0.10
-
+  sembast: 1.15.1
   # Log
   fimber: 0.2.0
   flutter_fimber: 0.2.0

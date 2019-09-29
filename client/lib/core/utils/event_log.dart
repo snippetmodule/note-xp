@@ -15,7 +15,7 @@ class EventLog {
   EventLog._();
 
   static void init() {
-    analytics.setAnalyticsCollectionEnabled(true);
+//    analytics.setAnalyticsCollectionEnabled(true);
     Mmkv.getInstallTime();
   }
 

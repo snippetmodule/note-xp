@@ -71,6 +71,10 @@ class _LifecycleWidgetState extends State<LifecycleWidget> with WidgetsBindingOb
 class LiftCycleObserver extends WidgetsBindingObserver {
   void didInitState() {}
 
+  Future<bool> didPopRoute() => Future<bool>.value(false);
+
+  Future<bool> didPushRoute(String route) => Future<bool>.value(false);
+
   void didDeactivate() {}
 
   void didDispose() {}

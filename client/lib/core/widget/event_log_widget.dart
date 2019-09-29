@@ -9,8 +9,7 @@ class EventLogWidget extends StatelessWidget {
   final Widget child;
   final bool isReport;
 
-  EventLogWidget(
-      {@required this.screenName, @required this.child, this.isReport = true});
+  EventLogWidget({@required this.screenName, @required this.child, this.isReport = true});
 
   @override
   Widget build(BuildContext context) {
@@ -18,10 +17,7 @@ class EventLogWidget extends StatelessWidget {
       return child;
     }
     return LifecycleWidget(
-        child: child,
-        liftCycleObserver: EventLogObserver(
-            screenName: this.screenName, isReport: this.isReport),
-        logger: Logger(screenName,isEnable: false));
+        child: child, liftCycleObserver: EventLogObserver(screenName: this.screenName, isReport: this.isReport), logger: Logger(screenName, isEnable: false));
   }
 }
 
@@ -36,6 +32,12 @@ class EventLogObserver extends LiftCycleObserver {
   @override
   void didInitState() {
     _logScreen();
+  }
+
+  @override
+  Future<bool> didPushRoute(String route) {
+    _logScreenPause();
+    return Future<bool>.value(false);
   }
 
   @override

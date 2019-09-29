@@ -1,7 +1,7 @@
 import 'package:client/core/utils/log.dart';
+import 'package:client/ui/main/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'package:client/ui/home/home_page.dart';
 import 'package:client/ui/webview/webview_page.dart';
 import 'package:client/ui/home/more/about_page.dart';
 
@@ -11,7 +11,7 @@ class RouterCenter {
   static final Logger _logger = Logger("RouterCenter");
   static final Router _router = Router();
 
-  static final String _home = "home";
+  static final String _main = "/";
   static final String _web = "web";
   static final String _demoSimple = "demo";
   static final String _demoSimpleFixedTrans = "demo/fixedtrans";
@@ -24,8 +24,8 @@ class RouterCenter {
 //      _logger.d("ROUTE WAS NOT FOUND !!!");
 //    });
 
-    _router.define(_home, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return HomePage();
+    _router.define(_main, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+      return MainPage();
     }));
     _router.define(_web, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       String url = params["url"]?.first;

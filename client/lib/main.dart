@@ -1,6 +1,6 @@
 import 'package:client/core/bloc/auth/auth_bloc.dart';
 import 'package:client/core/bloc/auth/auth_event.dart';
-import 'package:client/ui/home/home_page.dart';
+import 'package:client/ui/main/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:bloc/bloc.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,8 +14,14 @@ import 'package:client/core/utils/event_log.dart';
 import 'package:client/core/utils/router_center.dart';
 
 void main() {
+  _init();
+  runApp(_App());
+}
+
+void _init() {
   final Logger _logger = Logger("application");
 
+  _logger.d("init");
   BlocSupervisor.delegate = AppBlocDelegate();
   // firebase crashlytics init
   Crashlytics.instance.enableInDevMode = false; //isDebug;
@@ -25,10 +31,6 @@ void main() {
   };
   // Analytics
   EventLog.init();
-
-  runApp(_App());
-
-  _logger.d("init");
 }
 
 class _App extends StatelessWidget {
@@ -69,7 +71,7 @@ class _App extends StatelessWidget {
                   localeListResolutionCallback: S.delegate.listResolution(fallback: state.locale),
                   locale: state.locale,
                   navigatorObservers: [EventLog.analyticsObserver],
-                  home: HomePage(),
+                  home: MainPage(),
                   onGenerateRoute: routeFactory,
                 );
               }

@@ -1,4 +1,4 @@
-import 'package:client/core/bloc/home//home_tab/bloc.dart';
+import 'package:client/core/bloc/main/bloc.dart';
 import 'package:client/generated/i18n.dart';
 import 'package:client/ui/home//home.dart';
 import 'package:client/ui/home/more/more_widget.dart';
@@ -7,26 +7,26 @@ import 'package:client/core/utils/event_log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class HomePage extends StatelessWidget {
-  final HomeTabBloc _tabBloc = HomeTabBloc();
+class MainPage extends StatelessWidget {
+  final MainTabBloc _tabBloc = MainTabBloc();
 
   void _onSelectTab(int index) {
-    TabItemType tabType = TabItemType.home;
+    MainTabItemType tabType = MainTabItemType.home;
     switch (index) {
       case 0:
-        tabType = TabItemType.home;
+        tabType = MainTabItemType.home;
         break;
       case 1:
-        tabType = TabItemType.list;
+        tabType = MainTabItemType.list;
         break;
       case 2:
-        tabType = TabItemType.personal;
+        tabType = MainTabItemType.personal;
         break;
       case 3:
-        tabType = TabItemType.more;
+        tabType = MainTabItemType.more;
         break;
     }
-    _tabBloc.dispatch(HomeTabEvent(tabType));
+    _tabBloc.dispatch(MainTabEvent(tabType));
   }
 
   BottomNavigationBarItem _buildItem(IconData icon, String text, bool isSelected) {
@@ -44,28 +44,28 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  Widget _buildBody(TabItemType selectedTab) {
+  Widget _buildBody(MainTabItemType selectedTab) {
     switch (selectedTab) {
-      case TabItemType.home:
+      case MainTabItemType.home:
         return MyHomePage();
-      case TabItemType.list:
+      case MainTabItemType.list:
         return MyHomePage();
-      case TabItemType.personal:
+      case MainTabItemType.personal:
         return MyHomePage();
-      case TabItemType.more:
+      case MainTabItemType.more:
         return MoreWidget();
     }
     return null;
   }
 
-  Widget _buildBottomNavigationBar(BuildContext context, TabItemType selectedTab) {
+  Widget _buildBottomNavigationBar(BuildContext context, MainTabItemType selectedTab) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: [
-        _buildItem(Icons.drive_eta, S.of(context).main_tab_home, selectedTab == TabItemType.home),
-        _buildItem(Icons.list, S.of(context).main_tab_list, selectedTab == TabItemType.list),
-        _buildItem(Icons.account_circle, S.of(context).main_tab_personal, selectedTab == TabItemType.personal),
-        _buildItem(Icons.dashboard, S.of(context).main_tab_more, selectedTab == TabItemType.more),
+        _buildItem(Icons.drive_eta, S.of(context).main_tab_home, selectedTab == MainTabItemType.home),
+        _buildItem(Icons.list, S.of(context).main_tab_list, selectedTab == MainTabItemType.list),
+        _buildItem(Icons.account_circle, S.of(context).main_tab_personal, selectedTab == MainTabItemType.personal),
+        _buildItem(Icons.dashboard, S.of(context).main_tab_more, selectedTab == MainTabItemType.more),
       ],
       onTap: _onSelectTab,
     );
@@ -75,9 +75,9 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return EventLogWidget(
       screenName: EventConstants.EVENT_TAB,
-      child: BlocBuilder<HomeTabBloc, HomeTabState>(
+      child: BlocBuilder<MainTabBloc, MainTabState>(
           bloc: _tabBloc,
-          builder: (BuildContext context, HomeTabState state) {
+          builder: (BuildContext context, MainTabState state) {
             return Scaffold(
               body: _buildBody(state.tab),
               bottomNavigationBar: _buildBottomNavigationBar(context, state.tab),

@@ -1,12 +1,12 @@
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
-import './home_tab_state.dart';
+import './main_tab_state.dart';
 
 @immutable
-class HomeTabEvent extends Equatable {
-  final TabItemType tab;
+class MainTabEvent extends Equatable {
+  final MainTabItemType tab;
 
-  HomeTabEvent(this.tab);
+  MainTabEvent(this.tab);
 
   @override
   List<Object> get props => [tab];

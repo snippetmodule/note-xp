@@ -16,12 +16,12 @@ import 'package:client/core/utils/router_center.dart';
 void main() {
   final Logger _logger = Logger("application");
 
-  BlocSupervisor().delegate = AppBlocDelegate();
-  // firebase_crashlytics init
+  BlocSupervisor.delegate = AppBlocDelegate();
+  // firebase crashlytics init
   Crashlytics.instance.enableInDevMode = false; //isDebug;
   FlutterError.onError = (FlutterErrorDetails details) {
     _logger.e("FlutterError", ex: details.exception, stacktrace: details.stack);
-    Crashlytics.instance.onError(details);
+    Crashlytics.instance.recordFlutterError(details);
   };
   // Analytics
   EventLog.init();
@@ -44,12 +44,12 @@ class _App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProviderTree(
-        blocProviders: [
-          BlocProvider<LocaleBloc>(bloc: localBloc),
-          BlocProvider<AuthBloc>(bloc: authBloc)
+    return MultiBlocProvider(
+        providers: [
+          BlocProvider<LocaleBloc>(builder: ((BuildContext context) => localBloc)),
+          BlocProvider<AuthBloc>(builder: (BuildContext context) => authBloc),
         ],
-        child: BlocBuilder<LocaleEvent, LocaleState>(
+        child: BlocBuilder<LocaleBloc, LocaleState>(
             bloc: localBloc,
             builder: (BuildContext context, LocaleState state) {
               if (state is ChangedLocaleState) {
@@ -57,8 +57,7 @@ class _App extends StatelessWidget {
                   theme: ThemeData(
                       primarySwatch: Colors.orange,
                       pageTransitionsTheme: PageTransitionsTheme(builders: {
-                        TargetPlatform.android:
-                            CupertinoPageTransitionsBuilder(),
+                        TargetPlatform.android: CupertinoPageTransitionsBuilder(),
                         TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
                       })),
                   localizationsDelegates: [
@@ -67,8 +66,7 @@ class _App extends StatelessWidget {
                     GlobalWidgetsLocalizations.delegate,
                   ],
                   supportedLocales: S.delegate.supportedLocales,
-                  localeListResolutionCallback:
-                      S.delegate.listResolution(fallback: state.locale),
+                  localeListResolutionCallback: S.delegate.listResolution(fallback: state.locale),
                   locale: state.locale,
                   navigatorObservers: [EventLog.analyticsObserver],
                   home: HomePage(),

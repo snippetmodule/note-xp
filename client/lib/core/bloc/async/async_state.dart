@@ -3,7 +3,10 @@ import 'package:meta/meta.dart';
 
 @immutable
 abstract class AsyncState extends Equatable {
-  AsyncState([List props = const []]) : super(props);
+  AsyncState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class InitialAsyncState extends AsyncState {}
@@ -14,6 +17,9 @@ class SuccessAsyncState extends AsyncState {
   final dynamic result;
 
   SuccessAsyncState(this.result);
+
+  @override
+  List<Object> get props => [result];
 }
 
 class FailAsyncState extends AsyncState {
@@ -21,4 +27,7 @@ class FailAsyncState extends AsyncState {
   final StackTrace stackTrace;
 
   FailAsyncState(this.exception, this.stackTrace);
+
+  @override
+  List<Object> get props => [exception, stackTrace];
 }

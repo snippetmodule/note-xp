@@ -80,6 +80,8 @@ PODS:
   - nanopb/encode (0.3.901)
   - package_info (0.0.1):
     - Flutter
+  - path_provider (0.0.1):
+    - Flutter
   - Reachability (3.2)
   - share (0.5.2):
     - Flutter
@@ -101,6 +103,7 @@ DEPENDENCIES:
   - flutter_fimber (from `.symlinks/plugins/flutter_fimber/ios`)
   - mmkv_flutter (from `.symlinks/plugins/mmkv_flutter/ios`)
   - package_info (from `.symlinks/plugins/package_info/ios`)
+  - path_provider (from `.symlinks/plugins/path_provider/ios`)
   - share (from `.symlinks/plugins/share/ios`)
   - url_launcher (from `.symlinks/plugins/url_launcher/ios`)
   - webview_flutter (from `.symlinks/plugins/webview_flutter/ios`)
@@ -138,6 +141,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/mmkv_flutter/ios"
   package_info:
     :path: ".symlinks/plugins/package_info/ios"
+  path_provider:
+    :path: ".symlinks/plugins/path_provider/ios"
   share:
     :path: ".symlinks/plugins/share/ios"
   url_launcher:
@@ -151,13 +156,13 @@ SPEC CHECKSUMS:
   device_info: 3ebad48f726348f69abd802f3334a8d1ed795fbd
   Fabric: f6f21452846788bb44595d73e9909d79d328e617
   Firebase: 8d77bb33624ae9b62d745d82ec023de5f70f7e4f
-  firebase_analytics: e5181dde3c26c83748ab07aca073139a572ede7e
+  firebase_analytics: 045e7ebe7b8a4d27357168072868ff082dca15a6
   firebase_core: ce5006bb48508ee4e71e0f429a3f519bb8ee2961
-  firebase_crashlytics: 4308eca795b89ab0fd28e0db58e9a3ec74fee332
+  firebase_crashlytics: 6b8e7358dbac1359c1e29e0796adf48eddef99c9
   FirebaseAnalytics: 629301c2b9925f3537d4093a17a72751ae5b7084
   FirebaseCore: 66bdef3b310a026880e2a5bc8aa586ab62ce4543
   FirebaseInstanceID: 27bed93a59b6685f5c3e0c028a878a764fd75c33
-  Flutter: 58dd7d1b27887414a370fcccb9e645c08ffd7a6a
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
   flutter_fimber: 4a6b342666fecb329fca23143f4b72c46cdd8022
   GoogleAppMeasurement: 51d8d9ea48f0ca44484d29cfbdef976fbd4fc336
   GoogleUtilities: 84df567c76ca84f67b7bb40e769fdd4acc746a10
@@ -165,6 +170,7 @@ SPEC CHECKSUMS:
   mmkv_flutter: 511886651aef2c8e65402030d6517602776e8681
   nanopb: 2901f78ea1b7b4015c860c2fdd1ea2fee1a18d48
   package_info: 78cabb3c322943c55d39676f4a5bfc748c01d055
+  path_provider: f96fff6166a8867510d2c25fdcc346327cc4b259
   Reachability: 33e18b67625424e47b6cde6d202dce689ad7af96
   share: 7d22fe8baedfe93aefd864bf0b73f29711fbb0a3
   url_launcher: 0067ddb8f10d36786672aa0722a21717dba3a298

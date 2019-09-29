@@ -33,7 +33,7 @@ class AsyncWidget<Result> extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     _bloc.dispatch(ExecAsyncEvent(execAsync));
-    return BlocBuilder<AsyncEvent, AsyncState>(
+    return BlocBuilder<AsyncBloc, AsyncState>(
         bloc: _bloc,
         builder: (BuildContext context, AsyncState state) {
           if (state is InitialAsyncState && initialBuilder != null) {

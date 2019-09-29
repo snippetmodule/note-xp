@@ -15,7 +15,7 @@ class MoreWidget extends StatelessWidget {
         screenName: EventConstants.EVENT_TAB_MORE,
         child: Scaffold(
           appBar: CustomAppBar(title: S.of(context).main_tab_more),
-          body: BlocBuilder<AuthEvent, AuthState>(
+          body: BlocBuilder<AuthBloc, AuthState>(
               bloc: BlocProvider.of<AuthBloc>(context),
               builder: (BuildContext context, AuthState state) {
                 if (state is InitAuthState) {
@@ -27,6 +27,7 @@ class MoreWidget extends StatelessWidget {
                 if (state is UnLoginAuthState) {
                   return UnloginWidget();
                 }
+                return Container();
               }),
         ));
   }

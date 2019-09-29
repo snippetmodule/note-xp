@@ -4,7 +4,10 @@ import 'package:meta/meta.dart';
 
 @immutable
 abstract class AuthState extends Equatable {
-  AuthState([List props = const []]) : super(props);
+  AuthState();
+
+  @override
+  List<Object> get props => [];
 }
 
 class InitAuthState extends AuthState {}
@@ -13,6 +16,9 @@ class LoginedAuthState extends AuthState {
   final Account account;
 
   LoginedAuthState(this.account);
+
+  @override
+  List<Object> get props => [account];
 }
 
 class LoginingAuthState extends AuthState {}

@@ -4,7 +4,10 @@ import 'package:meta/meta.dart';
 
 @immutable
 abstract class NoteEvent extends Equatable {
-  NoteEvent([List props = const []]) : super(props);
+  NoteEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class LoadEvent extends NoteEvent {}
@@ -18,11 +21,17 @@ class LoadEvent extends NoteEvent {}
 class AddOrUpdateEvent extends NoteEvent {
   final Note note;
 
-  AddOrUpdateEvent(this.note) : super([note]);
+  AddOrUpdateEvent(this.note);
+
+  @override
+  List<Object> get props => [note];
 }
 
 class DeleteEvent extends NoteEvent {
   final Note note;
 
-  DeleteEvent(this.note) : super([note]);
+  DeleteEvent(this.note);
+
+  @override
+  List<Object> get props => [note];
 }

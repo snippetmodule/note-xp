@@ -5,11 +5,17 @@ typedef ExecAsyncFunc = Future<dynamic> Function();
 
 @immutable
 abstract class AsyncEvent extends Equatable {
-  AsyncEvent([List props = const []]) : super(props);
+  AsyncEvent();
+
+  @override
+  List<Object> get props => [];
 }
 
 class ExecAsyncEvent extends AsyncEvent {
   final ExecAsyncFunc execAsync;
 
   ExecAsyncEvent(this.execAsync);
+
+  @override
+  List<Object> get props => [execAsync];
 }

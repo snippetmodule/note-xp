@@ -4,14 +4,19 @@ import 'package:meta/meta.dart';
 
 @immutable
 abstract class LocaleState extends Equatable {
-  LocaleState([List props = const []]) : super(props);
+  LocaleState();
+
+  @override
+  List<Object> get props => [];
 }
 
-@immutable
 class ChangedLocaleState extends LocaleState {
   final Locale locale;
 
-  ChangedLocaleState({this.locale}) : super([locale]);
+  ChangedLocaleState({this.locale});
+
+  @override
+  List<Object> get props => [locale];
 }
 
 class InitLocaleState extends LocaleState {}

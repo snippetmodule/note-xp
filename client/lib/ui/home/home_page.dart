@@ -26,11 +26,10 @@ class HomePage extends StatelessWidget {
         tabType = TabItemType.more;
         break;
     }
-    _tabBloc.dispatch(HomeTabEvent(tab: tabType));
+    _tabBloc.dispatch(HomeTabEvent(tabType));
   }
 
-  BottomNavigationBarItem _buildItem(
-      IconData icon, String text, bool isSelected) {
+  BottomNavigationBarItem _buildItem(IconData icon, String text, bool isSelected) {
     return BottomNavigationBarItem(
       icon: Icon(
         icon,
@@ -59,19 +58,14 @@ class HomePage extends StatelessWidget {
     return null;
   }
 
-  Widget _buildBottomNavigationBar(
-      BuildContext context, TabItemType selectedTab) {
+  Widget _buildBottomNavigationBar(BuildContext context, TabItemType selectedTab) {
     return BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
       items: [
-        _buildItem(Icons.drive_eta, S.of(context).main_tab_home,
-            selectedTab == TabItemType.home),
-        _buildItem(Icons.list, S.of(context).main_tab_list,
-            selectedTab == TabItemType.list),
-        _buildItem(Icons.account_circle, S.of(context).main_tab_personal,
-            selectedTab == TabItemType.personal),
-        _buildItem(Icons.dashboard, S.of(context).main_tab_more,
-            selectedTab == TabItemType.more),
+        _buildItem(Icons.drive_eta, S.of(context).main_tab_home, selectedTab == TabItemType.home),
+        _buildItem(Icons.list, S.of(context).main_tab_list, selectedTab == TabItemType.list),
+        _buildItem(Icons.account_circle, S.of(context).main_tab_personal, selectedTab == TabItemType.personal),
+        _buildItem(Icons.dashboard, S.of(context).main_tab_more, selectedTab == TabItemType.more),
       ],
       onTap: _onSelectTab,
     );
@@ -81,13 +75,12 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return EventLogWidget(
       screenName: EventConstants.EVENT_TAB,
-      child: BlocBuilder<HomeTabEvent, HomeTabState>(
+      child: BlocBuilder<HomeTabBloc, HomeTabState>(
           bloc: _tabBloc,
           builder: (BuildContext context, HomeTabState state) {
             return Scaffold(
               body: _buildBody(state.tab),
-              bottomNavigationBar:
-                  _buildBottomNavigationBar(context, state.tab),
+              bottomNavigationBar: _buildBottomNavigationBar(context, state.tab),
             );
           }),
     );

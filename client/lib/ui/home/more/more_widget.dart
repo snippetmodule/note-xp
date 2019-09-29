@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:client/core/bloc/auth/bloc.dart';
 import './logined_widget.dart';
 import './unlogin_widget.dart';
-import 'package:client/ui/widget/event_log_widget.dart';
+import 'package:client/core/widget/event_log_widget.dart';
 import 'package:client/core/utils/event_log.dart';
 
 class MoreWidget extends StatelessWidget {

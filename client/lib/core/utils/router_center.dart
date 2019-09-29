@@ -20,33 +20,26 @@ class RouterCenter {
   static final String _about = "about";
 
   static RouteFactory init() {
-    _router.notFoundHandler = new Handler(
-        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-          _logger.d("ROUTE WAS NOT FOUND !!!");
-    });
+//    _router.notFoundHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+//      _logger.d("ROUTE WAS NOT FOUND !!!");
+//    });
 
-    _router.define(_home, handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+    _router.define(_home, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       return HomePage();
     }));
-    _router.define(_web, handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+    _router.define(_web, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       String url = params["url"]?.first;
       String title = params["title"]?.first;
       return WebViewPage(url, title: title);
     }));
-    _router.define(_about, handler: Handler(
-        handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+    _router.define(_about, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       return AboutPage();
     }));
     return _router.generator;
   }
 
-  static void openWebViewPage(BuildContext context, String url,
-      {String title = ""}) {
-    _router.navigateTo(context,
-        "$_web?url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(title)}",
-        transition: TransitionType.inFromRight);
+  static void openWebViewPage(BuildContext context, String url, {String title = ""}) {
+    _router.navigateTo(context, "$_web?url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(title)}", transition: TransitionType.inFromRight);
   }
 
   static void openAboutPage(BuildContext context) {

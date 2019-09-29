@@ -11,12 +11,11 @@ class LifecycleWidget extends StatefulWidget {
 
   @override
   State<StatefulWidget> createState() {
-    return new _LifecycleWidgetState();
+    return _LifecycleWidgetState();
   }
 }
 
-class _LifecycleWidgetState extends State<LifecycleWidget>
-    with WidgetsBindingObserver {
+class _LifecycleWidgetState extends State<LifecycleWidget> with WidgetsBindingObserver {
   _LifecycleWidgetState();
 
   @override
@@ -68,8 +67,11 @@ class _LifecycleWidgetState extends State<LifecycleWidget>
     return widget.child;
   }
 }
+
 class LiftCycleObserver extends WidgetsBindingObserver {
-  void didInitState() { }
-  void didDeactivate() { }
-  void didDispose() { }
+  void didInitState() {}
+
+  void didDeactivate() {}
+
+  void didDispose() {}
 }

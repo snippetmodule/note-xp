@@ -54,6 +54,6 @@ class Mmkv {
       await mmkv.removeByKey("account");
       return;
     }
-    await mmkv.setString("account", json.encode(account.toJson(account)));
+    await mmkv.setString("account", json.encode(account.toJson()));
   }
 }

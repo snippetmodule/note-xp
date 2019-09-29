@@ -14,7 +14,7 @@ class NoteDao {
   Future<Database> get _db async => await AppDatabase.instance.database;
 
   Future insert(Note note) async {
-    await _noteStore.add(await _db, note.toJson(note));
+    await _noteStore.add(await _db, note.toJson());
   }
 
   Future addOrUpdate(Note note) async {
@@ -26,7 +26,7 @@ class NoteDao {
     final finder = Finder(filter: Filter.byKey(note.id));
     await _noteStore.update(
       await _db,
-      note.toJson(note),
+      note.toJson(),
       finder: finder,
     );
   }
@@ -37,7 +37,7 @@ class NoteDao {
     final finder = Finder(filter: Filter.byKey(note.id));
     await _noteStore.update(
       await _db,
-      note.toJson(note),
+      note.toJson(),
       finder: finder,
     );
   }

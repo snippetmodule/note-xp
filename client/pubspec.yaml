@@ -51,6 +51,8 @@ dependencies:
   flutter_fimber: 0.3.0
   #json
   json_annotation: 3.0.0
+  #图片缓存
+  cached_network_image: ^1.1.1
   # 日期格式化
   intl: 0.16.0
 

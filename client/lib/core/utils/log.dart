@@ -7,20 +7,22 @@ import 'package:flutter/foundation.dart';
 class Logger {
   final bool isEnable;
   final String tag;
+  final String msgPrefix;
 
   static Map<String, Logger> _cache = Map<String, Logger>();
 
-  Logger._(this.tag, {this.isEnable = true});
+  Logger._(this.tag, {this.msgPrefix = '', this.isEnable = true});
 
-  factory Logger(String tag, {isEnable = true}) {
+  factory Logger(String tag, {msgPrefix = '', isEnable = true}) {
     if (_cache.isEmpty) {
       Fimber.plantTree(DebugTimeBufferTree());
     }
-    if (_cache.containsKey(tag)) {
-      return _cache[tag];
+    String key = '$tag$msgPrefix';
+    if (_cache.containsKey(key)) {
+      return _cache[key];
     } else {
-      final instance = Logger._(tag, isEnable: isEnable as bool);
-      _cache[tag] = instance;
+      final instance = Logger._(tag, msgPrefix: msgPrefix as String, isEnable: isEnable as bool);
+      _cache[key] = instance;
       return instance;
     }
   }
@@ -29,39 +31,38 @@ class Logger {
     if (!isEnable) {
       return;
     }
-    _log("V", tag, msg, ex: ex, stacktrace: stacktrace);
+    _log("V", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);
   }
 
   d(String msg, {dynamic ex, StackTrace stacktrace}) {
     if (!isEnable) {
       return;
     }
-    _log("D", tag, msg, ex: ex, stacktrace: stacktrace);
+    _log("D", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);
   }
 
   i(String msg, {dynamic ex, StackTrace stacktrace}) {
     if (!isEnable) {
       return;
     }
-    _log("I", tag, msg, ex: ex, stacktrace: stacktrace);
+    _log("I", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);
   }
 
   w(String msg, {dynamic ex, StackTrace stacktrace}) {
     if (!isEnable) {
       return;
     }
-    _log("W", tag, msg, ex: ex, stacktrace: stacktrace);
+    _log("W", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);
   }
 
   e(String msg, {dynamic ex, StackTrace stacktrace}) {
     if (!isEnable) {
       return;
     }
-    _log("E", tag, msg, ex: ex, stacktrace: stacktrace);
+    _log("E", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);
   }
 
-  _log(String level, String tag, String msg,
-      {dynamic ex, StackTrace stacktrace}) {
+  _log(String level, String tag, String msg, {dynamic ex, StackTrace stacktrace}) {
 //    developer.log(msg, name: tag, error: ex, stackTrace: stacktrace);
 //    printDebug("");
     Fimber.log(level, msg, tag: tag, ex: ex, stacktrace: stacktrace);
@@ -81,22 +82,16 @@ class Log extends Logger {
 class DebugTimeBufferTree extends DebugBufferTree {
   DateFormat _dateFormat = DateFormat("yyyy-MM-dd hh:mm:ss.S");
 
-  DebugTimeBufferTree(
-      {int printTimeType = DebugTree.TIME_ELAPSED,
-      List<String> logLevels = const ["V", "D", "I", "W", "E"]})
+  DebugTimeBufferTree({int printTimeType = DebugTree.TIME_ELAPSED, List<String> logLevels = const ["V", "D", "I", "W", "E"]})
       : super(printTimeType: printTimeType, logLevels: logLevels);
 
   @override
-  log(String level, String msg,
-      {String tag, dynamic ex, StackTrace stacktrace}) {
+  log(String level, String msg, {String tag, dynamic ex, StackTrace stacktrace}) {
     var logTag = tag ?? LogTree.getTag();
     if (ex != null) {
-      var tmpStacktrace =
-          stacktrace?.toString()?.split('\n') ?? LogTree.getStacktrace();
-      var stackTraceMessage =
-          tmpStacktrace.map((stackLine) => "\t$stackLine").join("\n");
-      printLog("$level $logTag: $msg \n${ex.toString()}\n$stackTraceMessage",
-          level: level);
+      var tmpStacktrace = stacktrace?.toString()?.split('\n') ?? LogTree.getStacktrace();
+      var stackTraceMessage = tmpStacktrace.map((stackLine) => "\t$stackLine").join("\n");
+      printLog("$level $logTag: $msg \n${ex.toString()}\n$stackTraceMessage", level: level);
     } else {
       printLog("$level $logTag: $msg", level: level);
     }

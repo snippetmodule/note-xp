@@ -74,7 +74,7 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return EventLogWidget(
-      screenName: EventConstants.EVENT_TAB,
+      screenName: EventConstants.EVENT_TAB_DOC,
       child: BlocBuilder<MainTabBloc, MainTabState>(
           bloc: _tabBloc,
           builder: (BuildContext context, MainTabState state) {

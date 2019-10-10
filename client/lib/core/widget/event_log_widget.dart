@@ -2,74 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:client/core/utils/log.dart';
 import 'package:client/core/utils/event_log.dart';
 
-import 'liftcycle_widget.dart';
+import 'visible_listener_widget.dart';
 
 class EventLogWidget extends StatelessWidget {
   final String screenName;
   final Widget child;
-  final bool isReport;
 
-  EventLogWidget({@required this.screenName, @required this.child, this.isReport = true});
+  EventLogWidget({@required this.screenName, @required this.child});
 
   @override
   Widget build(BuildContext context) {
-    if (!this.isReport) {
+    if (screenName == null || screenName.isEmpty) {
       return child;
     }
-    return LifecycleWidget(
-        child: child, liftCycleObserver: EventLogObserver(screenName: this.screenName, isReport: this.isReport), logger: Logger(screenName, isEnable: false));
+    return VisibleListenerWidget(
+      child: child,
+      visibleListener: EventLogVisibleListener(screenName),
+      logger: Logger('LifecycleWidget', msgPrefix: screenName),
+    );
   }
 }
 
-class EventLogObserver extends LiftCycleObserver {
+class EventLogVisibleListener extends VisibleListener {
   final String screenName;
-  final bool isReport;
 
-  var _lastScreenLogTime = 0;
-
-  EventLogObserver({@required this.screenName, this.isReport = true});
+  EventLogVisibleListener(this.screenName);
 
   @override
-  void didInitState() {
-    _logScreen();
-  }
-
-  @override
-  Future<bool> didPushRoute(String route) {
-    _logScreenPause();
-    return Future<bool>.value(false);
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.inactive:
-        break;
-      case AppLifecycleState.paused:
-        _logScreenPause();
-        break;
-      case AppLifecycleState.resumed:
-        if (_lastScreenLogTime != 0) {
-          _logScreenPause();
-        }
-        _lastScreenLogTime = DateTime.now().millisecondsSinceEpoch;
-        _logScreen();
-        break;
-      case AppLifecycleState.suspending:
-        break;
-    }
-  }
-
-  void _logScreen() {
-    EventLog.logScreen(screenName);
-  }
-
-  void _logScreenPause() {
-    final diffTime = DateTime.now().millisecondsSinceEpoch - _lastScreenLogTime;
-    if (diffTime > 0 && diffTime <= 30 * 60 * 1000) {
+  void onInVisible(int duration) {
+    if (duration > 0 && duration <= 30 * 60 * 1000) {
+      // 0 < duration <= 30 minutes
       // 30 minutes
-      EventLog.logScreenLift(screenName, diffTime);
+      EventLog.logScreenLift(screenName, duration);
     }
-    _lastScreenLogTime = 0;
+  }
+
+  @override
+  void onVisible() {
+    EventLog.logScreen(screenName);
   }
 }

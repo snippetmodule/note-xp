@@ -7,6 +7,7 @@ import 'package:client/ui/home/more/about_page.dart';
 
 class RouterCenter {
   RouterCenter._();
+  static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
 
   static final Logger _logger = Logger("RouterCenter");
   static final Router _router = Router();

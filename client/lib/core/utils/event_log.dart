@@ -65,7 +65,7 @@ class EventLog {
 class EventConstants {
   EventConstants._();
 
-  static final EVENT_TAB = "main_tab";
+  static final EVENT_TAB_DOC = "main_tab_doc";
   static final EVENT_TAB_MORE = "main_tab_more";
   static final EVENT_ABOUT = "about";
 }

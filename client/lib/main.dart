@@ -70,7 +70,7 @@ class _App extends StatelessWidget {
                   supportedLocales: S.delegate.supportedLocales,
                   localeListResolutionCallback: S.delegate.listResolution(fallback: state.locale),
                   locale: state.locale,
-                  navigatorObservers: [EventLog.analyticsObserver],
+                  navigatorObservers: [EventLog.analyticsObserver, RouterCenter.routeObserver],
                   home: MainPage(),
                   onGenerateRoute: routeFactory,
                 );

@@ -1,6 +1,15 @@
-# client
+# History
 
-A new Flutter project.
+## Create web support flutter project
+
+    flutter channel beta
+    flutter upgrade
+    flutter config --enable-web
+    flutter create client
+
+## Upgrade
+
+    flutter packages upgrade
 
 ## Getting Started
 

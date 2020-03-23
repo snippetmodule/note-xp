@@ -1,16 +1,39 @@
 # History
 
-## Create web support flutter project
-
+## packages upgrade
+    # only update pubspec.lock
+    flutter packages upgrade
+    # can update pubspec.yaml
+    flutter update-packages --force-upgrade
+    
+    
+## run android
+    #run
+    flutter devices | egrep 'android' | tail -n +1 | awk -F • '{print $2}' | xargs -I X flutter run -d X
+    
+    
+## run ios
+    #ios
+    open -a Simulator
+    #run
+    flutter devices | egrep 'ios' | tail -n +1 | awk -F • '{print $2}' | xargs -I X flutter run -d X
+    
+    # if err
+    flutter clean
+    cd ios
+    pod deintegrate
+    pod install
+    
+## run web
+    # web config
     flutter channel beta
     flutter upgrade
     flutter config --enable-web
-    flutter create client
+    # flutter create client
+    # run
+    flutter devices | egrep 'chrome' | tail -n +1 | awk -F • '{print $2}' | xargs -I X flutter run -d X
 
-## Upgrade
-
-    flutter packages upgrade
-
+ 
 ## Getting Started
 
 This project is a starting point for a Flutter application.

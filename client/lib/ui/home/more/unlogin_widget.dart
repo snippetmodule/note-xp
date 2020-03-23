@@ -12,9 +12,7 @@ class UnloginWidget extends StatelessWidget {
           leading: Icon(Icons.help),
           title: Text(S.of(context).more_menu_help),
           trailing: Icon(Icons.arrow_forward_ios),
-          onTap: () => RouterCenter.openWebViewPage(
-              context, 'https://www.google.com/',
-              title: S.of(context).more_menu_help)),
+          onTap: () => {}),
       ListTile(
         leading: Icon(Icons.help),
         title: Row(
@@ -34,7 +32,7 @@ class UnloginWidget extends StatelessWidget {
         leading: Icon(Icons.help),
         title: Text(S.of(context).more_menu_abort),
         trailing: Icon(Icons.arrow_forward_ios),
-        onTap: () => RouterCenter.openAboutPage(context),
+        onTap: () =>{},
       )
     ];
 

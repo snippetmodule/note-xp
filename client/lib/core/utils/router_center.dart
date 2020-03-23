@@ -2,8 +2,6 @@ import 'package:client/core/utils/log.dart';
 import 'package:client/ui/main/main_page.dart';
 import 'package:flutter/material.dart';
 import 'package:fluro/fluro.dart';
-import 'package:client/ui/webview/webview_page.dart';
-import 'package:client/ui/home/more/about_page.dart';
 
 class RouterCenter {
   RouterCenter._();
@@ -13,12 +11,12 @@ class RouterCenter {
   static final Router _router = Router();
 
   static final String _main = "/";
-  static final String _web = "web";
+//  static final String _web = "web";
   static final String _demoSimple = "demo";
   static final String _demoSimpleFixedTrans = "demo/fixedtrans";
   static final String _demoFunc = "demo/func";
   static final String _deepLink = "message";
-  static final String _about = "about";
+//  static final String _about = "about";
 
   static RouteFactory init() {
 //    _router.notFoundHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
@@ -28,24 +26,24 @@ class RouterCenter {
     _router.define(_main, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       return MainPage();
     }));
-    _router.define(_web, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      String url = params["url"]?.first;
-      String title = params["title"]?.first;
-      return WebViewPage(url, title: title);
-    }));
-    _router.define(_about, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return AboutPage();
-    }));
+//    _router.define(_web, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+//      String url = params["url"]?.first;
+//      String title = params["title"]?.first;
+//      return WebViewPage(url, title: title);
+//    }));
+//    _router.define(_about, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+//      return AboutPage();
+//    }));
     return _router.generator;
   }
 
-  static void openWebViewPage(BuildContext context, String url, {String title = ""}) {
-    _router.navigateTo(context, "$_web?url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(title)}", transition: TransitionType.inFromRight);
-  }
-
-  static void openAboutPage(BuildContext context) {
-    _router.navigateTo(context, _about, transition: TransitionType.inFromRight);
-  }
+//  static void openWebViewPage(BuildContext context, String url, {String title = ""}) {
+//    _router.navigateTo(context, "$_web?url=${Uri.encodeComponent(url)}&title=${Uri.encodeComponent(title)}", transition: TransitionType.inFromRight);
+//  }
+//
+//  static void openAboutPage(BuildContext context) {
+//    _router.navigateTo(context, _about, transition: TransitionType.inFromRight);
+//  }
 }
 
 //class Routes {

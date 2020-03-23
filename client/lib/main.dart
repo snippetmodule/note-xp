@@ -1,16 +1,16 @@
+import 'package:bloc/bloc.dart';
 import 'package:client/core/bloc/auth/auth_bloc.dart';
 import 'package:client/core/bloc/auth/auth_event.dart';
-import 'package:client/ui/main/main_page.dart';
-import 'package:flutter/material.dart';
-import 'package:bloc/bloc.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:client/core/bloc/delegate.dart';
 import 'package:client/core/bloc/locale/bloc.dart';
-import 'package:client/core/utils/log.dart';
-import 'package:client/generated/i18n.dart';
-import 'package:firebase_crashlytics/firebase_crashlytics.dart';
+import 'package:client/core/utils/crashlytics_utils.dart';
 import 'package:client/core/utils/event_log.dart';
+import 'package:client/core/utils/log.dart';
 import 'package:client/core/utils/router_center.dart';
+import 'package:client/generated/i18n.dart';
+import 'package:client/ui/main/main_page.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
@@ -23,12 +23,7 @@ void _init() {
 
   _logger.d("init");
   BlocSupervisor.delegate = AppBlocDelegate();
-  // firebase crashlytics init
-  Crashlytics.instance.enableInDevMode = false; //isDebug;
-  FlutterError.onError = (FlutterErrorDetails details) {
-    _logger.e("FlutterError", ex: details.exception, stacktrace: details.stack);
-    Crashlytics.instance.recordFlutterError(details);
-  };
+  CrashlyticsUtils.init(_logger);
   // Analytics
   EventLog.init();
 }

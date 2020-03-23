@@ -9,7 +9,7 @@ class EventLog {
   static final enable = true; //!isDebug;
   static final analytics = FirebaseAnalytics();
   static final analyticsObserver =
-      FirebaseAnalyticsObserver(analytics: analytics);
+  FirebaseAnalyticsObserver(analytics: analytics);
   static final _logger = Logger("EventLog");
 
   EventLog._();

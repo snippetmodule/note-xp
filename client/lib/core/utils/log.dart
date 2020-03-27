@@ -1,56 +1,57 @@
 import 'package:flutter/foundation.dart';
 import 'package:intl/intl.dart';
 
+import 'build_mode.dart';
+
 class Logger {
-  final bool isEnable;
   final String tag;
   final String msgPrefix;
   DateFormat _dateFormat = DateFormat("yyyy-MM-dd hh:mm:ss.S");
   static Map<String, Logger> _cache = Map<String, Logger>();
 
-  Logger._(this.tag, {this.msgPrefix = '', this.isEnable = true});
+  Logger._(this.tag, {this.msgPrefix = ''});
 
-  factory Logger(String tag, {msgPrefix = '', isEnable = true}) {
+  factory Logger(String tag, {msgPrefix = ''}) {
     String key = '$tag$msgPrefix';
     if (_cache.containsKey(key)) {
       return _cache[key];
     } else {
-      final instance = Logger._(tag, msgPrefix: msgPrefix as String, isEnable: isEnable as bool);
+      final instance = Logger._(tag, msgPrefix: msgPrefix as String);
       _cache[key] = instance;
       return instance;
     }
   }
 
   v(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!isEnable) {
+    if (!isDebug) {
       return;
     }
     _log("V", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);
   }
 
   d(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!isEnable) {
+    if (!isDebug) {
       return;
     }
     _log("D", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);
   }
 
   i(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!isEnable) {
+    if (!isDebug) {
       return;
     }
     _log("I", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);
   }
 
   w(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!isEnable) {
+    if (!isDebug) {
       return;
     }
     _log("W", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);
   }
 
   e(String msg, {dynamic ex, StackTrace stacktrace}) {
-    if (!isEnable) {
+    if (!isDebug) {
       return;
     }
     _log("E", tag, '$msgPrefix $msg', ex: ex, stacktrace: stacktrace);

@@ -1,4 +1,4 @@
-import 'package:client/core/model/auth/account.dart';
+import 'package:client/core/model/account_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -13,7 +13,7 @@ abstract class AuthState extends Equatable {
 class InitAuthState extends AuthState {}
 
 class LoginedAuthState extends AuthState {
-  final Account account;
+  final AccountEntity account;
 
   LoginedAuthState(this.account);
 

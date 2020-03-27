@@ -1,7 +1,6 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
-import './mmkv.dart';
-import './build_mode.dart';
+import './local_config.dart';
 import './log.dart';
 import 'package:meta/meta.dart';
 
@@ -16,7 +15,7 @@ class EventLog {
 
   static void init() {
 //    analytics.setAnalyticsCollectionEnabled(true);
-    Mmkv.getInstallTime();
+    LocalConfig.getInstallTime();
   }
 
   static void setUserProperty({@required String name, @required String value}) {

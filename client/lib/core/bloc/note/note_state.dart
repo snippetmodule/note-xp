@@ -1,4 +1,4 @@
-import 'package:client/core/model/note.dart';
+import 'package:client/core/model/note_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -13,7 +13,7 @@ abstract class NoteState extends Equatable {
 class NoteLoading extends NoteState {}
 
 class NoteLoaded extends NoteState {
-  final List<Note> fruits;
+  final List<NoteEntity> fruits;
 
   NoteLoaded(this.fruits);
 

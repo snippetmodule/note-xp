@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 class S implements WidgetsLocalizations {
   const S();
 
+  static S current;
+
   static const GeneratedLocalizationsDelegate delegate =
     GeneratedLocalizationsDelegate();
 
@@ -23,6 +25,9 @@ class S implements WidgetsLocalizations {
   String get appName => "Note";
   String get copy => "Copy";
   String get copy_success => "Copied to clipboard";
+  String get fatalErrDes => "There was unexepcted situation in application. Application has been able to recover from error state.";
+  String get fatalErrHint => "  See details below.";
+  String get fatalErrTitle => "An application error has occurred";
   String get main_tab_home => "Home";
   String get main_tab_list => "List";
   String get main_tab_more => "More";
@@ -127,16 +132,20 @@ class GeneratedLocalizationsDelegate extends LocalizationsDelegate<S> {
     if (lang != null) {
       switch (lang) {
         case "zh_HK":
-          return SynchronousFuture<S>(const $zh_HK());
+          S.current = const $zh_HK();
+          return SynchronousFuture<S>(S.current);
         case "en":
-          return SynchronousFuture<S>(const $en());
+          S.current = const $en();
+          return SynchronousFuture<S>(S.current);
         case "zh_CN":
-          return SynchronousFuture<S>(const $zh_CN());
+          S.current = const $zh_CN();
+          return SynchronousFuture<S>(S.current);
         default:
           // NO-OP.
       }
     }
-    return SynchronousFuture<S>(const S());
+    S.current = const S();
+    return SynchronousFuture<S>(S.current);
   }
 
   @override

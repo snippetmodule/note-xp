@@ -1,6 +1,7 @@
+import 'package:client/core/model/note_entity.dart';
+import 'package:client/generated/json/base/json_convert_content.dart';
 import 'package:sembast/sembast.dart';
 import '../app_database.dart';
-import 'package:client/core/model/note.dart';
 
 class NoteDao {
   static const String NOTE_STORE_NAME = 'note';
@@ -13,11 +14,11 @@ class NoteDao {
   // singleton instance of an opened database.
   Future<Database> get _db async => await AppDatabase.instance.database;
 
-  Future insert(Note note) async {
+  Future insert(NoteEntity note) async {
     await _noteStore.add(await _db, note.toJson());
   }
 
-  Future addOrUpdate(Note note) async {
+  Future addOrUpdate(NoteEntity note) async {
     if (note.id > 0) {
       return await insert(note);
     }
@@ -31,7 +32,7 @@ class NoteDao {
     );
   }
 
-  Future update(Note note) async {
+  Future update(NoteEntity note) async {
     // For filtering by key (ID), RegEx, greater than, and many other criteria,
     // we use a Finder.
     final finder = Finder(filter: Filter.byKey(note.id));
@@ -42,7 +43,7 @@ class NoteDao {
     );
   }
 
-  Future delete(Note note) async {
+  Future delete(NoteEntity note) async {
     final finder = Finder(filter: Filter.byKey(note.id));
     await _noteStore.delete(
       await _db,
@@ -50,7 +51,7 @@ class NoteDao {
     );
   }
 
-  Future<List<Note>> getAllSortedByName() async {
+  Future<List<NoteEntity>> getAllSortedByName() async {
     // Finder object can also sort data.
     final finder = Finder(sortOrders: [
       SortOrder('createTime'),
@@ -63,7 +64,7 @@ class NoteDao {
 
     // Making a List<Note> out of List<RecordSnapshot>
     return recordSnapshots.map((snapshot) {
-      final note = Note.fromJson(snapshot.value);
+      final note = JsonConvert.fromJsonAsT(snapshot) as NoteEntity;
       // An ID is a key of a record from the database.
       note.id = snapshot.key;
       return note;

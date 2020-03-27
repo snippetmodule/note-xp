@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'package:bloc/bloc.dart';
-import 'package:client/core/model/auth/account.dart';
+import 'package:client/core/model/account_entity.dart';
 import './bloc.dart';
-import 'package:client/core/utils/mmkv.dart';
+import 'package:client/core/utils/local_config.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
@@ -11,7 +11,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   @override
   Stream<AuthState> mapEventToState(AuthEvent event) async* {
     if (event is InitAuthEvent) {
-      Account account = await Mmkv.getAccount();
+      AccountEntity account = await LocalConfig.getAccount();
       if (account == null) {
         yield UnLoginAuthState();
       } else {
@@ -21,21 +21,25 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     }
     if (event is LoginAuthEvent) {
       yield LoginingAuthState();
-      Account account = Account(event.userName, event.pass);
-      await Mmkv.setAccount(account);
+      AccountEntity account = AccountEntity();
+      account.username = event.userName;
+      account.pic = event.pass;
+      await LocalConfig.setAccount(account);
       yield LoginedAuthState(account);
       return;
     }
     if (event is RegisterAuthEvent) {
       yield LoginingAuthState();
-      Account account = Account(event.userName, event.pass);
-      await Mmkv.setAccount(account);
+      AccountEntity account = AccountEntity();
+      account.username = event.userName;
+      account.pic = event.pass;
+      await LocalConfig.setAccount(account);
       yield LoginedAuthState(account);
       return;
     }
     if (event is LogoutAuthEvent) {
       yield LogoutingAuthState();
-      await Mmkv.setAccount(null);
+      await LocalConfig.setAccount(null);
       yield UnLoginAuthState();
       return;
     }

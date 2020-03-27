@@ -1,4 +1,4 @@
-import 'package:client/core/model/note.dart';
+import 'package:client/core/model/note_entity.dart';
 import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
@@ -19,7 +19,7 @@ class LoadEvent extends NoteEvent {}
 //}
 
 class AddOrUpdateEvent extends NoteEvent {
-  final Note note;
+  final NoteEntity note;
 
   AddOrUpdateEvent(this.note);
 
@@ -28,7 +28,7 @@ class AddOrUpdateEvent extends NoteEvent {
 }
 
 class DeleteEvent extends NoteEvent {
-  final Note note;
+  final NoteEntity note;
 
   DeleteEvent(this.note);
 

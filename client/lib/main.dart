@@ -14,18 +14,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   _init();
   runApp(App());
 }
 
 void _init() {
-  final Logger _logger = Logger("application");
-
-  _logger.d("init");
-  BlocSupervisor.delegate = AppBlocDelegate();
-  CrashlyticsUtils.init(_logger);
+  Log.instance().d("_init");
+  CrashlyticsUtils.init();
   // Analytics
   EventLog.init();
+  BlocSupervisor.delegate = AppBlocDelegate();
 }
 
 class App extends StatelessWidget {
@@ -51,6 +50,7 @@ class App extends StatelessWidget {
             builder: (BuildContext context, LocaleState state) {
               if (state is ChangedLocaleState) {
                 return MaterialApp(
+                  debugShowCheckedModeBanner: false,
                   theme: ThemeData(
                       primarySwatch: Colors.orange,
                       pageTransitionsTheme: PageTransitionsTheme(builders: {

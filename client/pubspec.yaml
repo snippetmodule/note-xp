@@ -22,11 +22,12 @@ dependencies:
   flutter_localizations:
     sdk: flutter
 
+  json_annotation: ^3.0.1
+
   bloc: ^3.0.0
   flutter_bloc: ^3.1.0
   equatable: ^1.0.2
   fluro: ^1.6.0
-  # mmkv_flutter: 1.0.10
   sembast: ^2.1.2+3
   #图片缓存
   cached_network_image: ^2.0.0
@@ -53,8 +54,8 @@ dependencies:
   shared_preferences_macos: ^0.0.1
   # 分享
   # share: 0.6.3+5
-  # package_info: 0.4.0+6
-  # device_info: 0.4.0+2
+  package_info: ^0.4.0+3
+  device_info: ^0.4.2+1
   connectivity: ^0.4.8
   path_provider: ^1.5.1
   path_provider_macos: ^0.0.1
@@ -67,6 +68,8 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  json_serializable: ^3.3.0
+  build_runner: ^1.8.0
 
 
 # For information on the generic Dart part of this file, see the

@@ -4,23 +4,20 @@ import 'package:client/core/utils/log.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-typedef ExecAsyncFunc = Future<dynamic> Function();
-
+typedef ExecAsyncFunc = Future<Widget> Function();
 typedef InitialBuilder = Widget Function(BuildContext context);
 typedef LoadingBuilder = Widget Function(BuildContext context);
-typedef SuccessBuilder = Widget Function(BuildContext context, dynamic result);
 typedef FailBuilder = Widget Function(
     BuildContext context, dynamic exception, StackTrace stackTrace);
 
-class AsyncWidget<Result> extends StatelessWidget {
+class AsyncWidget extends StatelessWidget {
   final Logger _logger = Logger("AsyncWidget");
 
-  final _bloc = AsyncBloc();
+  final AsyncBloc _bloc; // = AsyncBloc();
 
-  final Future<Result> Function() execAsync;
+  final ExecAsyncFunc execAsync;
   final InitialBuilder initialBuilder;
   final LoadingBuilder loadingBuilder;
-  final SuccessBuilder successBuilder;
   final FailBuilder failBuilder;
 
   AsyncWidget({
@@ -28,15 +25,13 @@ class AsyncWidget<Result> extends StatelessWidget {
     this.execAsync,
     this.initialBuilder,
     this.loadingBuilder,
-    this.successBuilder,
     this.failBuilder,
   })  : assert(execAsync != null),
-        assert(successBuilder != null),
+        _bloc = AsyncBloc()..add(ExecAsyncEvent(execAsync)),
         super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    _bloc.add(ExecAsyncEvent(execAsync));
     return BlocBuilder<AsyncBloc, AsyncState>(
         bloc: _bloc,
         builder: (BuildContext context, AsyncState state) {
@@ -46,8 +41,8 @@ class AsyncWidget<Result> extends StatelessWidget {
           if (state is LoadingAsyncState && loadingBuilder != null) {
             return loadingBuilder(context);
           }
-          if (state is SuccessAsyncState && successBuilder != null) {
-            return successBuilder(context, state.result);
+          if (state is SuccessAsyncState) {
+            return state.result;
           }
           if (state is FailAsyncState) {
             if (failBuilder != null) {

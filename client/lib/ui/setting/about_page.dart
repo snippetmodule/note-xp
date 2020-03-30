@@ -1,6 +1,7 @@
 import 'package:client/core/utils/app_utils.dart';
 import 'package:client/core/utils/build_mode.dart' as BuildMode;
 import 'package:client/core/utils/event_log.dart';
+import 'package:client/core/utils/router_center.dart';
 import 'package:client/core/widget/async_widget.dart';
 import 'package:client/core/widget/event_log_widget.dart';
 import 'package:client/generated/i18n.dart';
@@ -16,14 +17,10 @@ class AboutPage extends StatelessWidget {
         child: Scaffold(
             appBar: CustomAppBar(title: S.of(context).more_menu_abort),
             body: AsyncWidget(
-              execAsync: () async => {
-                "packageInfo": await AppUtils.getPackageInfo(),
-                "deviceInfo": await AppUtils.getDeviceInfo()
-              },
-              successBuilder: (context, result) {
-                Map<String, dynamic> data = result as Map<String, dynamic>;
-                return _body(
-                    context, data["packageInfo"] as PackageInfo, data["deviceInfo"] as String);
+              execAsync: () async {
+                var packageInfo = await AppUtils.getPackageInfo();
+                var deviceInfo = await AppUtils.getDeviceInfo();
+                return _body(context, packageInfo, deviceInfo);
               },
             )));
   }
@@ -43,9 +40,24 @@ class AboutPage extends StatelessWidget {
                   size: 50.0,
                 ),
               ),
-              Text(
-                S.of(context).appName,
-                style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+              InkWell(
+                child: Text(
+                  S.of(context).appName,
+                  style: TextStyle(fontSize: 20, color: Colors.black, fontWeight: FontWeight.w500),
+                ),
+                onTap: () {
+                  if (clickCount >= 10) {
+                    RouterCenter.openDebugPage(context);
+                    return;
+                  }
+                  DateTime now = DateTime.now();
+                  if (now.difference(lastClickTime).inMilliseconds > 2000) {
+                    clickCount = 0;
+                    lastClickTime = now;
+                    return;
+                  }
+                  clickCount++;
+                },
               ),
               Padding(
                 padding: EdgeInsets.symmetric(vertical: 12),
@@ -66,3 +78,6 @@ class AboutPage extends StatelessWidget {
         ]);
   }
 }
+
+var clickCount = 0;
+var lastClickTime = DateTime.now();

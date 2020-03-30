@@ -20,11 +20,12 @@ void main() {
 }
 
 void _init() {
+  BlocSupervisor.delegate = AppBlocDelegate();
+
   Log.instance().d("_init");
-  CrashlyticsUtils.init();
+  CrashlyticsUtil.init();
   // Analytics
   EventLog.init();
-  BlocSupervisor.delegate = AppBlocDelegate();
 }
 
 class App extends StatelessWidget {

@@ -23,8 +23,10 @@ class S implements WidgetsLocalizations {
 
   String get appDesc => "This is Note";
   String get appName => "Note";
+  String get cancel => "Cancel";
   String get copy => "Copy";
   String get copy_success => "Copied to clipboard";
+  String get debug => "Debug";
   String get fatalErrDes => "There was unexepcted situation in application. Application has been able to recover from error state.";
   String get fatalErrHint => "  See details below.";
   String get fatalErrTitle => "An application error has occurred";
@@ -38,6 +40,7 @@ class S implements WidgetsLocalizations {
   String get more_menu_logout => "Logout";
   String get more_menu_member_notice => "Member notice";
   String get more_menu_modify_pass => "Modify password";
+  String get ok => "Ok";
   String get reload => "reload";
   String get share => "Share";
   String get web_menu_open_by_browser => "Open in Browser";

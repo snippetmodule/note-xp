@@ -1,24 +1,26 @@
 import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_analytics/observer.dart';
+
 import './local_config.dart';
 import './log.dart';
-import 'package:meta/meta.dart';
 
 class EventLog {
   static final enable = true; //!isDebug;
   static final analytics = FirebaseAnalytics();
-  static final analyticsObserver =
-  FirebaseAnalyticsObserver(analytics: analytics);
+  static final analyticsObserver = FirebaseAnalyticsObserver(analytics: analytics);
   static final _logger = Logger("EventLog");
 
   EventLog._();
 
-  static void init() {
+  static void init() async {
 //    analytics.setAnalyticsCollectionEnabled(true);
-    LocalConfig.getInstallTime();
+//    LocalConfig.getInstallTime();
+    String deviceId = await LocalConfig.getDeviceId();
+    analytics.setUserId(deviceId);
+    setUserProperty("ug", deviceId.substring(deviceId.length - 1));
   }
 
-  static void setUserProperty({@required String name, @required String value}) {
+  static void setUserProperty(String name, String value) {
     if (!enable) return;
     _logger.d("setUserProperty name:$name value:$value");
     analytics.setUserProperty(name: name, value: value);

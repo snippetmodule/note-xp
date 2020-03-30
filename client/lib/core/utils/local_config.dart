@@ -3,6 +3,7 @@ import 'dart:core';
 import 'package:client/core/model/account_entity.dart';
 import 'package:client/core/utils/common/sp_util.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 
 class LocalConfig {
   LocalConfig._();
@@ -19,6 +20,10 @@ class LocalConfig {
       await SpUtil.setInt("firstLaunchDate", _firstLaunchTime);
     }
     return ((now - _firstLaunchTime) / 1000).abs().toInt();
+  }
+
+  static Future<String> getDeviceId() async {
+    return await SpUtil.getString("device_id", defValue: Uuid().v4());
   }
 
   static Future<Locale> getLocale() async {

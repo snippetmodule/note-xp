@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:meta/meta.dart';
 
 @immutable
@@ -14,7 +15,7 @@ class InitialAsyncState extends AsyncState {}
 class LoadingAsyncState extends AsyncState {}
 
 class SuccessAsyncState extends AsyncState {
-  final dynamic result;
+  final Widget result;
 
   SuccessAsyncState(this.result);
 

@@ -1,6 +1,7 @@
 import 'package:client/core/utils/log.dart';
-import 'package:client/ui/setting/about_page.dart';
 import 'package:client/ui/main/main_page.dart';
+import 'package:client/ui/setting/about_page.dart';
+import 'package:client/ui/setting/debug_page.dart';
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -21,6 +22,7 @@ class RouterCenter {
   static final String _demoFunc = "demo/func";
   static final String _deepLink = "message";
   static final String _about = "about";
+  static final String _debug = "debug";
 
   static RouteFactory init() {
 //    _router.notFoundHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
@@ -40,6 +42,10 @@ class RouterCenter {
         handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
       return AboutPage();
     }));
+    _router.define(_debug,
+        handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
+      return DebugPage();
+    }));
     return _router.generator;
   }
 
@@ -51,6 +57,10 @@ class RouterCenter {
 //
   static void openAboutPage(BuildContext context) {
     _router.navigateTo(context, _about, transition: TransitionType.inFromRight);
+  }
+
+  static void openDebugPage(BuildContext context) {
+    _router.navigateTo(context, _debug, transition: TransitionType.inFromRight);
   }
 }
 

@@ -12,12 +12,12 @@ class CrashlyticsUtil {
       Log.instance().e("FlutterError", ex: details.exception, stacktrace: details.stack);
       Crashlytics.instance.recordFlutterError(details);
     };
-    ErrorWidget.builder = (FlutterErrorDetails details) {
-      return FatalErrorWidget(
-        details: details,
-        showStacktrace: isDebug,
-      );
-    };
+//    ErrorWidget.builder = (FlutterErrorDetails details) {
+//      return FatalErrorWidget(
+//        details: details,
+//        showStacktrace: isDebug,
+//      );
+//    };
     Crashlytics.instance.setUserIdentifier(await LocalConfig.getDeviceId());
   }
 

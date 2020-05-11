@@ -17,14 +17,14 @@ class FatalErrorWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var title = S.of(context).fatalErrTitle;
+    var title = S.of(context)?.fatalErrTitle;
     if (customTitle != null) {
       title = customTitle;
     }
 
-    var description = S.of(context).fatalErrDes;
+    var description = S.of(context)?.fatalErrDes;
     if (showStacktrace) {
-      description += S.of(context).fatalErrHint;
+      description += S.of(context)?.fatalErrHint;
     }
 
     if (customDescription != null) {

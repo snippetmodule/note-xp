@@ -32,14 +32,6 @@ class AboutPage extends StatelessWidget {
         children: <Widget>[
           Column(
             children: <Widget>[
-              Padding(
-                padding: EdgeInsets.symmetric(vertical: 12),
-                child: ImageIcon(
-                  AssetImage('assets/images/btn_icon_dingyuehao_normal.png'),
-                  color: Colors.red,
-                  size: 50.0,
-                ),
-              ),
               InkWell(
                 child: Text(
                   S.of(context).appName,

@@ -1,3 +1,5 @@
+import 'package:client/core/utils/crashlytics_utils.dart';
+import 'package:client/core/utils/dialog_util.dart';
 import 'package:flutter/material.dart';
 
 import 'package:client/generated/i18n.dart';
@@ -76,7 +78,11 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          BlocProvider.of<LocaleBloc>(context).add(ChangeLocaleEvent(Locale("zh", "HK")));
+          DialogUtil.show(context,
+              title: "Trigger App Crash",
+              cancelTitle: S.of(context).cancel,
+              okTitle: S.of(context).ok,
+              okCallback: () => CrashlyticsUtil.crash());
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),

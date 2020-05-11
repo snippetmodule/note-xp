@@ -35,6 +35,38 @@ class LocalConfig {
     return Locale(splits[0], splits[1]);
   }
 
+  static Future<ThemeMode> getThemeMode() async {
+    var config = await SpUtil.getInt("theme_mode");
+    switch (config) {
+      case 1:
+        return ThemeMode.light;
+      case 2:
+        return ThemeMode.dark;
+      default:
+        return ThemeMode.system;
+    }
+  }
+
+  static void setThemeMode(ThemeMode mode) async {
+    await SpUtil.setInt("theme_mode", mode.index);
+  }
+
+  static Future<bool> isDebug() async {
+    return await SpUtil.getBool("app_config_is_debug");
+  }
+
+  static void setIsDebug(bool isDebug) async {
+    await SpUtil.setBool("app_config_is_debug", isDebug);
+  }
+
+  static Future<bool> isUserMaterial() async {
+    return await SpUtil.getBool("app_config_is_material");
+  }
+
+  static void setIsUserMaterial(bool value) async {
+    await SpUtil.setBool("app_config_is_material", value);
+  }
+
   static void setLocale(Locale locale) async {
     await SpUtil.setString("locale", "${locale.languageCode}_${locale.countryCode}");
   }

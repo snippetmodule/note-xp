@@ -10,8 +10,11 @@ class RouterCenter {
   RouterCenter._();
 
   static final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+  static final RouteFactory router = _init();
 
-  static final Logger _logger = Logger("RouterCenter");
+  static
+
+  final Logger _logger = Logger("RouterCenter");
   static final Router _router = Router();
 
   static final String _main = "/";
@@ -24,15 +27,15 @@ class RouterCenter {
   static final String _about = "about";
   static final String _debug = "debug";
 
-  static RouteFactory init() {
+  static RouteFactory _init() {
 //    _router.notFoundHandler = Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
 //      _logger.d("ROUTE WAS NOT FOUND !!!");
 //    });
 
     _router.define(_main,
         handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return MainPage();
-    }));
+          return MainPage();
+        }));
 //    _router.define(_web, handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
 //      String url = params["url"]?.first;
 //      String title = params["title"]?.first;
@@ -40,12 +43,12 @@ class RouterCenter {
 //    }));
     _router.define(_about,
         handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return AboutPage();
-    }));
+          return AboutPage();
+        }));
     _router.define(_debug,
         handler: Handler(handlerFunc: (BuildContext context, Map<String, List<String>> params) {
-      return DebugPage();
-    }));
+          return DebugPage();
+        }));
     return _router.generator;
   }
 

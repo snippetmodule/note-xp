@@ -14,7 +14,7 @@ description: A new Flutter project.
 version: 1.0.0+1
 
 environment:
-  sdk: ">=2.1.0 <3.0.0"
+  sdk: ">=2.6.0 <3.0.0"
 
 dependencies:
   flutter:
@@ -29,7 +29,8 @@ dependencies:
   flutter_bloc: ^3.1.0
   equatable: ^1.0.2
   fluro: ^1.6.0
-  sembast: ^2.1.2+3
+  sembast: ^2.4.0
+  sembast_web: ^1.1.0
   #图片缓存
   cached_network_image: ^2.0.0
   # 日期格式化

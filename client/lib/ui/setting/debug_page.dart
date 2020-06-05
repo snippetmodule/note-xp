@@ -5,7 +5,7 @@ import 'package:client/core/utils/dialog_util.dart';
 import 'package:client/core/utils/local_config.dart';
 import 'package:client/core/utils/toast_util.dart';
 import 'package:client/core/widget/async_widget.dart';
-import 'package:client/generated/i18n.dart';
+import 'package:client/generated/l10n.dart';
 import 'package:client/ui/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

@@ -1,5 +1,5 @@
 import 'package:client/core/bloc/main/bloc.dart';
-import 'package:client/generated/i18n.dart';
+import 'package:client/generated/l10n.dart';
 import 'package:client/ui/home//home.dart';
 import 'package:client/ui/home/more/more_widget.dart';
 import 'package:client/core/widget/event_log_widget.dart';

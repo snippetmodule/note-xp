@@ -7,7 +7,7 @@ import 'package:client/core/utils/crashlytics_utils.dart';
 import 'package:client/core/utils/event_log.dart';
 import 'package:client/core/utils/log.dart';
 import 'package:client/core/utils/router_center.dart';
-import 'package:client/generated/i18n.dart';
+import 'package:client/generated/l10n.dart';
 import 'package:client/ui/main/main_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -60,7 +60,6 @@ class App extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      localeListResolutionCallback: S.delegate.listResolution(fallback: appConfig.locale),
       locale: appConfig.locale,
       navigatorObservers: [EventLog.analyticsObserver, RouterCenter.routeObserver],
       home: MainPage(),
@@ -83,7 +82,6 @@ class App extends StatelessWidget {
         GlobalWidgetsLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
-      localeListResolutionCallback: S.delegate.listResolution(fallback: appConfig.locale),
       locale: appConfig.locale,
       navigatorObservers: [EventLog.analyticsObserver, RouterCenter.routeObserver],
       home: MainPage(),

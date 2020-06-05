@@ -1,6 +1,6 @@
 import 'package:client/ui/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:client/generated/i18n.dart';
+import 'package:client/generated/l10n.dart';
 import 'package:client/ui/widget/listview_extension.dart';
 import 'package:client/core/utils/router_center.dart';
 

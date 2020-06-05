@@ -1,4 +1,6 @@
 {
+  "@@locale": "en",
+  "@@last_modified": "2020-04-19T11:37:25.988430",
   "appName": "Note",
   "appDesc": "This is Note",
   "fatalErrTitle": "An application error has occurred",

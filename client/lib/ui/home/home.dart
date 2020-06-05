@@ -2,7 +2,7 @@ import 'package:client/core/utils/crashlytics_utils.dart';
 import 'package:client/core/utils/dialog_util.dart';
 import 'package:flutter/material.dart';
 
-import 'package:client/generated/i18n.dart';
+import 'package:client/generated/l10n.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:client/core/bloc/locale/bloc.dart';
 

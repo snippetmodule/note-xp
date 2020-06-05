@@ -4,7 +4,7 @@ import 'package:client/core/utils/event_log.dart';
 import 'package:client/core/utils/router_center.dart';
 import 'package:client/core/widget/async_widget.dart';
 import 'package:client/core/widget/event_log_widget.dart';
-import 'package:client/generated/i18n.dart';
+import 'package:client/generated/l10n.dart';
 import 'package:client/ui/widget/custom_app_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info/package_info.dart';
